@@ -89,6 +89,7 @@ $sql_forgetful = "SELECT count(  *  )  AS badpws, u.alias FROM log l, users u WH
 $sth_forgetful = @mysql_query($sql_forgetful);
 $row_forgetful = @mysql_fetch_assoc($sth_forgetful);
 $forgetful = $row_forgetful['alias'];
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -181,6 +182,17 @@ $forgetful = $row_forgetful['alias'];
 					<td valign="top" nowrap="nowrap" class="navbarTable">Avg. Signups/Day:</td>
 					<td class="navbarTable"><?= $avg_signups_day ?></td>
 				</tr>
+<?php
+if (defined('USAGE_LOGS')) {
+?>
+				<tr>
+					<td valign="top" nowrap="nowrap" class="navbarTable" colspan="2"><a href="<? USAGE_LOGS ?>">Usage Logs</a>
+					</td>
+				</tr>
+<?php
+}
+?>
+
 			</table>
 		</td>
 		<td valign="top" align="center"> 
