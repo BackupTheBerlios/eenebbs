@@ -8,12 +8,20 @@ authenticate();
 
 define('MSGS_PER_PAGE', 20);
 
-function _areNewMsgs($user_id) {
-	$sql_are_new = "SELECT p.sub_id, count(m.id) FROM pointers p, messages m WHERE p.user_id = " . $user_id . "AND p.sub_id = m.sub_id AND p.message_id < m.id GROUP BY p.sub_id";
+function _areNewMsgs($sub_id, $user_id) {
+	$sql_are_new = "SELECT p.sub_id, count(m.id) FROM pointers p, messages m WHERE p.user_id = " . $user_id . " AND p.sub_id = m.sub_id AND p.message_id < m.id GROUP BY p.sub_id";
 	$sth_are_new = @mysql_query($sql_are_new);
-	while ($row_are_new = @mysql_fetch_assoc($sth_are_new)) {
-		echo $row_are_new['sub_id'];
-		echo $row_are_new['count(m.id)'];
+	while ($row_are_new = @mysql_fetch_array($sth_are_new)) {
+		if ($row_are_new[0] == $sub_id) {
+			return 0;
+		} else {
+			header ("Location: main.php?newscan=true&sub=$row_are_new[0]"); 
+		}
+	}
+	if ($sub_id == 1) {
+		return 0;
+	} else {
+		header ("Location: main.php?newscan=true&sub=1");
 	}
 }
 	
@@ -249,7 +257,7 @@ $pointer = _getPointer($_SESSION['sub'], $_SESSION['id']);
 $passed_pointer = (isset($req['pointer'])) ? $req['pointer'] : null;
 
 if (isset($req['newscan'])) {
-	_areNewMsgs($_SESSION['id']);
+	_areNewMsgs($_SESSION['sub'], $_SESSION['id']);
 	$sth_msgs = _getNewMessages($_SESSION['sub'], $pointer);
 	list($new_pointer, $low_pointer) = _loopMsgs($sth_msgs, $pointer, $anonymous);
 } elseif ($order and $order == 'desc') {
