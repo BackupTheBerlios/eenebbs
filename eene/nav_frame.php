@@ -28,7 +28,7 @@ function jumpSub() {
 </head>
 
 <body class="navbar">
-<form name="navbar" id="navbar" method="post" action="main.php" target="mainFrame">
+<form name="navbar" id="navbar" method="post" action="main.php?order=desc" target="mainFrame">
 	<p align="center" class="navbar"><strong> 
 		<?= BBSNAME ?>
 		</strong></p>
