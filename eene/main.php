@@ -198,10 +198,10 @@ if (isset($req['sub'])) {
 	$_SESSION['sub'] = $req['sub'];
 } 
 
-list($more_msgs, $next_sub_with_msgs) = _nextSubWithMsgs($_SESSION['sub'], $_SESSION['id']);
+list($more_msgs, $next_sub_with_msgs) = _nextSubWithMsgs($_SESSION['id']);
 
 if ($more_msgs and isset($req['newscan'])) {
-	list($more_msgs, $_SESSION['sub']) = _nextSubWithMsgs($_SESSION['sub'], $_SESSION['id']);
+	list($more_msgs, $_SESSION['sub']) = _nextSubWithMsgs($_SESSION['id']);
 	$req['sub'] = $_SESSION['sub'];
 }
 
@@ -292,7 +292,7 @@ if ($new_pointer > $pointer)
 if (!$low_pointer)
 	$low_pointer = $new_pointer;
 
-list($more_msgs, $next_sub_with_msgs) = _nextSubWithMsgs($_SESSION['sub'], $_SESSION['id']);
+list($more_msgs, $next_sub_with_msgs) = _nextSubWithMsgs($_SESSION['id']);
 
 ?>
 </table>
