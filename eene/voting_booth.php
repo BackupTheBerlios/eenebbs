@@ -29,5 +29,6 @@ while ($row = mysql_fetch_assoc($sth_vtopics)) {
 <?php } ?>
 </ul>
 <p><a href="voting_add.php">add a topic</a></p>
+<a href="voting_booth.php">voting_booth</a>
 </body>
 </html>
