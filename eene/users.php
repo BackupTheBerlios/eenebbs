@@ -23,6 +23,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 		<td class="bgTable">
 			<table cellpadding="4" cellspacing="1" width="100%">
 				<tr class="msgTitle"> 
+					<td>User #</td>
 					<td>Alias</td>
 					<td>Location</td>
 					<td>Website</td>
@@ -31,7 +32,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 				</tr>
 				<?php
 
-$sql_users = "SELECT u.alias, u.location, u.email, s.descr, u.site,
+$sql_users = "SELECT u.alias, u.id, u.location, u.email, s.descr, u.site,
 		UNIX_TIMESTAMP(st.first_login) FROM stats st, users u, security_levels s WHERE 
 		s.sl = u.sl AND st.user_id = u.id ORDER BY s.sl DESC, u.alias";
 $users = @mysql_query($sql_users);
@@ -40,6 +41,9 @@ while ($row = mysql_fetch_assoc($users)) {
 ?>
 				<tr class="msgTable"> 
 					<td> 
+						<?= $row['id'] ?>
+					</td>
+					<td>
 						<?php
 	if ($row['email'] != '') {
 ?>
