@@ -43,7 +43,7 @@ if (@mysql_num_rows($sth_search) > 0) {
 	}
 	foreach ($subs as $mysub => $messages) {
 ?>
-<tr><td>In <strong><?= $mysub ?></strong> <a href="main.php?pointer=<?= $messages[0]['id'] ?>&order=asc&sub=<?= $messages[0]['sub_id'] ?>">Read forwards from here</a> / <a href="main.php?pointer=<?= $messages[0]['id'] ?>&order=desc&sub=<?= $messages[0]['sub_id'] ?>">Read backwards from here</a> : </td></tr>
+<tr><td>In <strong><?= $mysub ?></strong> :<br /> <span class="eene"><a href="main.php?pointer=<?= $messages[0]['id'] ?>&order=asc&sub=<?= $messages[0]['sub_id'] ?>">Read forwards from here</a> / <a href="main.php?pointer=<?= $messages[0]['id'] ?>&order=desc&sub=<?= $messages[0]['sub_id'] ?>">Read backwards from here</a></span> </td></tr>
 <tr><td>&nbsp;</td></tr>
 <tr><td>
 <?php
