@@ -12,7 +12,7 @@ foreach ($_GET as $name => $value)
 $sql_get_sub_name = "SELECT name FROM subs WHERE id = " . $_SESSION['sub'];
 $sth_get_sub_name = @mysql_query($sql_get_sub_name);
 $row_get_sub_name = @mysql_fetch_assoc($sth_get_sub_name);
-$sub = $row_get_sub_name['name'];
+$sub_name = $row_get_sub_name['name'];
 
 echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -42,7 +42,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 						</td>
 					</tr>
 					<tr> 
-						<td class="msgText"><input type="submit" name="Submit" value="Post Message to &quot;<?= $sub ?>&quot; " /> 
+						<td class="msgText"><input type="submit" name="Submit" value="Post Message to &quot;<?= $sub_name ?>&quot; " /> 
 						</td>
 					</tr>
 				</table></td>
