@@ -1,4 +1,4 @@
-# Tables dumped 2003-04-25 19:12:33 -0700
+# Tables dumped 2003-04-28 14:46:20 -0700
 # Created by CocoaMySQL (Copyright (c) 2002-2003 Lorenz Textor)
 #
 # Host: localhost   Database: eene
@@ -212,7 +212,6 @@ CREATE TABLE `stats` (
   `subs` int(11) unsigned NOT NULL default '0',
   `first_login` datetime NOT NULL default '0000-00-00 00:00:00',
   `last_login` datetime NOT NULL default '0000-00-00 00:00:00',
-  `read` int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (`user_id`)
 ) TYPE=MyISAM;
 
@@ -226,7 +225,7 @@ DROP TABLE IF EXISTS `subs`;
 CREATE TABLE `subs` (
   `id` smallint(6) unsigned NOT NULL auto_increment,
   `name` varchar(64) NOT NULL default '',
-  `anonymous` enum('Y','N') default NULL,
+  `anonymous` enum('Y','N') NOT NULL default 'N',
   `created_by_user_id` mediumint(9) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`),
@@ -237,6 +236,7 @@ INSERT INTO `subs` (`id`,`name`,`anonymous`,`created_by_user_id`) VALUES ("1","P
 INSERT INTO `subs` (`id`,`name`,`anonymous`,`created_by_user_id`) VALUES ("2","Another Sub","N","10");
 INSERT INTO `subs` (`id`,`name`,`anonymous`,`created_by_user_id`) VALUES ("3","Anonymous Sub","Y","10");
 INSERT INTO `subs` (`id`,`name`,`anonymous`,`created_by_user_id`) VALUES ("5","Longer Than 16 Characters","N","10");
+INSERT INTO `subs` (`id`,`name`,`anonymous`,`created_by_user_id`) VALUES ("6","the sub full of hate","N","21");
 
 
 # Dump of table taglines
@@ -281,13 +281,11 @@ CREATE TABLE `users` (
   `location` varchar(128) default NULL,
   `email` varchar(128) default NULL,
   `comment` varchar(255) default NULL,
-  `avatar` varchar(255) default NULL,
   `sl` tinyint(4) unsigned NOT NULL default '0',
   `site` varchar(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `alias` (`alias`),
-  KEY `password` (`password`),
-  KEY `avatar` (`avatar`)
+  KEY `password` (`password`)
 ) TYPE=MyISAM;
 
 
