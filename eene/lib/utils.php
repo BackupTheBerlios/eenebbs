@@ -61,18 +61,18 @@ function getUserID($alias) {
 }
 
 # increments stat.  $stat corresponds to field in 'stats' table
-function incrementStat($id, $stat) {
+function incrementStat($stat_id, $stat) {
 	if ($stat == 'logins') { # update last_login if this is a login
-		$sql_last_login = "UPDATE stats SET last_login = NOW() WHERE user_id = " . $id;
+		$sql_last_login = "UPDATE stats SET last_login = NOW() WHERE user_id = " . $stat_id;
 		mysql_query($sql_last_login);
 	}
-	$sql_put_stat = "UPDATE stats SET " . $stat . " = (" . $stat . " + 1) WHERE user_id = " . $id;
+	$sql_put_stat = "UPDATE stats SET " . $stat . " = (" . $stat . " + 1) WHERE user_id = " . $stat_id;
 	return mysql_query($sql_put_stat);
 }
 
 # 'type' corresponds to short_descr in 'event_ids' table
-function myLog($type, $id = null, $note = null) {
-	$sql_put_log = "INSERT INTO log (user_id, event_id, date, note) SELECT " . $id . " AS user_id, id 
+function myLog($type, $log_id = null, $note = null) {
+	$sql_put_log = "INSERT INTO log (user_id, event_id, date, note) SELECT " . $log_id . " AS user_id, id 
 			AS event_id, NOW() as date, '" . $note . "' AS note FROM event_ids WHERE short_descr = '" . $type . "'";
 	return @mysql_query($sql_put_log);
 }
@@ -119,17 +119,17 @@ EOT;
 	}
 }
 
-function getUserPrefs($id, $pref = null) {
+function getUserPrefs($pref_id, $pref = null) {
 	if (!$pref) {
 		$user_prefs = array();
-		$sql_get_user_prefs = "SELECT * FROM user_preferences WHERE user_id = " . $id;
+		$sql_get_user_prefs = "SELECT * FROM user_preferences WHERE user_id = " . $pref_id;
 		$sth_get_user_prefs = mysql_query($sql_get_user_prefs);
 		while ($row_user_prefs = mysql_fetch_assoc($sth_get_user_prefs)) {
 			$user_prefs[$row_user_prefs['pref_id']] = $row_user_prefs['value'];
 		}
 	} else {
 		$user_prefs = '';
-		$sql_get_user_pref = "SELECT up.* FROM user_preferences up, preferences p WHERE up.user_id = " . $id . 
+		$sql_get_user_pref = "SELECT up.* FROM user_preferences up, preferences p WHERE up.user_id = " . $pref_id . 
 				" AND p.id = up.pref_id AND p.short_descr = '" . $pref . "'";
 		$sth_get_user_pref = mysql_query($sql_get_user_pref);
 		$row_user_pref = mysql_fetch_assoc($sth_get_user_pref);
