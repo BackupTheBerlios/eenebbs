@@ -1,4 +1,3 @@
-<?php echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <?php 
 
 session_start();
@@ -59,7 +58,7 @@ $avg_logins_day = round($total_logins / $days_online, 2);
 $avg_signups_day = round($total_users / $days_online, 2);
 
 $sql_most_efficient = "SELECT (s.posts / s.logins) AS pcratio, u.alias FROM stats s, 
-		users u where u.id = s.user_id AND u.sl <> 255 LIMIT 1";
+		users u where u.id = s.user_id AND u.sl <> 255 ORDER BY pcratio DESC LIMIT 1";
 $sth_most_efficient = @mysql_query($sql_most_efficient);
 $row_most_efficient = @mysql_fetch_assoc($sth_most_efficient);
 $most_efficient = $row_most_efficient['alias'];
