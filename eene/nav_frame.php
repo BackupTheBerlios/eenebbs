@@ -23,6 +23,7 @@ function jumpSub() {
 	for (i = 0; i < document.navbar.sub.length; i++) {
 		document.navbar.sub.options[i].selected = false;
 	}
+	parent.rightFrame.location.reload(true);
 }
 </script>
 </head>
