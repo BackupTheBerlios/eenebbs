@@ -207,6 +207,7 @@ EOT;
 }
 
 function displayMessage($message, $anonymous = null) {
+	$message['message'] = ereg_replace("(\r\n|\n|\r)", "<br>", $message['message']);
 ?> 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
