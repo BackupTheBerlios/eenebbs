@@ -14,7 +14,7 @@ if (isset($_SESSION['alias']) and isset($_SESSION['logged_in']) and
 		!isset($req['alias']) and !isset($req['password'])) {		
 	$_SESSION['sub'] = 1;
 	if (isset($_GET['new'])) {
-		myLog('LOGIN', $row['id']);
+		myLog('LOGIN', $_SESSION['id']);
 		header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
 				"/main_frames.php?login=true&new=true&sub=1");
 		exit;
