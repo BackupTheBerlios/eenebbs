@@ -11,14 +11,14 @@ define('MSGS_PER_PAGE', 20);
 function _areMoreMsgs($sub_id, $pointer, $order) {
 	if ($order == 'desc') {	
 		$sql_are_more = "SELECT COUNT(id) FROM messages WHERE sub_id = " . $sub_id . " AND id < " . $pointer;
-		$sth_are_more = mysql_query($sql_are_more);
-		$row_are_more = mysql_fetch_assoc($sth_are_more);
+		$sth_are_more = @mysql_query($sql_are_more);
+		$row_are_more = @mysql_fetch_assoc($sth_are_more);
 		if ($row_are_more['COUNT(id)'] > 0)
 			return true;
 	} else {
 		$sql_are_more = "SELECT COUNT(id) FROM messages WHERE sub_id = " . $sub_id . " AND id > " . $pointer;
-		$sth_are_more = mysql_query($sql_are_more);
-		$row_are_more = mysql_fetch_assoc($sth_are_more);
+		$sth_are_more = @mysql_query($sql_are_more);
+		$row_are_more = @mysql_fetch_assoc($sth_are_more);
 		if ($row_are_more['COUNT(id)'] > 0)
 			return true;
 	}		
@@ -142,12 +142,12 @@ function _getNextSub() {
 
 function _getPrevSub() {
 	$sql_get_prev = "SELECT id FROM subs WHERE id < " . $_SESSION['sub'] . " ORDER BY id DESC LIMIT 1";
-	if ($sth_get_prev = mysql_query($sql_get_prev) and mysql_num_rows($sth_get_prev) > 0) {
-		$row_get_prev = mysql_fetch_assoc($sth_get_prev);
+	if ($sth_get_prev = @mysql_query($sql_get_prev) and mysql_num_rows($sth_get_prev) > 0) {
+		$row_get_prev = @mysql_fetch_assoc($sth_get_prev);
 	} else {
 		$sql_get_prev = "SELECT id FROM subs ORDER BY id DESC LIMIT 1";
-		$sth_get_prev = mysql_query($sql_get_prev);
-		$row_get_prev = mysql_fetch_assoc($sth_get_prev);
+		$sth_get_prev = @mysql_query($sql_get_prev);
+		$row_get_prev = @mysql_fetch_assoc($sth_get_prev);
 	}
 	return $row_get_prev['id'];
 }
@@ -259,23 +259,23 @@ if (!$low_pointer)
 						a Message</strong></a></td>
 					<td nowrap="nowrap" class="navbarTable"><a href="main.php?order=asc">Read Forwards</a></td>
 					<td nowrap="nowrap" class="navbarTable"><a href="main.php?order=desc">Read Backwards</a></td>
-					<td nowrap="nowrap" class="navbarTable"><a href="main.php?sub=<?= $prev_sub ?>&order=desc" onclick="javascript:parent.rightFrame.location.reload(true);">Previous Sub</a></td>
-					<td nowrap="nowrap" class="navbarTable"><a href="main.php?sub=<?= $next_sub ?>&order=desc" onclick="javascript:parent.rightFrame.location.reload(true);">Next Sub</a></td>
+					<td nowrap="nowrap" class="navbarTable"><a href="main.php?sub=<?= $prev_sub ?>&order=desc">Previous Sub</a></td>
+					<td nowrap="nowrap" class="navbarTable"><a href="main.php?sub=<?= $next_sub ?>&order=desc">Next Sub</a></td>
 					<td nowrap="nowrap" class="navbarTable">
 <?php
 
 $more_msgs = _areMoreMsgs($_SESSION['sub'], $low_pointer, $order);
 if ($more_msgs and isset($req['newscan'])) {
 ?>
-						<a href="main.php?newscan=true&sub=<?= $_SESSION['sub'] ?>" onclick="javascript:parent.rightFrame.location.reload(true);"><strong>Read More...</strong></a>
+						<a href="main.php?newscan=true&sub=<?= $_SESSION['sub'] ?>" ><strong>Read More...</strong></a>
 <?php
 } else if ($more_msgs) {
 ?>
-						<a href="main.php?sub=<?= $_SESSION['sub'] ?>&pointer=<?= $low_pointer ?>&order=<?= $order ?>" onclick="javascript:parent.rightFrame.location.reload(true);"><strong>Read More...</strong></a>
+						<a href="main.php?sub=<?= $_SESSION['sub'] ?>&pointer=<?= $low_pointer ?>&order=<?= $order ?>"><strong>Read More...</strong></a>
 <?php
 }	else {	
 ?>				
-						<a href="main.php?newscan=true&sub=<?= $next_sub ?>" onclick="javascript:parent.rightFrame.location.reload(true);"><strong>Newscan Next Sub</strong></a>
+						<a href="main.php?newscan=true&sub=<?= $next_sub ?>" ><strong>Newscan Next Sub</strong></a>
 <?php
 } 
 ?>

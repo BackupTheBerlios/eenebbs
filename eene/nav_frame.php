@@ -56,7 +56,7 @@ function jumpSub() {
 			<td class="bgTable"> 
 				<table width="100%" border="0" cellspacing="1" cellpadding="4">
 					<tr> 
-						<td nowrap="nowrap" class="navbarTable"><a href="main.php?newscan=true" target="mainFrame" onclick="javascript:parent.rightFrame.location.reload(true);"><strong>Newscan 
+						<td nowrap="nowrap" class="navbarTable"><a href="main.php?newscan=true" target="mainFrame" ><strong>Newscan 
 							Next Sub</strong></a></td>
 					</tr>
 					<tr> 
@@ -64,11 +64,11 @@ function jumpSub() {
 							a Message</a></strong></td>
 					</tr>
 					<tr> 
-						<td nowrap="nowrap" class="navbarTable"><a href="main.php?order=asc" target="mainFrame" onclick="javascript:parent.rightFrame.location.reload(true);">Read 
+						<td nowrap="nowrap" class="navbarTable"><a href="main.php?order=asc" target="mainFrame" >Read 
 							Sub Forwards</a></td>
 					</tr>
 					<tr> 
-						<td nowrap="nowrap" class="navbarTable"><a href="main.php?order=desc" target="mainFrame" onclick="javascript:parent.rightFrame.location.reload(true);">Read 
+						<td nowrap="nowrap" class="navbarTable"><a href="main.php?order=desc" target="mainFrame" >Read 
 							Sub Backwards</a></td>
 					</tr>
 					<tr> 
