@@ -16,25 +16,30 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 
 <body class="main">
 <p>here are your numbers.</p>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td class="bgTable"><table width="100%" border="0" cellspacing="1" cellpadding="4">
-				<tr>
-					<td class="navbarTable"><a href="stats_view.php?stat=logins">Top 10 Callers</a></td>
+				<tr> 
+					<td class="navbarTable"><a href="stats_view.php?stat=logins">Top 10 
+						Callers</a></td>
 				</tr>
-				<tr>
+				<tr> 
 					<td class="navbarTable"><a href="stats_view.php?stat=posts">Top 10 Posters</a></td>
 				</tr>
-				<tr>
-					<td class="navbarTable"><a href="stats_view.php?stat=mottos">Top 10 Motto 
-						Writers</a></td>
+				<tr> 
+					<td class="navbarTable"><a href="stats_view.php?stat=mottos">Top 10 
+						Motto Writers</a></td>
+				</tr>
+				<tr> 
+					<td class="navbarTable"><a href="stats_view.php?stat=automessages">Top 
+						10 Automessage Writers</a></td>
+				</tr>
+				<tr> 
+					<td class="navbarTable"><a href="stats_view.php?stat=subs">Top 10 Sub 
+						Creators</a></td>
 				</tr>
 				<tr>
-					<td class="navbarTable"><a href="stats_view.php?stat=automessages">Top 10 
-						Automessage Writers</a></td>
-				</tr>
-				<tr>
-					<td class="navbarTable"><a href="stats_view.php?stat=subs">Top 10 Sub Creators</a></td>
+					<td class="navbarTable"><a href="stats_system.php">System Statistics</a></td>
 				</tr>
 			</table></td>
 	</tr>
