@@ -20,7 +20,7 @@ if (isset($_SESSION['alias']) and isset($_SESSION['logged_in']) and
 		exit;
 	} else {
 		header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
-				"/main_frames.php?login=true&sub=1");
+				"/main_frames.php?login=true&newscan=true&sub=1");
 		exit;
 	}
 }
