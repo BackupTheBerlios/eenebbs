@@ -123,7 +123,7 @@ while ($row_prefs = @mysql_fetch_assoc($sth_get_prefs)) {
 	<tr>
 		<td class="bgTable"><table width="100%" border="0" cellspacing="1" cellpadding="4">
 				<tr>
-					<td nowrap="nowrap" class="navbarTable"><a href="tagline.php">Tagline Menu</a></td>
+<!--comment removed link to tagline menu -->
 					<td width="100%" class="navbarTable"> <a href="newscan.php">Configure 
 						Newscan</a></td>
 				</tr>
