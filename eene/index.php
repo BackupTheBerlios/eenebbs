@@ -4,7 +4,8 @@ require_once 'lib/config.php';
 require_once 'lib/utils.php';
 
 if (isset($_GET['error']) and $_GET['error'] == 'You are now logged out.') {
-	myLog('LOGOUT', $_SESSION['id']);
+	if (isset($_SESSION['id'])) 
+		myLog('LOGOUT', $_SESSION['id']);
 	$_SESSION['logged_in'] = null;
 	unset($_SESSION['logged_in']);
 	$_SESSION['alias'] = null;
@@ -30,7 +31,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="default.css" rel="stylesheet" type="text/css" />
 </head>
-<body class="main">
+<body class="main" background="img/fabulous.jpg">
 <?php displayErrors(); ?>
 <form action="login.php" method="post" name="login" id="login">
 <table width="400" border="0" align="center" cellpadding="0" cellspacing="0">
