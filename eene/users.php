@@ -10,7 +10,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Untitled Document</title>
+<title><?= BBSNAME ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link href="default.css" rel="stylesheet" type="text/css" />
 </head>
@@ -22,28 +22,28 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 	<tr>
 		<td class="bgTable">
 			<table cellpadding="4" cellspacing="1" width="100%">
-				<tr class="msgTitle"> 
-					<td>User #</td>
-					<td>Alias</td>
-					<td>Location</td>
-					<td>Website</td>
-					<td>Security Level</td>
-					<td>User Since</td>
+				<tr> 
+					<td class="msgTitle">User #</td>
+					<td class="msgTitle">Alias</td>
+					<td class="msgTitle">Location</td>
+					<td class="msgTitle">Website</td>
+					<td class="msgTitle">Security Level</td>
+					<td class="msgTitle">User Since</td>
 				</tr>
 				<?php
 
 $sql_users = "SELECT u.alias, u.id, u.location, u.email, s.descr, u.site,
 		UNIX_TIMESTAMP(st.first_login) FROM stats st, users u, security_levels s WHERE 
-		s.sl = u.sl AND st.user_id = u.id ORDER BY s.sl DESC, u.alias";
+		s.sl = u.sl AND st.user_id = u.id ORDER BY s.sl DESC, u.id";
 $users = @mysql_query($sql_users);
 
 while ($row = mysql_fetch_assoc($users)) {
 ?>
-				<tr class="msgTable"> 
-					<td> 
+				<tr> 
+					<td class="msgTable"> 
 						<?= $row['id'] ?>
 					</td>
-					<td>
+					<td class="msgTable">
 						<?php
 	if ($row['email'] != '') {
 ?>
@@ -58,16 +58,16 @@ while ($row = mysql_fetch_assoc($users)) {
 	}
 ?>
 					</td>
-					<td> 
+					<td class="msgTable"> 
 						<?= $row['location'] ?>
 					</td>
-					<td><a href="http://<?= $row['site'] ?>"> 
+					<td class="msgTable"><a href="http://<?= $row['site'] ?>"> 
 						<?= $row['site'] ?>
 						</a></td>
-					<td> 
+					<td class="msgTable"> 
 						<?= $row['descr'] ?>
 					</td>
-					<td> 
+					<td class="msgTable"> 
 						<?= date("F j, Y", $row['UNIX_TIMESTAMP(st.first_login)']) ?>
 					</td>
 				</tr>
