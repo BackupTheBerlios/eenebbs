@@ -23,14 +23,28 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 
 <body class="main">
 <p><a href="stats.php">back to stats </a></p>
-<ol>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td class="bgTable"><table width="100%" border="0" cellspacing="1" cellpadding="4">
+				<tr class="msgTitle"> 
+					<td>Rank</td>
+					<td>Alias</td>
+					<td nowrap="nowrap">Total <?= $req['stat'] ?></td>
+				</tr>
 <?php
-while ($row_stats = mysql_fetch_assoc($sth_get_stat)) {
+for ($i = 1; $i <= mysql_num_rows($sth_get_stat); $i++) {
+	$row_stats = mysql_fetch_assoc($sth_get_stat);
 ?>
-	<li><?= $row_stats['alias'] ?> : <?= $row_stats[$req['stat']] ?></li>
+				<tr class="msgText">
+					<td><?= $i ?>.</td>
+					<td><?= $row_stats['alias'] ?></td>
+					<td><?= $row_stats[$req['stat']] ?></td>
+				</tr>
 <?php
 }
 ?>
-</ol>
+	</table></td>
+	</tr>
+</table>
 </body>
 </html>

@@ -15,14 +15,30 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 </head>
 
 <body class="main">
-
 <p>here are your numbers.</p>
-<ul>
-	<li><a href="stats_view.php?stat=logins">Top 10 Callers</a></li>
-	<li><a href="stats_view.php?stat=posts">Top 10 Posters</a></li>
-	<li><a href="stats_view.php?stat=mottos">Top 10 Motto Writers</a></li>
-	<li><a href="stats_view.php?stat=automessages">Top 10 Automessage Writers</a></li>
-	<li><a href="stats_view.php?stat=subs">Top 10 Sub Creators</a></li>
-</ul>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td class="bgTable"><table width="100%" border="0" cellspacing="1" cellpadding="4">
+				<tr>
+					<td class="msgText"><a href="stats_view.php?stat=logins">Top 10 Callers</a></td>
+				</tr>
+				<tr>
+					<td class="msgText"><a href="stats_view.php?stat=posts">Top 10 Posters</a></td>
+				</tr>
+				<tr>
+					<td class="msgText"><a href="stats_view.php?stat=mottos">Top 10 Motto 
+						Writers</a></td>
+				</tr>
+				<tr>
+					<td class="msgText"><a href="stats_view.php?stat=automessages">Top 10 
+						Automessage Writers</a></td>
+				</tr>
+				<tr>
+					<td class="msgText"><a href="stats_view.php?stat=subs">Top 10 Sub Creators</a></td>
+				</tr>
+			</table></td>
+	</tr>
+</table>
+
 </body>
 </html>
