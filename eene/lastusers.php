@@ -15,6 +15,6 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 </head>
 
 <body class="main">
-<?= getLastUsers() ?>
+<?= getLastUsers();?>
 </body>
 </html>
