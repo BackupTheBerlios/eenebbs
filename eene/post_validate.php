@@ -10,7 +10,8 @@ authenticate();
 define ( 'RANDOMLY', 5 );
 define ( 'LOOP', 6 );
 
-$message = trim(cleanAllowImg($_POST['message'], MAXMSGLENGTH));
+$message = addslashes(trim(cleanAllowImg($_POST['message'], MAXMSGLENGTH)));
+
 if ($message == '' or !isset($message)) {
 	$_SESSION['error'] = "Post failed; blank message detected.";
 	header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
