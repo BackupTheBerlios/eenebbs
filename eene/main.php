@@ -257,10 +257,20 @@ if (!$low_pointer)
 
 ?>
 </table>
+<br />
 <?php
 if (_areMoreMsgs($_SESSION['sub'], $low_pointer, $order)) {
+	if (isset($req['newscan'])) {
 ?>
-<br /><a href="main.php?newscan=true&sub=<?= $_SESSION['sub'] ?>" >Read more messages in THIS sub...</a><br /><br />
+<a href="main.php?newscan=true&sub=<?= $_SESSION['sub'] ?>" >
+<?php
+	} else {
+?>
+<a href="main.php?order=<?= $order ?>&sub=<?= $_SESSION['sub'] ?>&pointer=<?= $low_pointer ?>" >
+<?php
+	}
+?>
+Read more messages in THIS sub...</a><br /><br />
 <?php
 }
 ?>
