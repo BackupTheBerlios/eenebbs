@@ -23,7 +23,7 @@ $main_params = $_SERVER['QUERY_STRING'];
 
 <frameset cols="*,155" frameborder="NO" border="0" framespacing="0">
 	<frame src="main.php?<?= $main_params ?>" name="mainFrame">
-	<frame src="nav_frame.php" name="rightFrame" scrolling="NO" noresize marginwidth="0" marginheight="0">
+	<frame src="nav_frame.php" name="rightFrame" noresize="noresize"  marginwidth="0" marginheight="0">
 </frameset>
 <noframes><body class="main">
 Sorry, your browser must support frames!
