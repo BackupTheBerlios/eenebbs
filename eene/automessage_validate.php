@@ -6,10 +6,7 @@ require_once 'lib/config.php';
 session_start();
 authenticate();
 
-$automessage = trim(cleanAllowImg($_POST['automessage'], MAXMSGLENGTH));
-
-foreach ($_POST as $name => $value) 
-	$req[$name] = trim(clean($value, 255));
+$automessage = trim(clean($_POST['automessage'], MAXMSGLENGTH));
 
 $sql_insert_automessage = "INSERT INTO automessages (automessage, user_id, date) VALUES ('" .
 	addslashes($automessage) . "', " . $_SESSION['id'] . ", NOW())";
