@@ -44,6 +44,7 @@ function _getNumMsgsInSub($sub_id) {
 function _displayMessage($message, $anonymous = null) {
 	$message['message'] = ereg_replace("(\r\n|\n|\r)", "<br>", $message['message']);
 ?> 
+
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td class="bgTable">
@@ -182,7 +183,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 
 <body class="main">
 <?php 
-
+_areNewMsgs();
 displayErrors();
 
 if (isset($req['login'])) {
@@ -246,6 +247,13 @@ if (!$low_pointer)
 
 ?>
 </table>
+<?php
+if (_areMoreMsgs($_SESSION['sub'], $low_pointer, $order)) {
+?>
+<br /><a href="main.php?newscan=true&sub=<?= $_SESSION['sub'] ?>" >Read more messages in THIS sub...</a><br /><br />
+<?php
+}
+?>
 <table border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td class="bgTable">
@@ -261,24 +269,7 @@ if (!$low_pointer)
 					<td nowrap="nowrap" class="navbarTable"><a href="main.php?order=desc">Read Backwards</a></td>
 					<td nowrap="nowrap" class="navbarTable"><a href="main.php?sub=<?= $prev_sub ?>&order=desc">Previous Sub</a></td>
 					<td nowrap="nowrap" class="navbarTable"><a href="main.php?sub=<?= $next_sub ?>&order=desc">Next Sub</a></td>
-					<td nowrap="nowrap" class="navbarTable">
-<?php
-
-$more_msgs = _areMoreMsgs($_SESSION['sub'], $low_pointer, $order);
-if ($more_msgs and isset($req['newscan'])) {
-?>
-						<a href="main.php?newscan=true&sub=<?= $_SESSION['sub'] ?>" ><strong>Read More...</strong></a>
-<?php
-} else if ($more_msgs) {
-?>
-						<a href="main.php?sub=<?= $_SESSION['sub'] ?>&pointer=<?= $low_pointer ?>&order=<?= $order ?>"><strong>Read More...</strong></a>
-<?php
-}	else {	
-?>				
-						<a href="main.php?newscan=true&sub=<?= $next_sub ?>" ><strong>Newscan Next Sub</strong></a>
-<?php
-} 
-?>
+					<td nowrap="nowrap" class="navbarTable"><a href="main.php?newscan=true&sub=<?= $next_sub ?>" ><strong>Newscan NEXT Sub</strong></a>
 					</td>
 				</tr>
 				<?php
