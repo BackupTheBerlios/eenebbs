@@ -19,6 +19,6 @@ mail($sysopemail,$subject,$body);
 <head>
 <title>Untitled Document</title>
 </head>
-<body>
+<body class="main">
 <p>Your feedback has been sent!<p>
 </body></html>

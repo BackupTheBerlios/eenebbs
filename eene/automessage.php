@@ -10,10 +10,11 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="default.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
+<body class="main">
 
-ok so here is the current automessage :
+<p>ok so here is the current automessage :</p>
 <?= getAutomessage();?>
 <p>you can change the automessage here</p>
 <form action="automessage_validate.php" method="post">
