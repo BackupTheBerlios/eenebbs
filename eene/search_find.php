@@ -13,7 +13,7 @@ if (!isset($req['search']) or $req['search'] == '') {
 	exit;
 }
 
-$sql_search = "SELECT m.id, m.message, t.tagline, UNIX_TIMESTAMP(m.date) , u.alias, s.name, s.anonymous, u.id AS user_id
+$sql_search = "SELECT m.id, m.message, t.tagline, UNIX_TIMESTAMP(m.date) , u.alias, s.name, s.anonymous, u.id AS user_id, m.sub_id 
 FROM messages m, subs s, users u
 LEFT  JOIN taglines t ON t.id = m.tag_id
 WHERE s.id = m.sub_id AND m.user_id = u.id AND 
