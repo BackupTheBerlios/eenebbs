@@ -19,7 +19,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <body class="main">
 <?php displayErrors(); ?>
 <p>Searches are case insensitive.  If any part of your phrase is found, results will be returned.  If too many messages have the word you are searching for, you will not get results.</p>
-<form name="form1" id="form1" method="post" action="search_match.php">
+<form name="form1" id="form1" method="post" action="search_find.php">
 	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="bgTable">
 		<tr>
 			<td><table width="100%" border="0" cellspacing="1" cellpadding="4">
