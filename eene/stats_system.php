@@ -186,7 +186,7 @@ $forgetful = $row_forgetful['alias'];
 if (defined('USAGE_LOGS')) {
 ?>
 				<tr>
-					<td valign="top" nowrap="nowrap" class="navbarTable" colspan="2"><a href="<? USAGE_LOGS ?>">Usage Logs</a>
+					<td valign="top" nowrap="nowrap" class="navbarTable" colspan="2"><a href="<?= USAGE_LOGS ?>">Usage Logs</a>
 					</td>
 				</tr>
 <?php
