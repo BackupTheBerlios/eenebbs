@@ -32,8 +32,8 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 					<td nowrap="nowrap" class="msgTitle" width="100%">Total <?= $req['stat'] ?></td>
 				</tr>
 <?php
-for ($i = 1; $i <= mysql_num_rows($sth_get_stat); $i++) {
-	$row_stats = mysql_fetch_assoc($sth_get_stat);
+for ($i = 1; $i <= @mysql_num_rows($sth_get_stat); $i++) {
+	$row_stats = @mysql_fetch_assoc($sth_get_stat);
 ?>
 				<tr>
 					<td class="msgTable"><?= $i ?>.</td>

@@ -6,8 +6,8 @@ require_once 'lib/utils.php';
 session_start();
 
 $sql_get_user_info = "SELECT email FROM users WHERE id = " . $_SESSION['id'];
-$sth_get_user_info = mysql_query($sql_get_user_info);
-$row_user_info = mysql_fetch_assoc($sth_get_user_info);
+$sth_get_user_info = @mysql_query($sql_get_user_info);
+$row_user_info = @mysql_fetch_assoc($sth_get_user_info);
 
 echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

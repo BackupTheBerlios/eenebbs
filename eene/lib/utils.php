@@ -48,13 +48,13 @@ function debug($var) {
 
 #### BEGIN DATABASE FUNCTIONS ####
 
-@mysql_pconnect('localhost', DB_USERNAME, DB_PASSWORD) or die (mysql_error());
-@mysql_select_db(DB_NAME) or die (mysql_error());
+@mysql_pconnect('localhost', DB_USERNAME, DB_PASSWORD) or die (@mysql_error());
+@mysql_select_db(DB_NAME) or die (@mysql_error());
 
 function getUserID($my_alias) {
 	$sql_id = "SELECT id FROM users WHERE alias = '" . $my_alias . "'";
 	$sth_id = @mysql_query($sql_id);
-	$row = mysql_fetch_assoc($sth_id);
+	$row = @mysql_fetch_assoc($sth_id);
 	return $row['id'];
 }
 
@@ -62,10 +62,10 @@ function getUserID($my_alias) {
 function incrementStat($stat_id, $stat) {
 	if ($stat == 'logins') { # update last_login if this is a login
 		$sql_last_login = "UPDATE stats SET last_login = NOW() WHERE user_id = " . $stat_id;
-		mysql_query($sql_last_login);
+		@mysql_query($sql_last_login);
 	}
 	$sql_put_stat = "UPDATE stats SET " . $stat . " = (" . $stat . " + 1) WHERE user_id = " . $stat_id;
-	return mysql_query($sql_put_stat);
+	return @mysql_query($sql_put_stat);
 }
 
 # 'type' corresponds to short_descr in 'event_ids' table
@@ -86,7 +86,7 @@ function getAutomessage() {
 	$sql_get_automessage = "SELECT a.automessage, u.alias, u.id, u.email, UNIX_TIMESTAMP(a.date) FROM automessages a, users u 
 		WHERE u.id = a.user_id ORDER BY a.id DESC LIMIT 1";
 	if ($sth_get_automessage = @mysql_query($sql_get_automessage)) {
-		$row = mysql_fetch_assoc($sth_get_automessage);
+		$row = @mysql_fetch_assoc($sth_get_automessage);
 		$date = date("F j, Y, g:i a", $row['UNIX_TIMESTAMP(a.date)']);
 		$automess = <<<EOT
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -121,16 +121,16 @@ function getUserPrefs($pref_id, $pref = null) {
 	if (!$pref) {
 		$user_prefs = array();
 		$sql_get_user_prefs = "SELECT * FROM user_preferences WHERE user_id = " . $pref_id;
-		$sth_get_user_prefs = mysql_query($sql_get_user_prefs);
-		while ($row_user_prefs = mysql_fetch_assoc($sth_get_user_prefs)) {
+		$sth_get_user_prefs = @mysql_query($sql_get_user_prefs);
+		while ($row_user_prefs = @mysql_fetch_assoc($sth_get_user_prefs)) {
 			$user_prefs[$row_user_prefs['pref_id']] = $row_user_prefs['value'];
 		}
 	} else {
 		$user_prefs = '';
 		$sql_get_user_pref = "SELECT up.* FROM user_preferences up, preferences p WHERE up.user_id = " . $pref_id . 
 				" AND p.id = up.pref_id AND p.short_descr = '" . $pref . "'";
-		$sth_get_user_pref = mysql_query($sql_get_user_pref);
-		$row_user_pref = mysql_fetch_assoc($sth_get_user_pref);
+		$sth_get_user_pref = @mysql_query($sql_get_user_pref);
+		$row_user_pref = @mysql_fetch_assoc($sth_get_user_pref);
 		$user_prefs = $row_user_pref['value'];
 	}
 	return $user_prefs;
@@ -151,7 +151,7 @@ EOT;
 	$sql_last_logins = "SELECT u.id, u.alias, u.email, UNIX_TIMESTAMP(l.date) FROM log l, 
 		users u WHERE l.event_id = 3 AND u.id = l.user_id ORDER BY l.date DESC LIMIT 5";
 	$sth_last_logins = @mysql_query($sql_last_logins);
-	while ($row_last_logins = mysql_fetch_assoc($sth_last_logins)) {
+	while ($row_last_logins = @mysql_fetch_assoc($sth_last_logins)) {
 		$time = date("F j, Y, g:i a", 
 				$row_last_logins['UNIX_TIMESTAMP(l.date)']); 
 		$string .= <<<EOT

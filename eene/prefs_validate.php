@@ -12,16 +12,16 @@ $req = array();
 foreach ($_POST as $name => $value) 
 	$req[$name] = trim(clean($value, 255));
 $sql_get_prefs = "SELECT id, type FROM preferences";
-$sth_get_prefs = mysql_query($sql_get_prefs);
+$sth_get_prefs = @mysql_query($sql_get_prefs);
 $pref_types = array();
-while ($row_get_prefs = mysql_fetch_assoc($sth_get_prefs)) 
+while ($row_get_prefs = @mysql_fetch_assoc($sth_get_prefs)) 
 	$pref_types[$row_get_prefs['id']] = $row_get_prefs['type'];
 	
 $sql_users = "UPDATE users SET location = '" . $req['location'] .
 		"', email = '" . $req['email'] . "', site = '" . $req['site'] . 
 		"' WHERE id = " . $_SESSION['id'];
 
-$my_success = mysql_query($sql_users);
+$my_success = @mysql_query($sql_users);
 
 #debug($req);exit;
 

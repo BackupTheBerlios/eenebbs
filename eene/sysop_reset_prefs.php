@@ -6,7 +6,7 @@ authenticate();
 authenticateSysop();
 
 $sql_get_all_users = "SELECT u.id from users u";
-$sth_get_all_users = mysql_query($sql_get_all_users);
+$sth_get_all_users = @mysql_query($sql_get_all_users);
 while ($row_get_all_users = @mysql_fetch_assoc($sth_get_all_users)) {
 	$user_id = $row_get_all_users['id'];
 	$sql_get_all_prefs = "SELECT p.default, p.id FROM preferences p";
@@ -17,6 +17,6 @@ while ($row_get_all_users = @mysql_fetch_assoc($sth_get_all_users)) {
 	}
 	$sql_insert_prefs = rtrim($sql_insert_prefs);
 	$sql_insert_prefs = substr($sql_insert_prefs, 0, -1); 
-	echo mysql_query($sql_insert_prefs);
+	echo @mysql_query($sql_insert_prefs);
 }
 ?>

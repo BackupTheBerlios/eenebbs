@@ -37,7 +37,7 @@ $sql_users = "SELECT u.alias, u.id, u.location, u.email, s.descr, u.site,
 		s.sl = u.sl AND st.user_id = u.id ORDER BY s.sl DESC, u.id";
 $users = @mysql_query($sql_users);
 
-while ($row = mysql_fetch_assoc($users)) {
+while ($row = @mysql_fetch_assoc($users)) {
 ?>
 				<tr> 
 					<td class="msgTable"> 

@@ -35,12 +35,12 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">";
 	booth</a> </p>
 <?php
 if (!hasVoted($_SESSION['id'], $req['id'])) {
-	$row_topic = mysql_fetch_assoc($sth_topic);
+	$row_topic = @mysql_fetch_assoc($sth_topic);
 ?>
 	<form method="post" action="voting_tally.php" name="form1">
 	<h1><?= $row_topic['name'] ?></h1>
 <?php
-	while($row_options = mysql_fetch_assoc($sth_options)) {
+	while($row_options = @mysql_fetch_assoc($sth_options)) {
 ?>
 	<p>
 		<label>
@@ -75,12 +75,12 @@ if (!hasVoted($_SESSION['id'], $req['id'])) {
 	foreach ($votes as $vote => $number) {
 		$total_votes += $number;
 	}
-	$row_topic = mysql_fetch_assoc($sth_topic);
+	$row_topic = @mysql_fetch_assoc($sth_topic);
 ?>
 	<h1><?= $row_topic['name'] ?></h1>
 	<p>Your vote is in bold.</p>
 <?php
-	while ($row_options = mysql_fetch_assoc($sth_options)) {
+	while ($row_options = @mysql_fetch_assoc($sth_options)) {
 		if (isset($votes[$row_options['opt']])) 
 			$pct = floor(100 * ($votes[$row_options['opt']] / $total_votes) + .5);
 		else

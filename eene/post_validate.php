@@ -23,7 +23,7 @@ switch (getUserPrefs($_SESSION['id'], 'TAGLINES')) {
 	case RANDOMLY:
 		$sql_get_tagline = "SELECT id FROM taglines WHERE user_id = " . $_SESSION['id'] . " ORDER BY RAND() LIMIT 1";
 		$sth_get_tagline = @mysql_query($sql_get_tagline);
-		if ($sth_get_tagline and mysql_num_rows($sth_get_tagline) > 0) {
+		if ($sth_get_tagline and @mysql_num_rows($sth_get_tagline) > 0) {
 			$row_get_tagline = @mysql_fetch_assoc($sth_get_tagline);
 			$tagline = $row_get_tagline['id'];
 		} 
@@ -31,12 +31,12 @@ switch (getUserPrefs($_SESSION['id'], 'TAGLINES')) {
 	case LOOP:
 		$sql_get_tagline = "SELECT t.id FROM taglines t, users u WHERE u.last_tagline = t.id AND u.id = " . $_SESSION['id'];
 		$sth_get_tagline = @mysql_query($sql_get_tagline);
-		if ($sth_get_tagline and mysql_num_rows($sth_get_tagline) > 0) {
+		if ($sth_get_tagline and @mysql_num_rows($sth_get_tagline) > 0) {
 			$row_get_tagline = @mysql_fetch_assoc($sth_get_tagline);
 			$tagline = $row_get_tagline['id'];
 		} else {
 			$sql_get_tagline = "SELECT t.id FROM taglines t WHERE user_id = " . $_SESSION['id'];
-			if ($sth_get_tagline and mysql_num_rows($sth_get_tagline) > 0) {
+			if ($sth_get_tagline and @mysql_num_rows($sth_get_tagline) > 0) {
 				$row_get_tagline = @mysql_fetch_assoc($sth_get_tagline);
 				$tagline = $row_get_tagline['id'];
 			}

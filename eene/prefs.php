@@ -52,9 +52,9 @@ $row_user_info = @mysql_fetch_assoc($sth_get_user_info);
 					<?php
 
 $sql_get_prefs = "SELECT * FROM preferences";
-$sth_get_prefs = mysql_query($sql_get_prefs);
+$sth_get_prefs = @mysql_query($sql_get_prefs);
 $user_prefs = getUserPrefs($_SESSION['id']);
-while ($row_prefs = mysql_fetch_assoc($sth_get_prefs)) {
+while ($row_prefs = @mysql_fetch_assoc($sth_get_prefs)) {
 ?>
 					<tr> 
 						<td nowrap="nowrap" class="msgTitle"> 
@@ -74,12 +74,12 @@ while ($row_prefs = mysql_fetch_assoc($sth_get_prefs)) {
 		break;
 		case 'enum':
 			$sql_get_enum = "SELECT opt, id FROM preferences_options WHERE pref_id = " . $row_prefs['id'];
-			$sth_get_enum = mysql_query($sql_get_enum);
+			$sth_get_enum = @mysql_query($sql_get_enum);
 ?>
 						<td width="100%" class="msgText"> 
 							<select name="p<?= $row_prefs['id'] ?>">
 								<?php
-			while ($row_get_enum = mysql_fetch_assoc($sth_get_enum)) {
+			while ($row_get_enum = @mysql_fetch_assoc($sth_get_enum)) {
 				if (isset($user_prefs[$row_prefs['id']]) and $user_prefs[$row_prefs['id']] == $row_get_enum['id']) {
 ?>
 								<option value="<?= $row_get_enum['id'] ?>" selected="selected">

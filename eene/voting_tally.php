@@ -21,7 +21,7 @@ $sql_tally = "INSERT INTO votes (user_id, topic_id, option_id) SELECT u.id AS us
 
 myLog('VOTE', $_SESSION['id'], $req['id']);
 
-if (mysql_query($sql_tally)) {
+if (@mysql_query($sql_tally)) {
 	header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
 			"/voting_vote.php?id=" . $req['id']);
 	exit;

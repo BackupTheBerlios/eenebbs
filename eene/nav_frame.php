@@ -58,7 +58,7 @@ function jumpSub() {
 							<select name="sub" size="8" class="navBarJump" onchange="javascript:jumpSub();">
 								<?php
 $sth_get_subs = _getSubs();
-while ($row_get_subs = mysql_fetch_assoc($sth_get_subs)) {
+while ($row_get_subs = @mysql_fetch_assoc($sth_get_subs)) {
 	$option = (strlen($row_get_subs['name']) > 16) ? substr($row_get_subs['name'], 0, 16)
 			. '...' : $row_get_subs['name'];
 ?>

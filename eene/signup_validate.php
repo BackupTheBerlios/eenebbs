@@ -66,9 +66,9 @@ $sql_insert_prefs = rtrim($sql_insert_prefs);
 $sql_insert_prefs = substr($sql_insert_prefs, 0, -1); 
 
 $sql_get_subs = "SELECT id FROM subs";
-$sth_get_subs = mysql_query($sql_get_subs);
+$sth_get_subs = @mysql_query($sql_get_subs);
 $sql_insert_ptrs = "INSERT INTO pointers (user_id, sub_id) VALUES ";
-while ($row_get_subs = mysql_fetch_assoc($sth_get_subs)) {
+while ($row_get_subs = @mysql_fetch_assoc($sth_get_subs)) {
 	$sql_insert_ptrs .= "(" . $user_id . ", " . $row_get_subs['id'] . "), ";
 }
 $sql_insert_ptrs = rtrim($sql_insert_ptrs);

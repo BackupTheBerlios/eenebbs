@@ -24,7 +24,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <?php
 
 $sth_vtopics = @mysql_query($sql_vtopics);
-while ($row = mysql_fetch_assoc($sth_vtopics)) {
+while ($row = @mysql_fetch_assoc($sth_vtopics)) {
 ?>
 <li><a href="voting_vote.php?id=<?= $row['id'] ?>"><?= $row['name'] ?></li>
 <?php } ?>
