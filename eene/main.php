@@ -332,7 +332,7 @@ if (!$more_msgs and isset($req['newscan'])
 					<td nowrap="nowrap" class="navbarTable"><a href="main.php?order=desc">Read Backwards</a></td>
 					<td nowrap="nowrap" class="navbarTable"><a href="main.php?sub=<?= $prev_sub ?>&order=desc">Previous Sub</a></td>
 					<td nowrap="nowrap" class="navbarTable"><a href="main.php?sub=<?= $next_sub ?>&order=desc">Next Sub</a></td>
-					<td nowrap="nowrap" class="navbarTable"><a href="main.php?newscan=true&sub=<?= $next_sub_with_msgs ?>" ><strong>Continue Newscan</strong></a>
+					<td nowrap="nowrap" class="navbarTable"><a href="main.php?newscan=true&sub=<?= $next_sub_with_msgs ?>" ><strong>Newscan Next Sub</strong></a>
 					</td>
 				</tr>
 				<?php
