@@ -22,9 +22,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 
 <form action="feedback_send.php" method="post">
 	From: <input name="from" type=text value="<?= $row_user_info['email'] ?>" /><p>
-
-	Subject: <input name="subject" type=text value="bbs feedback"><p>
-	<textarea name="body" rows=20 cols=40 wrap="soft"></textarea>
+	<textarea name="body" rows=20 cols=64 wrap="soft"></textarea>
 	<br />
 	<input type="submit" name="Submit" value="send it johnny" />
 </form>
