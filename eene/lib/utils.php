@@ -180,11 +180,11 @@ function getLastUsers() {
 		<td class="bgTable">
 			<table cellpadding="4" cellspacing="1" width="100%">
 				<tr class="msgTitle"> 
-					<td>Alias</td>
+					<td>User</td>
 					<td>Time</td>
 				</tr>
 EOT;
-	$sql_last_logins = "SELECT u.alias, u.email, UNIX_TIMESTAMP(l.date) FROM log l, 
+	$sql_last_logins = "SELECT u.id, u.alias, u.email, UNIX_TIMESTAMP(l.date) FROM log l, 
 		users u WHERE l.event_id = 3 AND u.id = l.user_id ORDER BY l.date DESC LIMIT 5";
 	$sth_last_logins = @mysql_query($sql_last_logins);
 	while ($row_last_logins = mysql_fetch_assoc($sth_last_logins)) {
@@ -192,7 +192,7 @@ EOT;
 				$row_last_logins['UNIX_TIMESTAMP(l.date)']); 
 		$string .= <<<EOT
 				<tr class="msgText">
-					<td>{$row_last_logins['alias']}</td>
+					<td nowrap="nowrap">{$row_last_logins['alias']} #{$row_last_logins['id']} </td>
 					<td width="100%">{$time}</td>
 				</tr>
 EOT;
