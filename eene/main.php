@@ -232,7 +232,7 @@ list($more_msgs, $next_sub_with_msgs) = _nextSubWithMsgs($_SESSION['id']);
 if (_areMoreMsgs($_SESSION['sub'], $low_pointer, $order)) {
 	if (isset($req['newscan'])) {
 ?>
-<a href="main.php?newscan=true&sub=<?= $_SESSION['sub'] ?>" >
+<a href="main.php?nojump=true&newscan=true&sub=<?= $_SESSION['sub'] ?>" >
 <?php
 	} else {
 ?>
