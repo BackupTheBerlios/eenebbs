@@ -63,8 +63,12 @@ $sth_most_efficient = @mysql_query($sql_most_efficient);
 $row_most_efficient = @mysql_fetch_assoc($sth_most_efficient);
 $most_efficient = $row_most_efficient['alias'];
 
-$sql_lurker = "SELECT s.posts / s.logins AS pcratio, u.alias FROM stats s, users u 
-		WHERE u.id = s.user_id AND s.posts > 0 AND s.logins > 1 AND u.sl <> 255 ORDER BY pcratio LIMIT 1";
+$sql_lurker = "SELECT sum( p.message_id )  / s.posts AS readratio, u.alias
+FROM pointers p, users u, stats s
+WHERE p.user_id = u.id AND p.user_id = s.user_id AND s.posts > 0 AND u.sl <> 255
+GROUP  BY p.user_id
+ORDER  BY readratio DESC 
+LIMIT 1 ";
 $sth_lurker = @mysql_query($sql_lurker);
 $row_lurker = @mysql_fetch_assoc($sth_lurker);
 $lurker = $row_lurker['alias'];
