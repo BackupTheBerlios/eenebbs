@@ -11,16 +11,17 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link href="default.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body>
+<body class="main">
 <p>here you can edit some user prefs and user info.</p>
 <p>YOUR user INFO:</p>
 <?php
 
-$sql_get_user_info = "SELECT location, email, avatar, site FROM users WHERE id = " . $_SESSION['id'];
-$sth_get_user_info = mysql_query($sql_get_user_info);
-$row_user_info = mysql_fetch_assoc($sth_get_user_info);
+$sql_get_user_info = "SELECT location, email, site FROM users WHERE id = " . $_SESSION['id'];
+$sth_get_user_info = @mysql_query($sql_get_user_info);
+$row_user_info = @mysql_fetch_assoc($sth_get_user_info);
 ?>
 <form action="prefs_validate.php" method="post">
 <table border="0">
@@ -33,12 +34,8 @@ $row_user_info = mysql_fetch_assoc($sth_get_user_info);
 		<td><input name="email" type="text" id="email" value="<?= $row_user_info['email'] ?>" /></td>
 	</tr>
 	<tr>
-		<td>Avatar (to be displayed with posts)</td>
-		<td><input name="avatar" type="text" id="avatar" value="<?= $row_user_info['avatar'] ?>" /></td>
-	</tr>
-	<tr>
 		<td>Website (public)</td>
-		<td><input name="site" type="text" id="site" value="<?= $row_user_info['site'] ?>" /></td>
+		<td>http://<input name="site" type="text" id="site" value="<?= $row_user_info['site'] ?>" /></td>
 	</tr>
 </table>
 <p>Now some DEFAULTS:</p>
@@ -69,7 +66,7 @@ while ($row_prefs = mysql_fetch_assoc($sth_get_prefs)) {
 			<td><select name="p<?= $row_prefs['id'] ?>">
 					<?php
 			while ($row_get_enum = mysql_fetch_assoc($sth_get_enum)) {
-				if (isset($user_prefs[$row_prefs['id']]) and $user_prefs[$row_prefs['id']] == $row_get_enum['opt']) {
+				if (isset($user_prefs[$row_prefs['id']]) and $user_prefs[$row_prefs['id']] == $row_get_enum['id']) {
 ?><option value="<?= $row_get_enum['id'] ?>" selected="selected"><?php
 				} else {
 ?><option value="<?= $row_get_enum['id'] ?>"><?php } ?><?= $row_get_enum['opt']; ?></option>
@@ -92,6 +89,7 @@ while ($row_prefs = mysql_fetch_assoc($sth_get_prefs)) {
 	</tr>
 <?php
 }
+
 ?>
 </table><br />
 	<input type="submit" name="Submit" value="chang prefz" />
