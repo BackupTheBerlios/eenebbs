@@ -16,7 +16,7 @@ if (isset($_GET['error']) and $_GET['error'] == 'You are now logged out.') {
 	unset($_SESSION['sl']);	
 } else if (isset($_SESSION['id'])) {
 	header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
-			"/main_frames.php?login=true&sub=1");
+			"/main_frames.php?login=true&newscan=true&sub=1");
 }
 
 $sql_get_motto = "SELECT motto FROM mottos ORDER BY RAND() LIMIT 1";
