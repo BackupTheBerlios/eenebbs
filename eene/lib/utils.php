@@ -95,8 +95,8 @@ function getAutomessage() {
 	<tr>
 		<td class="bgTable">
 			<table width="100%" cellpadding="4" cellspacing="1">
-				<tr class="msgTitle"> 
-					<td>Automessage by #{$row['id']} <strong>
+				<tr> 
+					<td class="msgTitle">Automessage by #{$row['id']} <strong>
 EOT;
 		$automess .= ($row['email'] != '') ? 
 				"<a href=\"mailto:{$row['email']}\">{$row['alias']}</a>" : 
@@ -104,8 +104,8 @@ $row['alias'];
 		$automess .= <<<EOT
 </strong> on {$date}</td>
 				</tr>
-				<tr class="msgText"> 
-					<td>
+				<tr> 
+					<td class="msgText">
 						{$row['automessage']}
 					</td>
 				</tr>
@@ -138,40 +138,6 @@ function getUserPrefs($id, $pref = null) {
 	return $user_prefs;
 }
 
-function getSubs() {
-	$sql_get_subs = "SELECT * FROM subs ORDER BY id";
-	return @mysql_query($sql_get_subs);
-}
-
-function getPointer($sub_id, $user_id) {
-	$sql_get_pointers = "SELECT message_id FROM pointers WHERE user_id = " . $user_id . 
-			" AND sub_id = " . $sub_id;
-	$sth_get_pointers = @mysql_query($sql_get_pointers);
-	$row_get_pointers = @mysql_fetch_assoc($sth_get_pointers);
-	return $row_get_pointers['message_id'];
-}
-
-function getNewMessages($sub_id, $pointer = null) {
-	$max = 15;
-	if (!$pointer) $pointer = 0;
-	$sql_get_new_msgs = "SELECT m.id, m.message, t.tagline, UNIX_TIMESTAMP(m.date), u.alias, u.id as user_id, u.email FROM messages m,
-			users u LEFT JOIN taglines t ON t.id = m.tag_id WHERE m.sub_id = " . $sub_id . " AND m.id >= " . $pointer . " AND u.id = m.user_id ORDER BY id LIMIT 15";
-	return @mysql_query($sql_get_new_msgs);
-}
-
-function getMessages($sub_id, $descending = null) {
-	$sql_get_msgs = "SELECT m.id, m.message, t.tagline, UNIX_TIMESTAMP(m.date), u.alias, u.id as user_id, u.email FROM messages m, users u LEFT JOIN taglines t ON t.id = m.tag_id WHERE u.id = m.user_id AND m.sub_id = " . $_SESSION['sub'] . " ORDER BY m.id " ;
-	if ($descending) 
-		$sql_get_msgs .= 'DESC';
-	return @mysql_query($sql_get_msgs);
-}
-
-function setPointer($sub_id, $user_id, $pointer) {
-	$sql_set_ptr = "UPDATE pointers SET message_id = " . $pointer . " WHERE user_id = " . $user_id .
-				" AND sub_id = " . $sub_id;
-	return @mysql_query($sql_set_ptr);
-}
-
 function getLastUsers() {
 	$string = <<<EOT
 <p><strong>Last 5 users:</strong></p>
@@ -179,9 +145,9 @@ function getLastUsers() {
 	<tr>
 		<td class="bgTable">
 			<table cellpadding="4" cellspacing="1" width="100%">
-				<tr class="msgTitle"> 
-					<td>User</td>
-					<td>Time</td>
+				<tr> 
+					<td class="msgTitle">User</td>
+					<td class="msgTitle">Time</td>
 				</tr>
 EOT;
 	$sql_last_logins = "SELECT u.id, u.alias, u.email, UNIX_TIMESTAMP(l.date) FROM log l, 
@@ -191,9 +157,9 @@ EOT;
 		$time = date("F j, Y, g:i a", 
 				$row_last_logins['UNIX_TIMESTAMP(l.date)']); 
 		$string .= <<<EOT
-				<tr class="msgText">
-					<td nowrap="nowrap">{$row_last_logins['alias']} #{$row_last_logins['id']} </td>
-					<td width="100%">{$time}</td>
+				<tr>
+					<td class="msgTable" nowrap="nowrap">{$row_last_logins['alias']} #{$row_last_logins['id']} </td>
+					<td class="msgTable" width="100%">{$time}</td>
 				</tr>
 EOT;
 	}
@@ -206,49 +172,28 @@ EOT;
 	return $string;
 }
 
-function displayMessage($message, $anonymous = null) {
-	$message['message'] = ereg_replace("(\r\n|\n|\r)", "<br>", $message['message']);
-?> 
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td class="bgTable">
-			<table width="100%" cellpadding="4" cellspacing="1">
-				<tr class="msgTitle"> 
-					<td>From #<?= $message['user_id'] ?> <strong> 
-						<?php
-	if ($anonymous == 'Y') {
-?>
-						Anonymous 
-						<?php
-	} else if (isset($message['email']) and $message['email'] != '') {
-?>
-						<a href="<?= $message['email'] ?>">
-						<?= $message['alias'] ?>
-						</a> 
-						<?php
-	} else {
-?>
-						<?= $message['alias'] ?>
-						<?php
-	}	
-?>
-						</strong> on 
-						<?= date("F j, Y, g:i a", $message['UNIX_TIMESTAMP(m.date)']) ?>
-						:</td>
-				</tr>
-				<tr class="msgText"> 
-					<td>
-						<?= $message['message'] ?>
-<?php
-						if (isset($message['tagline'])) {
-?>
-						<br /><br /><span class="tagline">-- <br /><?= $message['tagline'] ?>
-<?php } ?>
-					</td>
-				</tr>
-			</table></td>
-	</tr>
-</table>
-<?php
+function displayErrors(){
+	$error = '';
+	$success = '';
+	if (isset($_SESSION['error'])) {
+		$error = $_SESSION['error'];
+	} else if (isset($_GET['error'])) {
+		$error = $_GET['error'];
+	}
+	if (isset($_SESSION['success'])) {
+		$success = $_SESSION['success'];
+	} else if (isset($_GET['success'])) {
+		$success = $_GET['success'];
+	}
+	if ($success != '') {
+		$_SESSION['success'] = null;
+		unset($_SESSION['success']);
+		echo "<p class=\"success\">" . $success . "</p>";
+	}
+	if ($error != '') {
+		$_SESSION['error'] = null;
+		unset($_SESSION['error']);
+		echo "<p class=\"error\">" . $error . "</p>";
+	}
 }
 ?>
