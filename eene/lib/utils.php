@@ -149,13 +149,8 @@ function getMessages($sub_id, $descending = null) {
 }
 
 function setPointer($sub_id, $user_id, $pointer) {
-	if (getPointer($sub_id, $user_id) > 0) {
-		$sql_set_ptr = "UPDATE pointers SET message_id = " . $pointer . " WHERE user_id = " . $user_id .
+	$sql_set_ptr = "UPDATE pointers SET message_id = " . $pointer . " WHERE user_id = " . $user_id .
 				" AND sub_id = " . $sub_id;
-	} else {
-		$sql_set_ptr = "INSERT INTO pointers (user_id, sub_id, message_id) VALUES (" . $user_id . ", " . 
-				$sub_id . ", " . $pointer . ")";
-	}
 	return @mysql_query($sql_set_ptr);
 }
 
