@@ -236,7 +236,7 @@ if (_areMoreMsgs($_SESSION['sub'], $low_pointer, $order)) {
 <?php
 	} else {
 ?>
-<a href="main.php?order=<?= $order ?>&sub=<?= $_SESSION['sub'] ?>&pointer=<?= $low_pointer ?>" >
+<a href="main.php?nojump=true&order=<?= $order ?>&sub=<?= $_SESSION['sub'] ?>&pointer=<?= $low_pointer ?>" >
 <?php
 	}
 ?>
