@@ -18,6 +18,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">";
 </head>
 
 <body class="main">
+<?php displayErrors(); ?>
 <p><a href="main.php">back to main</a> / <a href="voting_booth.php">back to voting 
 	booth</a> </p>
 <p>ok. you know how this works.</p>
