@@ -6,6 +6,25 @@ require_once 'lib/utils.php';
 session_start();
 authenticate();
 
+define('MSGS_PER_PAGE', 20);
+
+function _areMoreMsgs($sub_id, $pointer, $order) {
+	if ($order == 'desc') {	
+		$sql_are_more = "SELECT COUNT(id) FROM messages WHERE sub_id = " . $sub_id . " AND id < " . $pointer;
+		$sth_are_more = mysql_query($sql_are_more);
+		$row_are_more = mysql_fetch_assoc($sth_are_more);
+		if ($row_are_more['COUNT(id)'] > 0)
+			return true;
+	} else {
+		$sql_are_more = "SELECT COUNT(id) FROM messages WHERE sub_id = " . $sub_id . " AND id > " . $pointer;
+		$sth_are_more = mysql_query($sql_are_more);
+		$row_are_more = mysql_fetch_assoc($sth_are_more);
+		if ($row_are_more['COUNT(id)'] > 0)
+			return true;
+	}		
+	return false;
+}
+
 function _setPointer($sub_id, $user_id, $pointer) {
 	$sql_set_ptr = "UPDATE pointers SET message_id = " . $pointer . " WHERE user_id = " . $user_id .
 				" AND sub_id = " . $sub_id;
@@ -68,28 +87,39 @@ function _displayMessage($message, $anonymous = null) {
 <?php
 }
 
-function _loopMsgs($sth_msgs, $pointer = null, $anonymous = null) {
-	if (!$pointer) $pointer = 0;
+function _loopMsgs($sth_msgs, $high_pointer = null, $anonymous = null) {
+	if (!$high_pointer) $high_pointer = 0;
+	$low_pointer = $high_pointer;
 	while ($row_msgs = @mysql_fetch_assoc($sth_msgs)) {
 		_displayMessage($row_msgs, $anonymous);
 		echo "<tr><td>&nbsp;</td></tr>";
-		$pointer = $row_msgs['id'];
+		$high_pointer = ($row_msgs['id'] > $high_pointer) ? $row_msgs['id'] : $high_pointer;
+		$low_pointer = $row_msgs['id'];
 	}	
-	return $pointer;
+	return array($high_pointer, $low_pointer);
 }
 
 function _getNewMessages($sub_id, $pointer = null) {
-	$max = 15;
 	if (!$pointer) $pointer = 0;
 	$sql_get_new_msgs = "SELECT m.id, m.message, t.tagline, UNIX_TIMESTAMP(m.date), u.alias, u.id as user_id, u.email FROM messages m,
-			users u LEFT JOIN taglines t ON t.id = m.tag_id WHERE m.sub_id = " . $sub_id . " AND m.id >= " . $pointer . " AND u.id = m.user_id ORDER BY id LIMIT 15";
+			users u LEFT JOIN taglines t ON t.id = m.tag_id WHERE m.sub_id = " . $sub_id . " AND m.id >= " . $pointer . " AND u.id = m.user_id ORDER BY id LIMIT " . MSGS_PER_PAGE;
 	return @mysql_query($sql_get_new_msgs);
 }
 
-function _getMessages($sub_id, $descending = null) {
-	$sql_get_msgs = "SELECT m.id, m.message, t.tagline, UNIX_TIMESTAMP(m.date), u.alias, u.id as user_id, u.email FROM messages m, users u LEFT JOIN taglines t ON t.id = m.tag_id WHERE u.id = m.user_id AND m.sub_id = " . $_SESSION['sub'] . " ORDER BY m.id " ;
-	if ($descending) 
-		$sql_get_msgs .= 'DESC';
+function _getMessages($sub_id, $descending = null, $pointer = null) {
+	$sql_get_msgs = "SELECT m.id, m.message, t.tagline, UNIX_TIMESTAMP(m.date), u.alias, u.id as user_id, u.email FROM messages m, users u LEFT JOIN taglines t ON t.id = m.tag_id WHERE u.id = m.user_id AND m.sub_id = " . $_SESSION['sub'];
+	if ($pointer) {
+		if ($descending)  
+			$sql_get_msgs .= ' AND m.id <= ' . $pointer . ' ORDER BY m.id DESC ';
+		else
+			$sql_get_msgs .= ' AND m.id >= ' . $pointer . ' ORDER BY m.id ASC ';
+	} else {
+		if ($descending) 
+			$sql_get_msgs .= ' ORDER BY m.id DESC ';
+		else
+			$sql_get_msgs .= ' ORDER BY m.id ASC ';
+	}
+	$sql_get_msgs .= 'LIMIT ' . MSGS_PER_PAGE;
 	return @mysql_query($sql_get_msgs);
 }
 
@@ -103,12 +133,23 @@ function _getPointer($sub_id, $user_id) {
 
 function _getNextSub() {
 	$sql_get_next = "SELECT id FROM subs WHERE id > " . $_SESSION['sub'] .  " ORDER BY id ASC LIMIT 1";
-	if ($sth_get_next = @mysql_query($sql_get_next) and @mysql_num_rows($sth_get_next) > 0) {
+	if ($sth_get_next = @mysql_query($sql_get_next) and @mysql_num_rows($sth_get_next) > 0)
 		$row_get_next = @mysql_fetch_assoc($sth_get_next);
-	} else {
+	else 
 		$row_get_next['id'] = 1;
-	}	
 	return $row_get_next['id'];
+}
+
+function _getPrevSub() {
+	$sql_get_prev = "SELECT id FROM subs WHERE id < " . $_SESSION['sub'] . " ORDER BY id ASC LIMIT 1";
+	if ($sth_get_prev = mysql_query($sql_get_prev) and mysql_num_rows($sth_get_prev) > 0) {
+		$row_get_prev = mysql_fetch_assoc($sth_get_prev);
+	} else {
+		$sql_get_prev = "SELECT id FROM subs ORDER BY id DESC LIMIT 1";
+		$sth_get_prev = mysql_query($sql_get_prev);
+		$row_get_prev = mysql_fetch_assoc($sth_get_prev);
+	}
+	return $row_get_prev['id'];
 }
 
 foreach ($_GET as $name => $value) 
@@ -160,46 +201,85 @@ if (isset($req['login'])) {
 	if (isset($req['login'])) 
 		echo "<p><strong>Beginning Newscan:</strong></p>";
 }
+
+$order = (isset($req['order'])) ? $req['order'] : 'asc';
+
 ?>
-<p class="subName"><?= $sub_name ?></p>
+<p class="subName"><?= $sub_name ?> <span class="eene">
+<?php
+if (!isset($req['newscan'])) {
+	if ($order and $order == 'desc') {
+?>
+		(reading backwards)
+<?php
+	} else {
+?>
+		(reading forwards)
+<?php
+	}
+}
+?>
+</p>
 <table class="msgTable">
 <?php
 		
+$next_sub = _getNextSub();
+$prev_sub = _getPrevSub();
 
-if (isset($req['sub']) or isset($_SESSION['sub'])) {
-	$pointer = _getPointer($_SESSION['sub'], $_SESSION['id']);
-	if (isset($req['newscan'])) {
-		$sth_msgs = _getNewMessages($_SESSION['sub'], $pointer);
-		$new_pointer = _loopMsgs($sth_msgs, $pointer, $anonymous);
-	} elseif (isset($req['order']) and $req['order'] == 'desc') {
-		$sth_msgs = _getMessages($_SESSION['sub'], true);
-		$new_pointer = _loopMsgs($sth_msgs, null, $anonymous);
-	} else {
-		$sth_msgs = _getMessages($_SESSION['sub']);
-		$new_pointer = _loopMsgs($sth_msgs, null, $anonymous);
-	}
-	if ($new_pointer > $pointer)
-		_setPointer($_SESSION['sub'], $_SESSION['id'], $new_pointer);
+$pointer = _getPointer($_SESSION['sub'], $_SESSION['id']);
+$passed_pointer = (isset($req['pointer'])) ? $req['pointer'] : null;
+
+if (isset($req['newscan'])) {
+	$sth_msgs = _getNewMessages($_SESSION['sub'], $pointer);
+	list($new_pointer, $low_pointer) = _loopMsgs($sth_msgs, $pointer, $anonymous);
+} elseif ($order and $order == 'desc') {
+	$sth_msgs = _getMessages($_SESSION['sub'], true, $passed_pointer);
+	list($new_pointer, $low_pointer) = _loopMsgs($sth_msgs, $pointer, $anonymous);
+} else {
+	$sth_msgs = _getMessages($_SESSION['sub'], false, $passed_pointer);
+	list($new_pointer, $low_pointer) = _loopMsgs($sth_msgs, $pointer, $anonymous);
 }
+if ($new_pointer > $pointer)
+	_setPointer($_SESSION['sub'], $_SESSION['id'], $new_pointer);
+if (!$low_pointer)
+	$low_pointer = $new_pointer;
 
 ?>
 </table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td class="bgTable">
-			<table width="100%" border="0" cellpadding="4" cellspacing="1">
+			<table border="0" cellpadding="4" cellspacing="1">
 				<tr> 
-					<td colspan="4" class="navbarTable"><strong>
+					<td colspan="6" class="navbarTable"><strong>
 						<?= $sub_name ?></strong> (<?= _getNumMsgsInSub($_SESSION['sub']) ?> messages)</td>
 				</tr>
 				<tr> 
 					<td nowrap="nowrap" class="navbarTable"><a href="post.php?sub=<?= $_SESSION['sub'] ?>"><strong>Post 
 						a Message</strong></a></td>
 					<td nowrap="nowrap" class="navbarTable"><a href="main.php?order=asc">Read Forwards</a></td>
-					<td nowrap="nowrap" class="navbarTable"> <a href="main.php?order=desc">Read Backwards</a></td>
-					<td width="100%" class="navbarTable"><a href="post.php?sub=<?= $_SESSION['sub'] ?>"></a> 
-						<a href="main.php?newscan=true&sub=<?= _getNextSub() ?>"><strong>Newscan 
-						Next Sub</strong></a></td>
+					<td nowrap="nowrap" class="navbarTable"><a href="main.php?order=desc">Read Backwards</a></td>
+					<td nowrap="nowrap" class="navbarTable"><a href="main.php?sub=<?= $prev_sub ?>&order=desc" onclick="javascript:parent.rightFrame.location.reload(true);">Previous Sub</a></td>
+					<td nowrap="nowrap" class="navbarTable"><a href="main.php?sub=<?= $next_sub ?>&order=desc" onclick="javascript:parent.rightFrame.location.reload(true);">Next Sub</a></td>
+					<td nowrap="nowrap" class="navbarTable">
+<?php
+
+$more_msgs = _areMoreMsgs($_SESSION['sub'], $low_pointer, $order);
+if ($more_msgs and isset($req['newscan'])) {
+?>
+						<a href="main.php?newscan=true&sub=<?= $_SESSION['sub'] ?>" onclick="javascript:parent.rightFrame.location.reload(true);"><strong>Read More...</strong></a>
+<?php
+} else if ($more_msgs) {
+?>
+						<a href="main.php?sub=<?= $_SESSION['sub'] ?>&pointer=<?= $low_pointer ?>&order=<?= $order ?>" onclick="javascript:parent.rightFrame.location.reload(true);"><strong>Read More...</strong></a>
+<?php
+}	else {	
+?>				
+						<a href="main.php?newscan=true&sub=<?= $next_sub ?>" onclick="javascript:parent.rightFrame.location.reload(true);"><strong>Newscan Next Sub</strong></a>
+<?php
+} 
+?>
+					</td>
 				</tr>
 				<?php
 if ($_SESSION['sl'] == SYSOP_SL) {
