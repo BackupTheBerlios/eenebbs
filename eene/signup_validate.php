@@ -40,7 +40,15 @@ $sql_insert_user = "INSERT INTO users (alias, password, location, email, sl, sit
 		VALUES ('" . $req['alias'] . "','" . $req['password'] .  "','" . $req['location'] .  
 		"','" . $req['email'] .  "'," . DEFAULT_SL . ",'" . $req['site'] .  "')";
 
-@mysql_query($sql_insert_user);
+$my_success = @mysql_query($sql_insert_user);
+
+if (!$my_success) {
+	$_SESSION['error'] = 'Database error.';
+	header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) .
+			"/signup.php"); 
+	exit;
+}
+
 $user_id = getUserID($req['alias']);
 
 # add user to 'stats' table
@@ -66,10 +74,27 @@ while ($row_get_subs = mysql_fetch_assoc($sth_get_subs)) {
 $sql_insert_ptrs = rtrim($sql_insert_ptrs);
 $sql_insert_ptrs = substr($sql_insert_ptrs, 0, -1); 
 
-@mysql_query($sql_insert_stats);
-@mysql_query($sql_insert_prefs);
-@mysql_query($sql_insert_ptrs);
-
+$my_success = @mysql_query($sql_insert_stats);
+if (!$my_success) {
+	$_SESSION['error'] = 'Database error.';
+	header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) .
+			"/signup.php"); 
+	exit;
+}
+$my_success = @mysql_query($sql_insert_prefs);
+if (!$my_success) {
+	$_SESSION['error'] = 'Database error.';
+	header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) .
+			"/signup.php"); 
+	exit;
+}
+$my_success = @mysql_query($sql_insert_ptrs);
+if (!$my_success) {
+	$_SESSION['error'] = 'Database error.';
+	header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) .
+			"/signup.php"); 
+	exit;
+}
 myLog('NEWUSER', $_SESSION['id']);
 myLog('LOGIN', $_SESSION['id']);
 
