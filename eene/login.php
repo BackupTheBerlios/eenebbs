@@ -10,11 +10,14 @@ foreach ($_POST as $name => $value)
 	
 /* if $req['new'] is set then we should have some session vars.
 */
-if (isset($_SESSION['alias']) and isset($_SESSION['logged_in']) and !isset($req['alias']) and !isset($req['password'])) {		
+if (isset($_SESSION['alias']) and isset($_SESSION['logged_in']) and 
+		!isset($req['alias']) and !isset($req['password'])) {		
 	if (isset($_GET['new']))
-		header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/main_frames.php?new=true&newscan=true");
+		header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
+				"/main_frames.php?login=true&new=true");
 	else 
-		header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/main_frames.php?newscan=true");
+		header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
+				"/main_frames.php?login=true");
 	exit;
 }
 /* otherwise ... 
@@ -22,11 +25,13 @@ if (isset($_SESSION['alias']) and isset($_SESSION['logged_in']) and !isset($req[
 
 if (!isset($req['alias']) or !isset($req['password'])) {
 	myLog('BADPW', getUserID($req['alias']), $req['password']);
-	header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "?baduserpass=true");
+	header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
+			"?baduserpass=true");
   exit;
 }
 
-$sql_check_password = "SELECT id, password, sl FROM users WHERE alias = '" . $req['alias'] . "'";
+$sql_check_password = "SELECT id, password, sl FROM users WHERE alias = '" . 
+		$req['alias'] . "'";
 $sth_check_password = @mysql_query($sql_check_password);
 if ($sth_check_password) {
 	$row = @mysql_fetch_assoc($sth_check_password);
@@ -38,16 +43,19 @@ if ($sth_check_password) {
 		$_SESSION['sub'] = 1;
 		incrementStat($row['id'], 'logins');
 		myLog('LOGIN', $row['id']);
-		header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/main_frames.php?login=true&newscan=true");
+		header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
+				"/main_frames.php?login=true&newscan=true");
 		exit;
 	} else {
 		myLog('BADPW', getUserID($req['alias']), $req['password']);
-		header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "?baduserpass=true");
+		header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
+				"?baduserpass=true");
 		exit;
 	}
 } 
 
 myLog('BADPW', getUserID($req['alias']), $req['password']);
-header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "?baduserpass=true");
+header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
+		"?baduserpass=true");
 
 ?>
