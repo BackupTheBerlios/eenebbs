@@ -257,7 +257,7 @@ if (!$more_msgs and isset($req['newscan'])
 						<?= $sub_name ?></strong> (<?= _getNumMsgsInSub($_SESSION['sub']) ?> messages)</td>
 				</tr>
 				<tr> 
-					<td nowrap="nowrap" class="navbarTable"><a href="post.php?sub=<?= $_SESSION['sub'] ?>"><strong>Post 
+					<td nowrap="nowrap" class="navbarTable"><a href="post.php"><strong>Post 
 						a Message</strong></a></td>
 					<td nowrap="nowrap" class="navbarTable"><a href="main.php?order=asc">Read Forwards</a></td>
 					<td nowrap="nowrap" class="navbarTable"><a href="main.php?order=desc">Read Backwards</a></td>
