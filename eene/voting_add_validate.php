@@ -9,6 +9,14 @@ authenticate();
 foreach ($_POST as $name => $value) 
 	$req[$name] = trim(clean($value, 255));
 	
+if (!$req['topic'] or $req['topic'] == '') {
+	$_SESSION['error'] = "Add topic failed.";
+	header("Location: http://" . $_SERVER['HTTP_HOST'] . 	
+			dirname($_SERVER['PHP_SELF']) . "/voting_booth.php" );
+	exit;
+
+}
+
 $sql_add_topic = "INSERT INTO voting_topics (name, date) VALUES ('" . $req['topic'] . "', NOW())";
 if (!@mysql_query($sql_add_topic)) {
 	$_SESSION['error'] = "Add topic failed.";
