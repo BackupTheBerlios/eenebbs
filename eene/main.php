@@ -38,7 +38,7 @@ function _displayMessage($message, $anonymous = null) {
 						<?php
 	} else if (isset($message['email']) and $message['email'] != '') {
 ?>
-						<a href="<?= $message['email'] ?>">
+						<a href="mailto:<?= $message['email'] ?>">
 						<?= $message['alias'] ?></a>  #<?= $message['user_id'] ?>
 						
 						<?php
