@@ -142,7 +142,7 @@ function getLastUsers() {
 				</tr>
 EOT;
 	$sql_last_logins = "SELECT u.id, u.alias, u.email, UNIX_TIMESTAMP(l.date) FROM log l, 
-		users u WHERE l.event_id = 3 AND u.id = l.user_id ORDER BY l.date DESC LIMIT 5";
+		users u WHERE l.event_id = 3 AND u.id = l.user_id AND u.sl <> 255 ORDER BY l.date DESC LIMIT 5";
 	$sth_last_logins = @mysql_query($sql_last_logins);
 	while ($row_last_logins = @mysql_fetch_assoc($sth_last_logins)) {
 		$time = date("F j, Y, g:i a", 
