@@ -51,8 +51,8 @@ function debug($var) {
 @mysql_pconnect('localhost', DB_USERNAME, DB_PASSWORD) or die (mysql_error());
 @mysql_select_db(DB_NAME) or die (mysql_error());
 
-function getUserID($alias) {
-	$sql_id = "SELECT id FROM users WHERE alias = '" . $alias . "'";
+function getUserID($my_alias) {
+	$sql_id = "SELECT id FROM users WHERE alias = '" . $my_alias . "'";
 	$sth_id = @mysql_query($sql_id);
 	$row = mysql_fetch_assoc($sth_id);
 	return $row['id'];
