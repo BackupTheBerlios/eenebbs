@@ -55,7 +55,7 @@ function jumpSub() {
 					</tr>
 					<tr> 
 						<td nowrap="nowrap" class="navbarTable"> Jump to Sub:<br /> 
-							<select name="sub" size="8" class="navBarJump" onchange="javascript:jumpSub();">
+							<select name="sub" size="6" class="navBarJump" onchange="javascript:jumpSub();">
 								<?php
 $sth_get_subs = _getSubs();
 while ($row_get_subs = @mysql_fetch_assoc($sth_get_subs)) {
