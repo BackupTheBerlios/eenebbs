@@ -16,12 +16,12 @@ if (isset($req['sub'])) {
 	$sql_get_sub_id = "SELECT id FROM subs WHERE name = '" . $req['sub'] . "'";
 	$sth_get_sub_id = @mysql_query($sql_get_sub_id);
 	$row_get_sub_id = @mysql_fetch_assoc($sth_get_sub_id);
-	$id = $row_get_sub_id['id'];
+	$sub_id = $row_get_sub_id['id'];
 	$sql_get_users = "SELECT id FROM users";
 	$sth_get_users = @mysql_query($sql_get_users);
 	$sql_insert_ptrs = "INSERT INTO pointers (user_id, sub_id) VALUES ";
 	while ($row_get_users = @mysql_fetch_assoc($sth_get_users)) {
-		$sql_insert_ptrs .= "(" . $row_get_users['id'] . "," . $id . "), ";
+		$sql_insert_ptrs .= "(" . $row_get_users['id'] . "," . $sub_id . "), ";
 	}
 	$sql_insert_ptrs = rtrim($sql_insert_ptrs);
 	$sql_insert_ptrs = substr($sql_insert_ptrs, 0, -1);
