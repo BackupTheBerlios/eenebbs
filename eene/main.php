@@ -54,38 +54,23 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 </head>
 
-<body class="text">
+<body class="main">
 <?php 
 if (isset($req['login'])) {
+
 	if (isset($req['new']))
-		echo "<p>you are a n00b.</p>";
-	if (getUserPrefs($_SESSION['id'], 'DISP_LASTUSERS')) {
-?>
-<hr noshade>
-<p>Last 5 users:</p>
-<ul>
-<?php
-
-		$sql_last_logins = "SELECT u.alias, UNIX_TIMESTAMP(l.date) FROM log l, 
-			users u WHERE l.event_id = 3 AND u.id = l.user_id ORDER BY l.date DESC LIMIT 5";
-		$sth_last_logins = @mysql_query($sql_last_logins);
+		echo "<p>{$_SESSION['alias']}, you are a n00b.</p>";
+	else
+		echo "<p>Hello again, <strong>{$_SESSION['alias']}</strong>.</p>";
 		
-		while ($row_last_logins = mysql_fetch_assoc($sth_last_logins)) {
-			$time = date("F j, Y, g:i a", $row_last_logins['UNIX_TIMESTAMP(l.date)']); 
-?>
-	<li><?= $row_last_logins['alias'] ?> : <?= $time ?></li>
-<?php
-		}
-?>
-</ul>
-<?php
-	}
+	if (getUserPrefs($_SESSION['id'], 'DISP_LASTUSERS')) 
+		echo getLastUsers();
 
-	if (getUserPrefs($_SESSION['id'], 'DISP_AUTOMESS')) {
-		echo "<hr noshade>";
+	if (getUserPrefs($_SESSION['id'], 'DISP_AUTOMESS'))
 		echo getAutomessage();	
-		echo "<hr noshade>";
-	}
+
+	if (isset($req['login'])) 
+		echo "<p><strong>Beginning Newscan:</strong></p>";
 }
 ?>
 <p class="subName">/ <?= $sub ?> /</p>
@@ -111,7 +96,8 @@ if (isset($req['sub'])) {
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td bgcolor="#BBBBBB"><table width="100%" border="0" cellpadding="4" cellspacing="1">
+		<td class="bgTable">
+			<table width="100%" border="0" cellpadding="4" cellspacing="1">
 				<tr> 
 					<td class="navbarTable"><strong> / 
 						<?= $sub ?>
