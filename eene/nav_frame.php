@@ -42,7 +42,7 @@ function jumpSub() {
 							Next Sub</strong></a></td>
 					</tr>
 					<tr> 
-						<td nowrap="nowrap" class="navbarTable"><strong><a href="post.php?sub=<?= $_SESSION['sub'] ?>" target="mainFrame">Post 
+						<td nowrap="nowrap" class="navbarTable"><strong><a href="post.php" target="mainFrame">Post 
 							a Message</a></strong></td>
 					</tr>
 					<tr> 
