@@ -22,7 +22,7 @@ if (isset($req['new'])) {
 	}
 } else if (isset($req['set'])) {
 	if (isset($req['display'])) {
-		$sql_set_pref = "UPDATE user_preferences SET user_id = " $_SESSION['id'] . ", pref_id = 5, value = " . $req['display'];
+		$sql_set_pref = "UPDATE user_preferences SET user_id = " . $_SESSION['id'] . ", pref_id = 5, value = " . $req['display'];
 		header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/tagline.php?success=" . mysql_query($sql_set_pref));
 	} else {
 		header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/tagline.php?success=false");
