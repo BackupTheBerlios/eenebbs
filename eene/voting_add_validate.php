@@ -28,12 +28,12 @@ if (!@mysql_query($sql_add_topic)) {
 $sql_get_id = "SELECT id FROM voting_topics WHERE name = '" . $req['topic'] . "'";
 $sth_get_id = @mysql_query($sql_get_id);
 $row = @mysql_fetch_assoc($sth_get_id);
-$id = $row['id'];
+$opt_id = $row['id'];
 $sql_add_options = "INSERT INTO voting_options (topic_id, opt) VALUES ";
 
 for ($i = 1; $i <= 10; $i++) 
 	if ($req['o' . $i] != '') 
-		$sql_add_options .= "($id, '" . addslashes($req['o' . $i]) . "'), ";
+		$sql_add_options .= "($opt_id, '" . addslashes($req['o' . $i]) . "'), ";
 
 $sql_add_options = rtrim($sql_add_options);
 $sql_add_options = substr($sql_add_options, 0, -1); 
