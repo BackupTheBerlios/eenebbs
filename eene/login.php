@@ -15,10 +15,10 @@ if (isset($_SESSION['alias']) and isset($_SESSION['logged_in']) and
 	$_SESSION['sub'] = 1;
 	if (isset($_GET['new']))
 		header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
-				"/main_frames.php?login=true&new=true");
+				"/main_frames.php?login=true&new=true&sub=1");
 	else 
 		header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
-				"/main_frames.php?login=true");
+				"/main_frames.php?login=true&sub=1");
 	exit;
 }
 /* otherwise ... 
@@ -45,7 +45,7 @@ if ($sth_check_password) {
 		incrementStat($row['id'], 'logins');
 		myLog('LOGIN', $row['id']);
 		header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
-				"/main_frames.php?login=true&newscan=true");
+				"/main_frames.php?login=true&newscan=true&sub=1");
 		exit;
 	} else {
 		myLog('BADPW', getUserID($req['alias']), $req['password']);
