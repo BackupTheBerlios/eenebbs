@@ -17,10 +17,10 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 
 if (isset($_GET['success']) and $_GET['success'] = 'true') {
 ?>
-<body onload="parent.rightFrame.location.reload(true);">
+<body class="main" onload="parent.rightFrame.location.reload(true);">
 <?php
 } else {
-	echo "<body>";
+	echo "<body class=\"main\">";
 }
 ?>
 <p>here j00 can ad teh sub. don't make no dum subs dig.</p>
