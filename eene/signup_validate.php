@@ -33,18 +33,17 @@ if ($req['password'] != $req['password2']) {
 $req['password'] = md5(crypt($req['password'], substr($req['alias'], 0, 2)));
 
 # add user to 'users' table
-$sql_insert_user = "INSERT INTO users (alias, password, location, email, avatar, sl, site) 
+$sql_insert_user = "INSERT INTO users (alias, password, location, email, sl, site) 
 		VALUES ('" . $req['alias'] . "','" . $req['password'] .  "','" . $req['location'] .  
-		"','" . $req['email'] .  "','" . $req['avatar'] . "'," . DEFAULT_SL . ",'" . $req['site'] .  "')";
+		"','" . $req['email'] .  "'," . DEFAULT_SL . ",'" . $req['site'] .  "')";
 
 @mysql_query($sql_insert_user);
+$id = getUserID($req['alias']);
 
 # add user to 'stats' table
 $sql_insert_stats = "INSERT INTO stats (user_id, logins, first_login, last_login) SELECT 
 		id AS user_id, 1 AS logins, NOW() AS first_login, NOW() AS last_login FROM users WHERE 
 		alias = '" . $req['alias'] . "'";
-
-$id = getUserID($req['alias']);
 
 $sql_get_all_prefs = "SELECT p.default, p.id FROM preferences p";
 $sth_get_all_prefs = @mysql_query($sql_get_all_prefs);
