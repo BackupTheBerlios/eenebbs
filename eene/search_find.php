@@ -43,7 +43,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <tr><td>In <strong><a href="main.php&pointer=<?= $messages[0]['id'] ?>&order=asc&sub=<?= $messages[0]['sub_id'] ?>"><?= $mysub ?></a></strong></td></tr>
 <?php
 		foreach ($messages as $message) {
-			_displayMessage($message, $message['anonymous']);
+			displayMessage($message, $message['anonymous']);
 			echo "<tr><td>&nbsp;</td></tr>";
 		} 
 	}
