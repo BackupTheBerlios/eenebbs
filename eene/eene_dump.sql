@@ -1,4 +1,4 @@
-# Tables dumped 2003-04-28 14:46:20 -0700
+# Tables dumped 2003-04-28 23:07:40 -0700
 # Created by CocoaMySQL (Copyright (c) 2002-2003 Lorenz Textor)
 #
 # Host: localhost   Database: eene
@@ -77,6 +77,7 @@ CREATE TABLE `messages` (
   `user_id` mediumint(9) unsigned NOT NULL default '0',
   `message` mediumtext NOT NULL,
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `tag_id` int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   FULLTEXT KEY `message` (`message`)
 ) TYPE=MyISAM;
@@ -143,9 +144,9 @@ CREATE TABLE `preferences` (
 
 INSERT INTO `preferences` (`id`,`descr`,`short_descr`,`default`,`type`) VALUES ("1","Display Automessage","DISP_AUTOMESS","1","bit");
 INSERT INTO `preferences` (`id`,`descr`,`short_descr`,`default`,`type`) VALUES ("2","Display Last Users?","DISP_LASTUSERS","1","bit");
-INSERT INTO `preferences` (`id`,`descr`,`short_descr`,`default`,`type`) VALUES ("3","Theme","THEME","5","enum");
-INSERT INTO `preferences` (`id`,`descr`,`short_descr`,`default`,`type`) VALUES ("4","Newscan Mode","NEWSCAN_MODE","7","enum");
-INSERT INTO `preferences` (`id`,`descr`,`short_descr`,`default`,`type`) VALUES ("5","Tagline Display Method","TAGLINES","10","enum");
+INSERT INTO `preferences` (`id`,`descr`,`short_descr`,`default`,`type`) VALUES ("3","Theme","THEME","1","enum");
+INSERT INTO `preferences` (`id`,`descr`,`short_descr`,`default`,`type`) VALUES ("4","Newscan Mode","NEWSCAN_MODE","3","enum");
+INSERT INTO `preferences` (`id`,`descr`,`short_descr`,`default`,`type`) VALUES ("5","Tagline Display Method","TAGLINES","5","enum");
 
 
 # Dump of table preferences_options
@@ -160,13 +161,13 @@ CREATE TABLE `preferences_options` (
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
-INSERT INTO `preferences_options` (`id`,`pref_id`,`opt`) VALUES ("6","3","Old School Theme");
-INSERT INTO `preferences_options` (`id`,`pref_id`,`opt`) VALUES ("5","3","Default Theme");
-INSERT INTO `preferences_options` (`id`,`pref_id`,`opt`) VALUES ("7","4","All Configured Subs");
-INSERT INTO `preferences_options` (`id`,`pref_id`,`opt`) VALUES ("8","4","Only Configured Subs w/New Messages");
-INSERT INTO `preferences_options` (`id`,`pref_id`,`opt`) VALUES ("12","5","Randomly");
-INSERT INTO `preferences_options` (`id`,`pref_id`,`opt`) VALUES ("10","5","Loop Through Them");
-INSERT INTO `preferences_options` (`id`,`pref_id`,`opt`) VALUES ("13","5","Do Not Display Taglines");
+INSERT INTO `preferences_options` (`id`,`pref_id`,`opt`) VALUES ("1","3","Old School Theme");
+INSERT INTO `preferences_options` (`id`,`pref_id`,`opt`) VALUES ("2","3","Default Theme");
+INSERT INTO `preferences_options` (`id`,`pref_id`,`opt`) VALUES ("3","4","All Configured Subs");
+INSERT INTO `preferences_options` (`id`,`pref_id`,`opt`) VALUES ("4","4","Only Configured Subs w/New Messages");
+INSERT INTO `preferences_options` (`id`,`pref_id`,`opt`) VALUES ("5","5","Randomly");
+INSERT INTO `preferences_options` (`id`,`pref_id`,`opt`) VALUES ("6","5","Loop Through Them");
+INSERT INTO `preferences_options` (`id`,`pref_id`,`opt`) VALUES ("7","5","Do Not Display Taglines");
 
 
 # Dump of table security_levels
@@ -267,6 +268,11 @@ CREATE TABLE `user_preferences` (
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
+INSERT INTO `user_preferences` (`user_id`,`id`,`pref_id`,`value`) VALUES ("24","80","5","5");
+INSERT INTO `user_preferences` (`user_id`,`id`,`pref_id`,`value`) VALUES ("24","79","5","5");
+INSERT INTO `user_preferences` (`user_id`,`id`,`pref_id`,`value`) VALUES ("24","78","5","5");
+INSERT INTO `user_preferences` (`user_id`,`id`,`pref_id`,`value`) VALUES ("24","77","5","5");
+INSERT INTO `user_preferences` (`user_id`,`id`,`pref_id`,`value`) VALUES ("24","76","5","5");
 
 
 # Dump of table users
@@ -283,6 +289,7 @@ CREATE TABLE `users` (
   `comment` varchar(255) default NULL,
   `sl` tinyint(4) unsigned NOT NULL default '0',
   `site` varchar(255) default NULL,
+  `last_tagline` int(11) unsigned default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `alias` (`alias`),
   KEY `password` (`password`)
