@@ -41,7 +41,7 @@ $sql_insert_user = "INSERT INTO users (alias, password, location, email, sl, sit
 		"','" . $req['email'] .  "'," . DEFAULT_SL . ",'" . $req['site'] .  "')";
 
 @mysql_query($sql_insert_user);
-$id = getUserID($req['alias']);
+$user_id = getUserID($req['alias']);
 
 # add user to 'stats' table
 $sql_insert_stats = "INSERT INTO stats (user_id, logins, first_login, last_login) SELECT 
@@ -52,7 +52,7 @@ $sql_get_all_prefs = "SELECT p.default, p.id FROM preferences p";
 $sth_get_all_prefs = @mysql_query($sql_get_all_prefs);
 $sql_insert_prefs = "INSERT INTO user_preferences (user_id, pref_id, value) VALUES ";
 while ($row_get_all_prefs = @mysql_fetch_assoc($sth_get_all_prefs)) {
-	$sql_insert_prefs .= "(" . $id . ", " . $row_get_all_prefs['id'] . ", " . $row_get_all_prefs['default'] . "), ";
+	$sql_insert_prefs .= "(" . $user_id . ", " . $row_get_all_prefs['id'] . ", " . $row_get_all_prefs['default'] . "), ";
 }
 $sql_insert_prefs = rtrim($sql_insert_prefs);
 $sql_insert_prefs = substr($sql_insert_prefs, 0, -1); 
@@ -61,7 +61,7 @@ $sql_get_subs = "SELECT id FROM subs";
 $sth_get_subs = mysql_query($sql_get_subs);
 $sql_insert_ptrs = "INSERT INTO pointers (user_id, sub_id) VALUES ";
 while ($row_get_subs = mysql_fetch_assoc($sth_get_subs)) {
-	$sql_insert_ptrs .= "(" . $id . ", " . $row_get_subs['id'] . "), ";
+	$sql_insert_ptrs .= "(" . $user_id . ", " . $row_get_subs['id'] . "), ";
 }
 $sql_insert_ptrs = rtrim($sql_insert_ptrs);
 $sql_insert_ptrs = substr($sql_insert_ptrs, 0, -1); 

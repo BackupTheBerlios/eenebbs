@@ -31,17 +31,17 @@ if (isset($req['new'])) {
 } else {
 	foreach ($req as $key => $value) {
 		preg_match("/(\d+)/", $key, $match);
-		$id = $match[1];
+		$tag_id = $match[1];
 		if ($value == 'Delete') {
-			$sql_del_tagline = "DELETE FROM taglines WHERE id = " . $id;
+			$sql_del_tagline = "DELETE FROM taglines WHERE id = " . $tag_id;
 			header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/tagline.php?success=" . mysql_query($sql_del_tagline));
 			exit;
 		} else if ($value == 'Change') {
-			if (!isset($req['tagline' . $id]) or $req['tagline' . $id] == '') {
+			if (!isset($req['tagline' . $tag_id]) or $req['tagline' . $tag_id] == '') {
 				header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/tagline.php?success=false");
 				exit;				
 			} else {
-				$sql_change_tagline = "UPDATE taglines SET tagline = '" . $req['tagline' . $id] . "' WHERE id = " . $id;
+				$sql_change_tagline = "UPDATE taglines SET tagline = '" . $req['tagline' . $tag_id] . "' WHERE id = " . $tag_id;
 				header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/tagline.php?success=" . mysql_query($sql_change_tagline));			
 				exit;
 			}
