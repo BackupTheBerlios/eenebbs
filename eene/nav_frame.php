@@ -76,8 +76,11 @@ while ($row_get_subs = mysql_fetch_assoc($sth_get_subs)) {
 					</tr>
 					<tr> 
 						<td nowrap="nowrap" class="navbarTable"><a href="feedback.php" target="mainFrame">Feedback 
-							to Sysop</a> </td>
+							to Sysop</a></td>
 					</tr>
+					<tr>
+						<td nowrap="nowrap" class="navbarTable"><a href="lastusers.php" target="mainFrame">Last Users</a>
+						</td>
 					<tr> 
 						<td nowrap="nowrap" class="navbarTable"><a href="prefs.php" target="mainFrame">Preferences</a></td>
 					</tr>
