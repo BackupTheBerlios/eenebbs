@@ -12,6 +12,8 @@ define ( 'LOOP', 6 );
 
 $message = trim(clean($_POST['message'], MAXMSGLENGTH));
 
+$_SESSION['sub'] = $_POST['postsub'];
+
 if ($message == '' or !isset($message)) {
 	$_SESSION['error'] = "Post failed; blank message detected.";
 	header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
