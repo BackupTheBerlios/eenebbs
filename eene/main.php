@@ -51,7 +51,10 @@ function _getNumMsgsInSub($sub_id) {
 }
 
 function _displayMessage($message, $anonymous = null) {
-	$message['message'] = ereg_replace("(\r\n|\n|\r)", "<br>", $message['message']);
+	$message['message'] = strip_tags($message['message']); # for backwards compatibility
+	$message['message'] = str_replace("\n", "<br>", $message['message']);
+	$message['message'] = preg_replace("/(\w+:\/{2}[^\s]+)(\s?)/", "<a href=\"\\1\" target=\"_blank\">\\1</a>\\2", $message['message']);
+	$message['message'] = preg_replace("/((^|\s)www\.[^\s]+)(\s?)/", "<a href=\"http://\\1\" target=\"_blank\">\\1</a>\\2", $message['message']);
 ?> 
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
