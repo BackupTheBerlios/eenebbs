@@ -44,28 +44,7 @@ $sth_sub = @mysql_query($sql_sub);
 $row_sub = @mysql_fetch_assoc($sth_sub);
 $sub = $row_sub['name'];
 $anonymous = $row_sub['anonymous'];
-/*
-	
-if (isset($req['newscan']) and !isset($req['login']) and !isset($req['current'])) {
-	$sql_get_next = "SELECT name, id, anonymous FROM subs WHERE id > " . $_SESSION['sub'] .  " ORDER BY id ASC LIMIT 1";
-	if ($sth_get_next = @mysql_query($sql_get_next) and mysql_num_rows($sth_get_next) > 0) {
-		$row_get_next = @mysql_fetch_assoc($sth_get_next);
-	} else {
-		$sql_get_next = "SELECT name, id, anonymous FROM subs WHERE id = 1";
-		$sth_get_next = @mysql_query($sql_get_next);
-		$row_get_next = @mysql_fetch_assoc($sth_get_next);
-	}
-	$_SESSION['sub'] = $row_get_next['id'];
-	$sub = $row_get_next['name'];
-	$anonymous = $row_get_next['anonymous'];
-} else {
-	$sql_sub = "SELECT name, anonymous FROM subs WHERE id = " . $_SESSION['sub'];
-	$sth_sub = @mysql_query($sql_sub);
-	$row_sub = @mysql_fetch_assoc($sth_sub);
-	$sub = $row_sub['name'];
-	$anonymous = $row_sub['anonymous'];
-} 
-*/
+
 echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -109,7 +88,7 @@ if (isset($req['login'])) {
 	}
 }
 ?>
-<h2><?= $sub ?></h2>
+<p class="subName">/ <?= $sub ?> /</p>
 <table class="msgTable">
 <?php
 
@@ -130,9 +109,28 @@ if (isset($req['sub'])) {
 
 ?>
 </table>
-<p class="bottomBar">&lt; <a href="post.php?sub=<?= $_SESSION['sub'] ?>"><strong>Post a Message</strong></a> 
-	/ <a href="main.php?order=asc">Read Forwards</a> / <a href="main.php?order=desc">Read 
-	Backwards</a> / <a href="main.php?newscan=true&sub=<?= getNextSub() ?>"><strong>Newscan Next Sub</strong></a> 
-	&gt;</p>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td bgcolor="#BBBBBB"><table width="100%" border="0" cellpadding="4" cellspacing="1">
+				<tr> 
+					<td class="navbarTable"><strong> / 
+						<?= $sub ?>
+						/ </strong></td>
+				</tr>
+				<tr> 
+					<td class="navbarTable"><a href="post.php?sub=<?= $_SESSION['sub'] ?>"><strong>Post 
+						a Message</strong></a> / <a href="main.php?order=asc">Read Forwards</a> 
+						/ <a href="main.php?order=desc">Read Backwards</a> / <a href="main.php?newscan=true&sub=<?= getNextSub() ?>"><strong>Newscan 
+						Next Sub</strong></a></td>
+				</tr>
+				<?php
+if ($_SESSION['sl'] == SYSOP_SL) {
+?>
+				<?php
+}
+?>
+			</table></td>
+	</tr>
+</table>
 </body>
 </html>
