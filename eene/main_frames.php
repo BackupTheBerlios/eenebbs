@@ -21,7 +21,7 @@ $main_params = $_SERVER['QUERY_STRING'];
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
-<frameset cols="*,155" frameborder="NO" border="0" framespacing="0">
+<frameset cols="*,165" frameborder="NO" border="0" framespacing="0">
 	<frame src="main.php?<?= $main_params ?>" name="mainFrame">
 	<frame src="nav_frame.php" name="rightFrame" noresize="noresize"  marginwidth="0" marginheight="0">
 </frameset>
