@@ -10,8 +10,9 @@ define( 'SYSOPEMAIL', 'chiller@elsewhere.org' );
 
 define( 'MAXMSGLENGTH', pow(2, 16) );
 
-# probably want to define COSYSOP
-
 define( 'DEFAULT_SL', 50);
 define( 'SYSOP_SL', 255);
+
+define( 'VERSION', '1.0' );
+define( 'EENELINK', 'http://eenebbs.berlios.de' );
 ?>
