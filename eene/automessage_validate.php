@@ -9,7 +9,7 @@ authenticate();
 $automessage = trim(clean($_POST['automessage'], MAXMSGLENGTH));
 
 $sql_insert_automessage = "INSERT INTO automessages (automessage, user_id, date) VALUES ('" .
-	addslashes($automessage) . "', " . $_SESSION['id'] . ", NOW())";
+	$automessage . "', " . $_SESSION['id'] . ", NOW())";
 if (@mysql_query($sql_insert_automessage)) {
 	incrementStat($_SESSION['id'], 'automessages');
 	myLog('AUTOMESS', $_SESSION['id']);
