@@ -62,13 +62,13 @@ if ($days_online > 0) {
 	$avg_logins_day = 0;
 	$avg_signups_day = 0;
 }
-$sql_most_efficient = "SELECT (s.posts / s.logins) AS pcratio, u.alias FROM stats s, 
+$sql_most_efficient = "SELECT (s.posts / s.logins) AS pcratio, u.alias, u.id FROM stats s, 
 		users u where u.id = s.user_id AND u.sl <> 255 ORDER BY pcratio DESC LIMIT 1";
 $sth_most_efficient = @mysql_query($sql_most_efficient);
 $row_most_efficient = @mysql_fetch_assoc($sth_most_efficient);
-$most_efficient = $row_most_efficient['alias'];
+$most_efficient = array('id' => $row_most_efficient['id'], 'alias' => $row_most_efficient['alias']);
 
-$sql_lurker = "SELECT sum( p.message_id )  / s.posts AS readratio, u.alias
+$sql_lurker = "SELECT sum( p.message_id )  / s.posts AS readratio, u.alias, u.id 
 FROM pointers p, users u, stats s
 WHERE p.user_id = u.id AND p.user_id = s.user_id AND s.posts > 0 AND u.sl <> 255
 GROUP  BY p.user_id
@@ -76,19 +76,19 @@ ORDER  BY readratio DESC
 LIMIT 1 ";
 $sth_lurker = @mysql_query($sql_lurker);
 $row_lurker = @mysql_fetch_assoc($sth_lurker);
-$lurker = $row_lurker['alias'];
+$lurker = array('id' => $row_lurker['id'], 'alias' => $row_lurker['alias']);
 
 $sql_active = "SELECT ( s.posts * .25 ) + ( s.automessages * 2  )  + s.mottos + ( s.subs * 1.5  ) 
-		AS active, u.alias FROM stats s, users u WHERE s.user_id = u.id AND u.sl <> 255 ORDER BY active DESC LIMIT 1";
+		AS active, u.id, u.alias FROM stats s, users u WHERE s.user_id = u.id AND u.sl <> 255 ORDER BY active DESC LIMIT 1";
 $sth_active = @mysql_query($sql_active);
 $row_active = @mysql_fetch_assoc($sth_active);
-$active = $row_active['alias'];
+$active = array('id' => $row_active['id'], 'alias' => $row_active['alias']);
 
-$sql_forgetful = "SELECT count(  *  )  AS badpws, u.alias FROM log l, users u WHERE l.event_id = 14 
+$sql_forgetful = "SELECT count(  *  )  AS badpws, u.alias, u.id FROM log l, users u WHERE l.event_id = 14 
 		AND l.user_id = u.id AND u.sl <> 255 GROUP  BY ( l.user_id ) ORDER  BY badpws DESC LIMIT 1";
 $sth_forgetful = @mysql_query($sql_forgetful);
 $row_forgetful = @mysql_fetch_assoc($sth_forgetful);
-$forgetful = $row_forgetful['alias'];
+$forgetful = array('id' => $row_forgetful['id'], 'alias' => $row_forgetful['alias']);
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -205,7 +205,7 @@ if (defined('USAGE_LOGS')) {
 							<tr> 
 								<td nowrap="nowrap" class="msgText"> 
 									
-									<div align="center"><?= $active ?></div></td>
+									<div align="center"><?= $active['alias'] ?> #<?= $active['id'] ?></div></td>
 							</tr>
 						</table>
 			</td></tr></table>
@@ -219,7 +219,7 @@ if (defined('USAGE_LOGS')) {
 							</tr>
 							<tr> 
 								<td nowrap="nowrap" class="msgText"> <div align="center">
-										<?= $most_efficient ?>
+										<?= $most_efficient['alias'] ?> #<?= $most_efficient['id'] ?>
 									</div></td>
 							</tr>
 						</table></td>
@@ -235,7 +235,7 @@ if (defined('USAGE_LOGS')) {
 							<tr> 
 								<td nowrap="nowrap" class="msgText"> 
 									
-									<div align="center"><?= $lurker ?></div></td>
+									<div align="center"><?= $lurker['alias'] ?> #<?= $lurker['id'] ?></div></td>
 							</tr>
 						</table>
 			</td></tr></table><br />
@@ -249,7 +249,7 @@ if (defined('USAGE_LOGS')) {
 							<tr> 
 								<td nowrap="nowrap" class="msgText"> 
 									
-									<div align="center"><?= $forgetful ?></div></td>
+									<div align="center"><?= $forgetful['alias'] ?> #<?= $forgetful['id'] ?></div></td>
 							</tr>
 						</table>
 			</td></tr></table><br />			
