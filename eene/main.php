@@ -123,7 +123,7 @@ if (isset($req['sub'])) {
 } else if (isset($req['newscan']) and !isset($req['sub']) and !isset($req['current'])) {
 	$req['sub'] = _getNextSub();
 	$_SESSION['sub'] = $req['sub'];
-}
+} 
 $sql_sub = "SELECT name, anonymous FROM subs WHERE id = " . $_SESSION['sub'];
 $sth_sub = @mysql_query($sql_sub);
 $row_sub = @mysql_fetch_assoc($sth_sub);
