@@ -4,6 +4,12 @@ require_once 'lib/config.php';
 require_once 'lib/utils.php';
 session_start();
 authenticate();
+
+function _getSubs() {
+	$sql_get_subs = "SELECT * FROM subs ORDER BY id";
+	return @mysql_query($sql_get_subs);
+}
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html>
@@ -26,8 +32,7 @@ function jumpSub() {
 	<p align="center" class="navbar"><strong> 
 		<?= BBSNAME ?>
 		</strong></p>
-<br />
-	<table width="95%" border="0" cellspacing="0" cellpadding="0" align="center">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
 		<tr>
 			<td class="bgTable"> 
 				<table width="100%" border="0" cellspacing="1" cellpadding="4">
@@ -51,7 +56,7 @@ function jumpSub() {
 						<td nowrap="nowrap" class="navbarTable"> Jump to Sub:<br /> 
 							<select name="sub" size="8" class="navBarJump" onchange="javascript:jumpSub();">
 								<?php
-$sth_get_subs = getSubs();
+$sth_get_subs = _getSubs();
 while ($row_get_subs = mysql_fetch_assoc($sth_get_subs)) {
 	$option = (strlen($row_get_subs['name']) > 16) ? substr($row_get_subs['name'], 0, 16)
 			. '...' : $row_get_subs['name'];
@@ -107,7 +112,7 @@ if ($_SESSION['sl'] == SYSOP_SL) {
 }
 ?>
 					<tr> 
-						<td class="navbarTable"><a href="logout.php" target="_top">Logout 
+						<td class="navbarTable"><a href="index.php?error=You+are+now+logged+out." target="_top">Logout 
 							<strong> 
 							<?= $_SESSION['alias'] ?>
 							</strong> </a></td>
