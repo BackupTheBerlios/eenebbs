@@ -85,7 +85,7 @@ function hasVoted($user_id, $topic_id) {
 }
 
 function getAutomessage() {	
-	$sql_get_automessage = "SELECT a.automessage, u.alias, u.email, UNIX_TIMESTAMP(a.date) FROM automessages a, users u 
+	$sql_get_automessage = "SELECT a.automessage, u.alias, u.id, u.email, UNIX_TIMESTAMP(a.date) FROM automessages a, users u 
 		WHERE u.id = a.user_id ORDER BY a.id DESC LIMIT 1";
 	if ($sth_get_automessage = @mysql_query($sql_get_automessage)) {
 		$row = mysql_fetch_assoc($sth_get_automessage);
@@ -96,13 +96,13 @@ function getAutomessage() {
 		<td class="bgTable">
 			<table width="100%" cellpadding="4" cellspacing="1">
 				<tr class="msgTitle"> 
-					<td>Automessage by <strong>
+					<td>Automessage by #{$row['id']} <strong>
 EOT;
 		$automess .= ($row['email'] != '') ? 
 				"<a href=\"mailto:{$row['email']}\">{$row['alias']}</a>" : 
 $row['alias'];
 		$automess .= <<<EOT
- on {$date}</td>
+</strong> on {$date}</td>
 				</tr>
 				<tr class="msgText"> 
 					<td>
@@ -154,14 +154,13 @@ function getPointer($sub_id, $user_id) {
 function getNewMessages($sub_id, $pointer = null) {
 	$max = 15;
 	if (!$pointer) $pointer = 0;
-	$sql_get_new_msgs = "SELECT m.id, m.message, UNIX_TIMESTAMP(m.date), u.alias, u.email FROM messages m,
-			users u	WHERE m.sub_id = " . $sub_id . " AND m.id >= " . $pointer . " AND u.id = m.user_id ORDER BY id LIMIT 15";
+	$sql_get_new_msgs = "SELECT m.id, m.message, t.tagline, UNIX_TIMESTAMP(m.date), u.alias, u.id as user_id, u.email FROM messages m,
+			users u LEFT JOIN taglines t ON t.id = m.tag_id WHERE m.sub_id = " . $sub_id . " AND m.id >= " . $pointer . " AND u.id = m.user_id ORDER BY id LIMIT 15";
 	return @mysql_query($sql_get_new_msgs);
 }
 
 function getMessages($sub_id, $descending = null) {
-	$sql_get_msgs = "SELECT m.id, m.message, UNIX_TIMESTAMP(m.date), u.alias, u.email FROM messages m, 
-			users u WHERE u.id = m.user_id AND m.sub_id = " . $sub_id . " ORDER BY m.id ";
+	$sql_get_msgs = "SELECT m.id, m.message, t.tagline, UNIX_TIMESTAMP(m.date), u.alias, u.id as user_id, u.email FROM messages m, users u LEFT JOIN taglines t ON t.id = m.tag_id WHERE u.id = m.user_id AND m.sub_id = " . $_SESSION['sub'] . " ORDER BY m.id " ;
 	if ($descending) 
 		$sql_get_msgs .= 'DESC';
 	return @mysql_query($sql_get_msgs);
@@ -214,13 +213,13 @@ function displayMessage($message, $anonymous = null) {
 		<td class="bgTable">
 			<table width="100%" cellpadding="4" cellspacing="1">
 				<tr class="msgTitle"> 
-					<td>From <strong> 
+					<td>From #<?= $message['user_id'] ?> <strong> 
 						<?php
 	if ($anonymous == 'Y') {
 ?>
 						Anonymous 
 						<?php
-	} else if (isset($message['email'])) {
+	} else if (isset($message['email']) and $message['email'] != '') {
 ?>
 						<a href="<?= $message['email'] ?>">
 						<?= $message['alias'] ?>
@@ -239,6 +238,11 @@ function displayMessage($message, $anonymous = null) {
 				<tr class="msgText"> 
 					<td>
 						<?= $message['message'] ?>
+<?php
+						if (isset($message['tagline'])) {
+?>
+						<br /><br /><span class="tagline">-- <br /><?= $message['tagline'] ?>
+<?php } ?>
 					</td>
 				</tr>
 			</table></td>
