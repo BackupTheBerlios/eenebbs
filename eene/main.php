@@ -8,6 +8,7 @@ authenticate();
 
 define('MSGS_PER_PAGE', 20);
 
+
 function _areNewMsgs($sub_id, $user_id) {
 	$sql_are_new = "SELECT p.sub_id, count(m.id) FROM pointers p, messages m WHERE p.user_id = " . $user_id . " AND p.sub_id = m.sub_id AND p.message_id < m.id GROUP BY p.sub_id";
 	$sth_are_new = @mysql_query($sql_are_new);
@@ -61,14 +62,26 @@ function _getNumMsgsInSub($sub_id) {
 function _displayMessage($message, $anonymous = null) {
 	$message['message'] = strip_tags($message['message']); # for backwards compatibility
 	$message['message'] = str_replace("\n", "<br>", $message['message']);
-	$message['message'] = preg_replace("/(\s|^):\)/", "\\1<img src=\"img/smiley.gif\" width=\"18\" height=\"18\">", $message['message']);
-	$message['message'] = preg_replace("/(\s|^):\(/", " <img src=\"img/frowny.gif\" width=\"18\" height=\"18\">", $message['message']);
-	$message['message'] = preg_replace("/(\s|^);\)/", " <img src=\"img/winky.gif\" width=\"18\" height=\"18\">", $message['message']);
-	$message['message'] = preg_replace("/(\s|^):P/", " <img src=\"img/tongue.gif\" width=\"18\" height=\"18\">", $message['message']);
-	$message['message'] = preg_replace("/(\s|^);P/", " <img src=\"img/tongue.gif\" width=\"18\" height=\"18\">", $message['message']);
-
-	$message['message'] = preg_replace("/(\w+:\/{2}[^\s]+)(\s?)/", "<a href=\"\\1\" target=\"_blank\">\\1</a>\\2", $message['message']);
-	$message['message'] = preg_replace("/((^|\s)www\.[^\s]+)(\s?)/", "<a href=\"http://\\1\" target=\"_blank\">\\1</a>\\2", $message['message']);
+	$pre_smiley = '(\s|^|<br>)';
+	$msg_before = array(
+			"/$pre_smiley:\)/", 
+			"/$pre_smiley:\(/", 
+			"/$pre_smiley;\)/", 
+			"/$pre_smiley:P/", 
+			"/$pre_smiley;P/", 
+			"/(\w+:\/{2}[^\s]+)(\s?)/", 
+			"/((^|\s)www\.[^\s]+)(\s?)/");
+	$msg_after = array(
+			"\\1<img src=\"img/smiley.gif\" width=\"18\" height=\"18\">", 
+			"\\1<img src=\"img/frowny.gif\" width=\"18\" height=\"18\">", 
+			"\\1<img src=\"img/winky.gif\" width=\"18\" height=\"18\">", 
+			"\\1<img src=\"img/tongue.gif\" width=\"18\" height=\"18\">", 
+			"\\1<img src=\"img/tongue.gif\" width=\"18\" height=\"18\">",
+			"<a href=\"\\1\" target=\"_blank\">\\1</a>\\2",
+			"<a href=\"http://\\1\" target=\"_blank\">\\1</a>\\2");
+			
+	$message['message'] = preg_replace($msg_before, $msg_after, $message['message']);
+	
 ?> 
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -219,6 +232,14 @@ if (isset($req['login'])) {
 	else
 		echo "<p>Hello again, <strong>{$_SESSION['alias']}</strong>.</p>";
 		
+	$sql_new_questions = "SELECT count( DISTINCT vt.id ) , count( DISTINCT v.id ) 
+			FROM voting_topics vt, votes v WHERE user_id = " . $_SESSION['id'];
+	$sth_new_questions = @mysql_query($sql_new_questions);
+	$row_new_questions = @mysql_fetch_array($sth_new_questions);
+	if ($row_new_questions[1] == 0 or $row_new_questions[0] > $row_new_questions[1]) {
+		echo "<p><strong>There are new <a href=\"voting_booth.php\">voting topics</a>!</strong></p>";
+	}
+	 
 	if (getUserPrefs($_SESSION['id'], 'DISP_LASTUSERS')) 
 		echo getLastUsers();
 
