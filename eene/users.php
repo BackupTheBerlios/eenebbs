@@ -64,10 +64,10 @@ while ($row = @mysql_fetch_assoc($users)) {
 					<td class="msgTable"><a href="http://<?= $row['site'] ?>"> 
 						<?= $row['site'] ?>
 						</a></td>
-					<td class="msgTable"> 
+					<td class="msgTable" nowrap="nowrap"> 
 						<?= $row['descr'] ?>
 					</td>
-					<td class="msgTable"> 
+					<td class="msgTable" nowrap="nowrap"> 
 						<?= date("F j, Y", $row['UNIX_TIMESTAMP(st.first_login)']) ?>
 					</td>
 				</tr>
