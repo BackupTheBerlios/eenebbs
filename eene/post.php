@@ -27,20 +27,26 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <body class="main">
 
 <form action="post_validate.php" method="post">
-<table class="msgTable" width="100%" cellpadding="4">
-<tr>
-<td class="msgTitle">From: <?= $_SESSION['alias'] ?> 
-(<em><?= date("F j, Y, g:i a") ?></em>)<br />&nbsp;</td>
-</tr>
-<tr>
-			<td class="msgText">
-<textarea name="message" cols="64" rows="8" id="message" wrap=soft></textarea>
-			</td>
-</tr>
-<tr>
-			<td>
-<input type="submit" name="Submit" value="Post Message to &quot;<?= $sub ?>&quot; " /> </td>
-		</tr>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+		  <td class="bgTable"><table width="100%" cellpadding="4" cellspacing="1">
+					<tr> 
+						<td class="msgTitle">From
+							#<?= $_SESSION['id'] ?> <strong><?= $_SESSION['alias'] ?></strong>
+							on about 
+							<?= date("F j, Y, g:i a") ?> : 
+							</td>
+					</tr>
+					<tr> 
+						<td class="msgText"><textarea name="message" cols="64" rows="8" id="message" wrap="soft"></textarea> 
+						</td>
+					</tr>
+					<tr> 
+						<td class="msgText"><input type="submit" name="Submit" value="Post Message to &quot;<?= $sub ?>&quot; " /> 
+						</td>
+					</tr>
+				</table></td>
+	</tr>
 </table>
 </form>
 </body>
