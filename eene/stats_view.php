@@ -23,9 +23,9 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 
 <body class="main">
 <p><a href="stats.php">back to stats </a></p>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td class="bgTable"><table width="100%" border="0" cellspacing="1" cellpadding="4">
+		<td class="bgTable"><table border="0" cellspacing="1" cellpadding="4">
 				<tr> 
 					<td class="msgTitle">Rank</td>
 					<td class="msgTitle">Alias / #</td>
