@@ -25,8 +25,8 @@ if (isset($_SESSION['alias']) and isset($_SESSION['logged_in']) and
 
 if (!isset($req['alias']) or !isset($req['password'])) {
 	myLog('BADPW', getUserID($req['alias']), $req['password']);
-	header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
-			"?baduserpass=true");
+	$_SESSION['error'] = "Bad user name and/or password.";
+	header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']));
   exit;
 }
 
@@ -48,14 +48,13 @@ if ($sth_check_password) {
 		exit;
 	} else {
 		myLog('BADPW', getUserID($req['alias']), $req['password']);
-		header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
-				"?baduserpass=true");
+		$_SESSION['error'] = "Bad user name and/or password.";	
+		header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']));
 		exit;
 	}
 } 
-
+$_SESSION['error'] = "Bad user name and/or password.";
 myLog('BADPW', getUserID($req['alias']), $req['password']);
-header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
-		"?baduserpass=true");
+header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']));
 
 ?>
