@@ -53,10 +53,15 @@ $now = time();
 $now_and_then = $now - $online_since_timestamp;
 $days_online = round($now_and_then / 3600 / 24, 2);
 
-$avg_posts_day = round($total_msgs / $days_online, 2);
-$avg_logins_day = round($total_logins / $days_online, 2);
-$avg_signups_day = round($total_users / $days_online, 2);
-
+if ($days_online > 0) {
+	$avg_posts_day = round($total_msgs / $days_online, 2);
+	$avg_logins_day = round($total_logins / $days_online, 2);
+	$avg_signups_day = round($total_users / $days_online, 2);
+} else {
+	$avg_posts_day = 0;
+	$avg_logins_day = 0;
+	$avg_signups_day = 0;
+}
 $sql_most_efficient = "SELECT (s.posts / s.logins) AS pcratio, u.alias FROM stats s, 
 		users u where u.id = s.user_id AND u.sl <> 255 ORDER BY pcratio DESC LIMIT 1";
 $sth_most_efficient = @mysql_query($sql_most_efficient);
