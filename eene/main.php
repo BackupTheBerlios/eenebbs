@@ -127,7 +127,7 @@ if (isset($req['sub'])) {
 $sql_sub = "SELECT name, anonymous FROM subs WHERE id = " . $_SESSION['sub'];
 $sth_sub = @mysql_query($sql_sub);
 $row_sub = @mysql_fetch_assoc($sth_sub);
-$sub = $row_sub['name'];
+$sub_name = $row_sub['name'];
 $anonymous = $row_sub['anonymous'];
 
 echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
@@ -161,9 +161,10 @@ if (isset($req['login'])) {
 		echo "<p><strong>Beginning Newscan:</strong></p>";
 }
 ?>
-<p class="subName"><?= $sub ?></p>
+<p class="subName"><?= $sub_name ?></p>
 <table class="msgTable">
 <?php
+		
 
 if (isset($req['sub']) or isset($_SESSION['sub'])) {
 	$pointer = _getPointer($_SESSION['sub'], $_SESSION['id']);
@@ -189,7 +190,7 @@ if (isset($req['sub']) or isset($_SESSION['sub'])) {
 			<table width="100%" border="0" cellpadding="4" cellspacing="1">
 				<tr> 
 					<td colspan="4" class="navbarTable"><strong>
-						<?= $sub ?></strong> (<?= _getNumMsgsInSub($_SESSION['sub']) ?> messages)</td>
+						<?= $sub_name ?></strong> (<?= _getNumMsgsInSub($_SESSION['sub']) ?> messages)</td>
 				</tr>
 				<tr> 
 					<td nowrap="nowrap" class="navbarTable"><a href="post.php?sub=<?= $_SESSION['sub'] ?>"><strong>Post 
