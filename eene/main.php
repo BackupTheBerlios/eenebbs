@@ -80,7 +80,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 if (isset($req['login'])) {
 	if (isset($req['new']))
 		echo "<p>you are a n00b.</p>";
-	if (getUserPrefs($_SESSION['id'], 'DISP_LASTUSERS') == 'Y') {
+	if (getUserPrefs($_SESSION['id'], 'DISP_LASTUSERS')) {
 ?>
 <hr noshade>
 <p>Last 5 users:</p>
@@ -102,7 +102,7 @@ if (isset($req['login'])) {
 <?php
 	}
 
-	if (getUserPrefs($_SESSION['id'], 'DISP_AUTOMESS') == 'Y') {
+	if (getUserPrefs($_SESSION['id'], 'DISP_AUTOMESS')) {
 		echo "<hr noshade>";
 		echo getAutomessage();	
 		echo "<hr noshade>";
