@@ -180,9 +180,9 @@ $forgetful = $row_forgetful['alias'];
 										Efficient User</strong></div></td>
 							</tr>
 							<tr> 
-								<td nowrap="nowrap" class="subAward"> 
-									<?= $most_efficient ?>
-								</td>
+								<td nowrap="nowrap" class="msgText"> 
+									
+									<div align="center"><?= $most_efficient ?></div></td>
 							</tr>
 						</table>
 			</td></tr></table><br />
@@ -193,9 +193,9 @@ $forgetful = $row_forgetful['alias'];
 										Active User</strong></div></td>
 							</tr>
 							<tr> 
-								<td nowrap="nowrap" class="subAward"> 
-									<?= $active ?>
-								</td>
+								<td nowrap="nowrap" class="msgText"> 
+									
+									<div align="center"><?= $active ?></div></td>
 							</tr>
 						</table>
 			</td></tr></table><br />
@@ -206,9 +206,9 @@ $forgetful = $row_forgetful['alias'];
 										Lurker</strong></div></td>
 							</tr>
 							<tr> 
-								<td nowrap="nowrap" class="subAward"> 
-									<?= $lurker ?>
-								</td>
+								<td nowrap="nowrap" class="msgText"> 
+									
+									<div align="center"><?= $lurker ?></div></td>
 							</tr>
 						</table>
 			</td></tr></table><br />
@@ -220,9 +220,9 @@ $forgetful = $row_forgetful['alias'];
 										Forgetful User</strong></div></td>
 							</tr>
 							<tr> 
-								<td nowrap="nowrap" class="subAward"> 
-									<?= $forgetful ?>
-								</td>
+								<td nowrap="nowrap" class="msgText"> 
+									
+									<div align="center"><?= $forgetful ?></div></td>
 							</tr>
 						</table>
 			</td></tr></table><br />			
