@@ -187,4 +187,74 @@ function displayErrors(){
 		echo "<p class=\"error\">" . $error . "</p>";
 	}
 }
+
+function displayMessage($message, $anonymous = null) {
+	$message['message'] = strip_tags($message['message']); # for backwards compatibility
+	$message['message'] = str_replace("\n", "<br>", $message['message']);
+
+	$pre_smiley = '(\s|^|<br>)';
+	$msg_before = array(
+			"/$pre_smiley:\)/", 
+			"/$pre_smiley:\(/", 
+			"/$pre_smiley;\)/", 
+			"/$pre_smiley:P/", 
+			"/$pre_smiley;P/", 
+			"/(\w+:\/{2}[^\s]+)(\s?)/", 
+			"/((^|\s)www\.[^\s]+)(\s?)/");
+	$msg_after = array(
+			"\\1<img src=\"img/smiley.gif\" width=\"18\" height=\"18\">", 
+			"\\1<img src=\"img/frowny.gif\" width=\"18\" height=\"18\">", 
+			"\\1<img src=\"img/winky.gif\" width=\"18\" height=\"18\">", 
+			"\\1<img src=\"img/tongue.gif\" width=\"18\" height=\"18\">", 
+			"\\1<img src=\"img/tongue.gif\" width=\"18\" height=\"18\">",
+			"<a href=\"\\1\" target=\"_blank\">\\1</a>\\2",
+			"<a href=\"http://\\1\" target=\"_blank\">\\1</a>\\2");
+	
+	$message['message'] = preg_replace($msg_before, $msg_after, $message['message']);
+
+?> 
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td class="bgTable">
+			<table width="100%" cellpadding="4" cellspacing="1">
+				<tr class="msgTitle"> 
+					<td>From <strong> 
+						<?php
+	if ($anonymous == 'Y') {
+?>
+						Anonymous 
+						<?php
+	} else if (isset($message['email']) and $message['email'] != '') {
+?>
+						<a href="mailto:<?= $message['email'] ?>">
+						<?= $message['alias'] ?></a>  #<?= $message['user_id'] ?>
+						
+						<?php
+	} else {
+?>
+						<?= $message['alias'] ?> #<?= $message['user_id'] ?>
+						<?php
+	}	
+?>
+						</strong> on 
+						<?= date("F j, Y, g:i a", $message['UNIX_TIMESTAMP(m.date)']) ?>
+						:</td>
+				</tr>
+				<tr class="msgText"> 
+					<td>
+						<?= $message['message'] ?>
+<?php
+						if (isset($message['tagline']) and $anonymous == 'N') {
+?>
+						<br /><br /><span class="tagline">-- <br /><?= $message['tagline'] ?>
+<?php } ?>
+					</td>
+				</tr>
+			</table></td>
+	</tr>
+</table>
+<?php
+}
+
 ?>
