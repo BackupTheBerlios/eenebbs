@@ -93,7 +93,7 @@ $forgetful = $row_forgetful['alias'];
 <p><a href="stats.php">back to stats</a></p>
 <table border="0" cellspacing="8" cellpadding="0">
 	<tr>
-		<td class="bgTable">
+		<td class="bgTable"> 
 			<table width="100%" border="0" cellspacing="1" cellpadding="4">
 				<tr> 
 					<td valign="top" nowrap="nowrap" class="navbarTable">System Name:</td>
@@ -105,7 +105,12 @@ $forgetful = $row_forgetful['alias'];
 					<td valign="top" nowrap="nowrap" class="navbarTable">Sysops:</td>
 					<td class="navbarTable"><strong> 
 						<?php 
-						foreach ($sysops as $sysop) echo "<a href=\"mailto:" . $sysop['email'] . "\">" . $sysop['alias'] . "</a><br />";		
+						foreach ($sysops as $sysop) {
+							if ($sysop['email'] != '') 
+								echo "<a href=\"mailto:" . $sysop['email'] . "\">" . $sysop['alias'] . "</a><br />";
+							else
+								echo $sysop['alias'] . '<br />';
+						}
 					?>
 						</strong></td>
 				</tr>
@@ -170,20 +175,7 @@ $forgetful = $row_forgetful['alias'];
 				</tr>
 			</table>
 		</td>
-		<td valign="top" align="center">
-			<table cellpadding="0" cellspacing="0" border="0"><tr><td class="bgTable">
-				<table cellpadding="4" cellspacing="1" border="0">
-							<tr> 
-								<td nowrap="nowrap" class="navbar"><div align="center"><strong>Most 
-										Efficient User</strong></div></td>
-							</tr>
-							<tr> 
-								<td nowrap="nowrap" class="msgText"> 
-									
-									<div align="center"><?= $most_efficient ?></div></td>
-							</tr>
-						</table>
-			</td></tr></table><br />
+		<td valign="top" align="center"> 
 			<table cellpadding="0" cellspacing="0" border="0"><tr><td class="bgTable">
 				<table cellpadding="4" cellspacing="1" border="0">
 							<tr> 
@@ -196,7 +188,24 @@ $forgetful = $row_forgetful['alias'];
 									<div align="center"><?= $active ?></div></td>
 							</tr>
 						</table>
-			</td></tr></table><br />
+			</td></tr></table>
+			<br />
+			<table cellpadding="0" cellspacing="0" border="0">
+				<tr>
+					<td class="bgTable"> <table cellpadding="4" cellspacing="1" border="0">
+							<tr> 
+								<td nowrap="nowrap" class="navbar"><div align="center"><strong>Most 
+										Efficient User</strong></div></td>
+							</tr>
+							<tr> 
+								<td nowrap="nowrap" class="msgText"> <div align="center">
+										<?= $most_efficient ?>
+									</div></td>
+							</tr>
+						</table></td>
+				</tr>
+			</table>
+			<br />
 			<table cellpadding="0" cellspacing="0" border="0"><tr><td class="bgTable">
 				<table cellpadding="4" cellspacing="1" border="0">
 							<tr> 
