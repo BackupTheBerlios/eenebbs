@@ -95,14 +95,14 @@ if (!$my_success) {
 			"/signup.php"); 
 	exit;
 }
-myLog('NEWUSER', $_SESSION['id']);
-myLog('LOGIN', $_SESSION['id']);
-
 $_SESSION['alias'] = $req['alias'];
 $_SESSION['sl'] = DEFAULT_SL;
 $_SESSION['logged_in'] = 1;
 $_SESSION['id'] = getUserID($req['alias']);
 $_SESSION['sub'] = 1;
+
+myLog('NEWUSER', $_SESSION['id']);
+myLog('LOGIN', $_SESSION['id']);
 
 header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) 
 		. "/login.php?new=true");
