@@ -48,7 +48,6 @@ $row_user_info = mysql_fetch_assoc($sth_get_user_info);
 $sql_get_prefs = "SELECT * FROM preferences";
 $sth_get_prefs = mysql_query($sql_get_prefs);
 $user_prefs = getUserPrefs($_SESSION['id']);
-
 while ($row_prefs = mysql_fetch_assoc($sth_get_prefs)) {
 ?>
 	<tr>
@@ -58,22 +57,22 @@ while ($row_prefs = mysql_fetch_assoc($sth_get_prefs)) {
 ?>
 			<td><input name="p<?= $row_prefs['id'] ?>" type="checkbox" value="<?= $row_prefs['id'] ?>" 
 <?php 
-			if (isset($user_prefs[$row_prefs['id']]) and $user_prefs[$row_prefs['id']] == 'Y') 
+			if (isset($user_prefs[$row_prefs['id']]) and $user_prefs[$row_prefs['id']]) 
 				echo "checked=\"checked\""; 
 ?> /></td>
 <?php
 		break;
 		case 'enum':
-			$sql_get_enum = "SELECT opt FROM preferences_options WHERE pref_id = " . $row_prefs['id'];
+			$sql_get_enum = "SELECT opt, id FROM preferences_options WHERE pref_id = " . $row_prefs['id'];
 			$sth_get_enum = mysql_query($sql_get_enum);
 ?>
 			<td><select name="p<?= $row_prefs['id'] ?>">
 					<?php
 			while ($row_get_enum = mysql_fetch_assoc($sth_get_enum)) {
 				if (isset($user_prefs[$row_prefs['id']]) and $user_prefs[$row_prefs['id']] == $row_get_enum['opt']) {
-?><option value="<?= $row_get_enum['opt'] ?>" selected="selected"><?php
+?><option value="<?= $row_get_enum['id'] ?>" selected="selected"><?php
 				} else {
-?><option value="<?= $row_get_enum['opt'] ?>"><?php } ?><?= $row_get_enum['opt']; ?></option>
+?><option value="<?= $row_get_enum['id'] ?>"><?php } ?><?= $row_get_enum['opt']; ?></option>
 					<?php
 			}
 ?>
@@ -97,5 +96,6 @@ while ($row_prefs = mysql_fetch_assoc($sth_get_prefs)) {
 </table><br />
 	<input type="submit" name="Submit" value="chang prefz" />
 </form>
+<a href="tagline.php">Edit My Taglines</a>
 </body>
 </html>

@@ -21,13 +21,7 @@ while ($row_get_prefs = mysql_fetch_assoc($sth_get_prefs))
 $sql_users = "UPDATE users SET location = '" . $req['location'] . "', email = '" . $req['email'] . "', 
 		avatar = '" . $req['avatar'] . "', site = '" . $req['site'] . "' WHERE id = " . $_SESSION['id'];
 
-unset($req['Submit']);
-unset($req['email']);;
-unset($req['site']);
-unset($req['avatar']);
-unset($req['location']);
-
-$success = @mysql_query($sql_users);
+$success = mysql_query($sql_users);
 
 if ($user_prefs = getUserPrefs($_SESSION['id'])) {
 	foreach ($user_prefs as $user_pref => $value) {
@@ -35,22 +29,22 @@ if ($user_prefs = getUserPrefs($_SESSION['id'])) {
 		if ($pref_types[$user_pref] == 'bit' or isset($req['p' . $user_pref])) {
 			$value = @$req['p' . $user_pref];
 			switch($pref_types[$user_pref]) {
-				case 'num':
-					break;
 				case 'bit':
-					$value = ($value) ? "'Y'" : "'N'";
+					$value = ($value) ? 1 : 0;
 					break;
-				default:
+				case 'text':
 					$value = "'" . $req['p' . $user_pref] . "'";
+					break;
+				case 'enum';
+					$value = $req['p' . $user_pref];
 			}
 			$sql_update_user_prefs = "UPDATE user_preferences SET value = " . $value . 
 					" WHERE user_id = " . $_SESSION['id'] .	" AND pref_id = " . $user_pref;
-			unset($req['p' . $user_pref]);
 		}
 		$success = mysql_query($sql_update_user_prefs);
 	}
 }
-
+/*
 if ($req) {
 	$sql_insert_user_prefs = "INSERT INTO user_preferences (user_id, pref_id, value) VALUES ";
 	foreach ($req as $pref_id => $value) {
@@ -71,7 +65,7 @@ if ($req) {
 	$sql_insert_user_prefs = substr($sql_insert_user_prefs, 0, -1); 
 	$success = @mysql_query($sql_insert_user_prefs);
 }
-
+*/
 header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
 		"/prefs.php?success=" . $success);
 exit;
