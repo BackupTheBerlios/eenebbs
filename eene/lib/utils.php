@@ -2,13 +2,6 @@
 
 require_once 'config.php';
 
-function cleanAllowImg($input, $maxlength) {
-	$input = substr($input, 0, $maxlength);
-	$input = _safeHTML($input);
-	$input = preg_replace("/\|/", "", $input);
-	return $input;
-}
-
 function clean($input, $maxlength) {
 	$input = substr($input, 0, $maxlength);
 	$input = strip_tags($input);
