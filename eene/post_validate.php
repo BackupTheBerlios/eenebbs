@@ -10,7 +10,7 @@ authenticate();
 define ( 'RANDOMLY', 5 );
 define ( 'LOOP', 6 );
 
-$message = addslashes(trim(cleanAllowImg($_POST['message'], MAXMSGLENGTH)));
+$message = addslashes(trim(clean($_POST['message'], MAXMSGLENGTH)));
 
 if ($message == '' or !isset($message)) {
 	$_SESSION['error'] = "Post failed; blank message detected.";
