@@ -51,7 +51,7 @@ $total_mottos = $row_get_total_mottos[0];
 
 $now = time();
 $now_and_then = $now - $online_since_timestamp;
-$days_online = round($now_and_then / 3600 / 24);
+$days_online = round($now_and_then / 3600 / 24, 2);
 
 $avg_posts_day = round($total_msgs / $days_online, 2);
 $avg_logins_day = round($total_logins / $days_online, 2);
@@ -118,8 +118,7 @@ $forgetful = $row_forgetful['alias'];
 					<td valign="top" nowrap="nowrap" class="navbarTable">Online Since:</td>
 					<td class="navbarTable"> 
 						<?= $online_since ?>
-						(<?= $days_online ?>
-						days)</td>
+					</td>
 				</tr>
 				<tr> 
 					<td valign="top" nowrap="nowrap" class="navbarTable">Total Users:</td>
