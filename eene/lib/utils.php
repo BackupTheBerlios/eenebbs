@@ -84,17 +84,36 @@ function hasVoted($user_id, $topic_id) {
   return (@mysql_num_rows($sth_check_vote) > 0); 
 }
 
-# text should look identical to getMessage function if there ever is such a monster
 function getAutomessage() {	
-	$sql_get_automessage = "SELECT a.automessage, u.alias, UNIX_TIMESTAMP(a.date) FROM automessages a, users u 
+	$sql_get_automessage = "SELECT a.automessage, u.alias, u.email, UNIX_TIMESTAMP(a.date) FROM automessages a, users u 
 		WHERE u.id = a.user_id ORDER BY a.id DESC LIMIT 1";
 	if ($sth_get_automessage = @mysql_query($sql_get_automessage)) {
 		$row = mysql_fetch_assoc($sth_get_automessage);
 		$date = date("F j, Y, g:i a", $row['UNIX_TIMESTAMP(a.date)']);
-		return <<<EOT
-	<p>Automessage by <strong>{$row['alias']}</strong> on {$date}</p>
-	<p>{$row['automessage']}</p>
+		$automess = <<<EOT
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td class="bgTable">
+			<table width="100%" cellpadding="4" cellspacing="1">
+				<tr class="msgTitle"> 
+					<td>Automessage by <strong>
 EOT;
+		$automess .= ($row['email'] != '') ? 
+				"<a href=\"mailto:{$row['email']}\">{$row['alias']}</a>" : 
+$row['alias'];
+		$automess .= <<<EOT
+ on {$date}</td>
+				</tr>
+				<tr class="msgText"> 
+					<td>
+						{$row['automessage']}
+					</td>
+				</tr>
+			</table></td>
+	</tr>
+</table>
+EOT;
+		return $automess;
 	} else {
 		return false;
 	}
@@ -154,30 +173,76 @@ function setPointer($sub_id, $user_id, $pointer) {
 	return @mysql_query($sql_set_ptr);
 }
 
+function getLastUsers() {
+	$string = <<<EOT
+<p><strong>Last 5 users:</strong></p>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td class="bgTable">
+			<table cellpadding="4" cellspacing="1" width="100%">
+				<tr class="msgTitle"> 
+					<td>Alias</td>
+					<td>Time</td>
+				</tr>
+EOT;
+	$sql_last_logins = "SELECT u.alias, u.email, UNIX_TIMESTAMP(l.date) FROM log l, 
+		users u WHERE l.event_id = 3 AND u.id = l.user_id ORDER BY l.date DESC LIMIT 5";
+	$sth_last_logins = @mysql_query($sql_last_logins);
+	while ($row_last_logins = mysql_fetch_assoc($sth_last_logins)) {
+		$time = date("F j, Y, g:i a", 
+				$row_last_logins['UNIX_TIMESTAMP(l.date)']); 
+		$string .= <<<EOT
+				<tr class="msgText">
+					<td>{$row_last_logins['alias']}</td>
+					<td width="100%">{$time}</td>
+				</tr>
+EOT;
+	}
+	$string .= <<<EOT
+			</table>
+		</td>
+	</tr>
+</table><br />
+EOT;
+	return $string;
+}
+
 function displayMessage($message, $anonymous = null) {
-?>
-<table class="msgTable" width="100%" cellpadding="4">
-<tr>
-<td class="msgTitle">From <strong>
-<?php
+?> 
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td class="bgTable">
+			<table width="100%" cellpadding="4" cellspacing="1">
+				<tr class="msgTitle"> 
+					<td>From <strong> 
+						<?php
 	if ($anonymous == 'Y') {
 ?>
-	Anonymous
-<?php
+						Anonymous 
+						<?php
 	} else if (isset($message['email'])) {
 ?>
-	<a href="<?= $message['email'] ?>"><?= $message['alias'] ?></a>
-<?php
+						<a href="<?= $message['email'] ?>">
+						<?= $message['alias'] ?>
+						</a> 
+						<?php
 	} else {
 ?>
-	<?= $message['alias'] ?>
-<?php
+						<?= $message['alias'] ?>
+						<?php
 	}	
-?></strong> on <?= date("F j, Y, g:i a", $message['UNIX_TIMESTAMP(m.date)']) ?>:<br />&nbsp;</td>
-</tr>
-<tr>
-<td class="msgText"><?= $message['message'] ?></td>
-</tr>
+?>
+						</strong> on 
+						<?= date("F j, Y, g:i a", $message['UNIX_TIMESTAMP(m.date)']) ?>
+						:</td>
+				</tr>
+				<tr class="msgText"> 
+					<td>
+						<?= $message['message'] ?>
+					</td>
+				</tr>
+			</table></td>
+	</tr>
 </table>
 <?php
 }
