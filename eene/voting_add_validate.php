@@ -24,7 +24,6 @@ for ($i = 1; $i <= 10; $i++)
 
 $sql_add_options = rtrim($sql_add_options);
 $sql_add_options = substr($sql_add_options, 0, -1); 
-echo $sql_add_options;
 
 @mysql_query($sql_add_options);
 
