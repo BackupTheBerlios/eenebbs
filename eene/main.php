@@ -77,7 +77,7 @@ if (isset($req['login'])) {
 <table class="msgTable">
 <?php
 
-if (isset($req['sub'])) {
+if (isset($req['sub']) or isset($_SESSION['sub'])) {
 	if (isset($req['newscan'])) {
 		$pointer = getPointer($_SESSION['sub'], $_SESSION['id']);
 		$sth_msgs = getNewMessages($_SESSION['sub'], $pointer);
