@@ -7,7 +7,7 @@ require_once 'lib/config.php';
 foreach ($_POST as $name => $value) 
 	$req[$name] = trim(clean($value, 255));
 	
-if ($req['password']) == '' or $req['password2'] == '' or $req['alias'] == '') {
+if ($req['password'] == '' or $req['password2'] == '' or $req['alias'] == '') {
 	$_SESSION['error'] = 'Required field missing.';
 	myLog('BADSIGNUP', $req['alias'], 'incomplete request');
 	header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
