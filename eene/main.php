@@ -8,21 +8,12 @@ authenticate();
 
 define('MSGS_PER_PAGE', 20);
 
-
-function _areNewMsgs($sub_id, $user_id) {
-	$sql_are_new = "SELECT p.sub_id, count(m.id) FROM pointers p, messages m WHERE p.user_id = " . $user_id . " AND p.sub_id = m.sub_id AND p.message_id < m.id GROUP BY p.sub_id";
+function _areNewMsgs($user_id) {
+	$sql_are_new = "SELECT p.sub_id, count(m.id) FROM pointers p, messages m WHERE p.user_id = " . $user_id . "AND p.sub_id = m.sub_id AND p.message_id < m.id GROUP BY p.sub_id";
 	$sth_are_new = @mysql_query($sql_are_new);
-	while ($row_are_new = @mysql_fetch_array($sth_are_new)) {
-		if ($row_are_new[0] == $sub_id) {
-			return 0;
-		} else {
-			header ("Location: main.php?newscan=true&sub=$row_are_new[0]"); 
-		}
-	}
-	if ($sub_id == 1) {
-		return 0;
-	} else {
-		header ("Location: main.php?newscan=true&sub=1");
+	while ($row_are_new = @mysql_fetch_assoc($sth_are_new)) {
+		echo $row_are_new['sub_id'];
+		echo $row_are_new['count(m.id)'];
 	}
 }
 	
@@ -62,6 +53,7 @@ function _getNumMsgsInSub($sub_id) {
 function _displayMessage($message, $anonymous = null) {
 	$message['message'] = strip_tags($message['message']); # for backwards compatibility
 	$message['message'] = str_replace("\n", "<br>", $message['message']);
+
 	$pre_smiley = '(\s|^|<br>)';
 	$msg_before = array(
 			"/$pre_smiley:\)/", 
@@ -79,9 +71,9 @@ function _displayMessage($message, $anonymous = null) {
 			"\\1<img src=\"img/tongue.gif\" width=\"18\" height=\"18\">",
 			"<a href=\"\\1\" target=\"_blank\">\\1</a>\\2",
 			"<a href=\"http://\\1\" target=\"_blank\">\\1</a>\\2");
-			
-	$message['message'] = preg_replace($msg_before, $msg_after, $message['message']);
 	
+	$message['message'] = preg_replace($msg_before, $msg_after, $message['message']);
+
 ?> 
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -239,7 +231,7 @@ if (isset($req['login'])) {
 	if ($row_new_questions[1] == 0 or $row_new_questions[0] > $row_new_questions[1]) {
 		echo "<p><strong>There are new <a href=\"voting_booth.php\">voting topics</a>!</strong></p>";
 	}
-	 
+
 	if (getUserPrefs($_SESSION['id'], 'DISP_LASTUSERS')) 
 		echo getLastUsers();
 
@@ -278,7 +270,7 @@ $pointer = _getPointer($_SESSION['sub'], $_SESSION['id']);
 $passed_pointer = (isset($req['pointer'])) ? $req['pointer'] : null;
 
 if (isset($req['newscan'])) {
-	_areNewMsgs($_SESSION['sub'], $_SESSION['id']);
+#	_areNewMsgs($_SESSION['id']);
 	$sth_msgs = _getNewMessages($_SESSION['sub'], $pointer);
 	list($new_pointer, $low_pointer) = _loopMsgs($sth_msgs, $pointer, $anonymous);
 } elseif ($order and $order == 'desc') {
