@@ -5,30 +5,9 @@ require_once 'lib/utils.php';
 session_start();
 authenticate();
 
-function _getSubs($mysub) {
-	$subs = array();	
-	$sql_get_subs = "SELECT id, name FROM subs ORDER BY id";
-	$sth_get_subs = @mysql_query($sql_get_subs);
-	while ($row_get_subs = @mysql_fetch_assoc($sth_get_subs)) {
-		$subs[] = array('id' => $row_get_subs['id'], 'name' => $row_get_subs['name']);
-	}
-	$num = count($subs);
-	for ($i = 0; $i < $num; $i++) {
-		if ($mysub == 1) {
-			$tmp = array_pop($subs);
-			array_unshift($subs, $tmp);
-			break;
-		}
-		if ($subs[$i]['id'] < $mysub and ($i + 1) < $num) {
-			if ($subs[$i + 1]['id'] != $mysub) {
-				$subs[] = array_shift($subs);
-				$i--;
-			} else {
-				break;
-			}
-		} 
-	}
-	return $subs;
+function _getSubs() {
+	$sql_get_subs = "SELECT * FROM subs ORDER BY id";
+	return @mysql_query($sql_get_subs);
 }
 
 ?>
@@ -41,6 +20,9 @@ function _getSubs($mysub) {
 <script language="JavaScript" type="text/JavaScript">
 function jumpSub() {
 	document.navbar.submit();
+	for (i = 0; i < document.navbar.sub.length; i++) {
+		document.navbar.sub.options[i].selected = false;
+	}
 	parent.rightFrame.location.reload(true);
 }
 </script>
@@ -56,7 +38,7 @@ function jumpSub() {
 			<td class="bgTable"> 
 				<table width="100%" border="0" cellspacing="1" cellpadding="4">
 					<tr> 
-						<td nowrap="nowrap" class="navbarTable"><a href="main.php?newscan=true" target="mainFrame" ><strong>Newscan 
+						<td nowrap="nowrap" class="navbarTable"><a href="main.php?newscan=true" target="mainFrame"><strong>Newscan 
 							Next Sub</strong></a></td>
 					</tr>
 					<tr> 
@@ -64,32 +46,30 @@ function jumpSub() {
 							a Message</a></strong></td>
 					</tr>
 					<tr> 
-						<td nowrap="nowrap" class="navbarTable"><a href="main.php?order=asc" target="mainFrame" >Read 
+						<td nowrap="nowrap" class="navbarTable"><a href="main.php?order=asc" target="mainFrame">Read 
 							Sub Forwards</a></td>
 					</tr>
 					<tr> 
-						<td nowrap="nowrap" class="navbarTable"><a href="main.php?order=desc" target="mainFrame" >Read 
+						<td nowrap="nowrap" class="navbarTable"><a href="main.php?order=desc" target="mainFrame">Read 
 							Sub Backwards</a></td>
 					</tr>
 					<tr> 
-						<td nowrap="nowrap" class="navbarTable"> Jump to Sub:<br />
+						<td nowrap="nowrap" class="navbarTable"> Jump to Sub:<br /> 
 							<select name="sub" size="8" class="navBarJump" onchange="javascript:jumpSub();">
-<?php
-$subs = _getSubs($_SESSION['sub']);
-foreach ($subs as $mysub) {
-	$mysub['name'] = (strlen($mysub['name']) > 16) ? substr($mysub['name'], 0, 16) . '...' : $mysub['name'];
-	if ($mysub['id'] == $_SESSION['sub']) {
+								<?php
+$sth_get_subs = _getSubs();
+while ($row_get_subs = @mysql_fetch_assoc($sth_get_subs)) {
+	$option = (strlen($row_get_subs['name']) > 16) ? substr($row_get_subs['name'], 0, 16)
+			. '...' : $row_get_subs['name'];
+
 ?>
-								<option value="<?= $mysub['id'] ?>" selected="selected"><?= $mysub['name'] ?></option>
+
+								<option value="<?= $row_get_subs['id'] ?>"><?= $option ?></option>
 <?php
-	} else {
-?>
-								<option value="<?= $mysub['id'] ?>"><?= $mysub['name'] ?></option>
-<?php
-	}
+
 }
 ?>
-							</select></td>
+							</select> </td>
 					</tr>
 					<tr> 
 						<td nowrap="nowrap" class="navbarTable"><a href="motto.php" target="mainFrame">Add 
