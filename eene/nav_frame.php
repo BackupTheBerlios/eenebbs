@@ -20,9 +20,6 @@ function _getSubs() {
 <script language="JavaScript" type="text/JavaScript">
 function jumpSub() {
 	document.navbar.submit();
-	for (i = 0; i < document.navbar.sub.length; i++) {
-		document.navbar.sub.options[i].selected = false;
-	}
 	parent.rightFrame.location.reload(true);
 }
 </script>
@@ -56,15 +53,20 @@ function jumpSub() {
 					<tr> 
 						<td nowrap="nowrap" class="navbarTable"> Jump to Sub:<br /> 
 							<select name="sub" size="8" class="navBarJump" onchange="javascript:jumpSub();">
-								<?php
+<?php
 $sth_get_subs = _getSubs();
 while ($row_get_subs = @mysql_fetch_assoc($sth_get_subs)) {
 	$option = (strlen($row_get_subs['name']) > 16) ? substr($row_get_subs['name'], 0, 16)
 			. '...' : $row_get_subs['name'];
+	if ($row_get_subs['id'] == $_SESSION['sub']) {
+?>
+								<option value="<?= $row_get_subs['id'] ?>" selected="selected"><?= $option ?></option>
+<?php
+	} else {
 ?>
 								<option value="<?= $row_get_subs['id'] ?>"><?= $option ?></option>
-								<?php
-	
+<?php
+	}
 }
 ?>
 							</select> </td>
