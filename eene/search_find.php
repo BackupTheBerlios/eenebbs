@@ -13,7 +13,7 @@ if (!isset($req['search']) or $req['search'] == '') {
 	exit;
 }
 
-$sql_search = "SELECT m.id, m.message, t.tagline, UNIX_TIMESTAMP( m.date ) , u.alias, s.name, s.anonymous, u.id AS user_id
+$sql_search = "SELECT m.id, m.message, t.tagline, UNIX_TIMESTAMP(m.date) , u.alias, s.name, s.anonymous, u.id AS user_id
 FROM messages m, subs s, users u
 LEFT  JOIN taglines t ON t.id = m.tag_id
 WHERE s.id = m.sub_id AND m.user_id = u.id AND 
@@ -24,7 +24,7 @@ ORDER  BY m.sub_id";
 $sth_search = @mysql_query($sql_search);
 if (@mysql_num_rows($sth_search) > 0) {
 
-echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
+	echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
