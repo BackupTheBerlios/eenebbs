@@ -31,7 +31,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="default.css" rel="stylesheet" type="text/css" />
 </head>
-<body class="main" background="img/fabulous.jpg">
+<body class="main">
 <?php displayErrors(); ?>
 <form action="login.php" method="post" name="login" id="login">
 <table width="400" border="0" align="center" cellpadding="0" cellspacing="0">
