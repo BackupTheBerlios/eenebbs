@@ -45,13 +45,18 @@ if (@mysql_num_rows($sth_search) > 0) {
 ?>
 <tr><td>In <strong><a href="main.php?pointer=<?= $messages[0]['id'] ?>&order=asc&sub=<?= $messages[0]['sub_id'] ?>"><?= $mysub ?></a></strong> : </td></tr>
 <tr><td>&nbsp;</td></tr>
+<tr><td>
 <?php
 		foreach ($messages as $message) {
+			echo "<tr><td>";
 			displayMessage($message, $message['anonymous']);
+			echo "</td></tr>";
 			echo "<tr><td>&nbsp;</td></tr>";
 		} 
 	}
-	echo "</table>";
+?>
+</table>
+<?php
 } else {
 	$_SESSION['error'] = "No results found.";
 	header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/search.php");
