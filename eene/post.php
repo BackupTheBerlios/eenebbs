@@ -27,9 +27,9 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <body class="main">
 
 <form action="post_validate.php" method="post">
-  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <table border="0" cellspacing="0" cellpadding="0">
 		<tr>
-		  <td class="bgTable"><table width="100%" cellpadding="4" cellspacing="1">
+		  <td class="bgTable"><table cellpadding="4" cellspacing="1">
 					<tr> 
 						<td class="msgTitle">From
 							#<?= $_SESSION['id'] ?> <strong><?= $_SESSION['alias'] ?></strong>
