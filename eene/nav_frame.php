@@ -2,7 +2,6 @@
 
 require_once 'lib/config.php';
 require_once 'lib/utils.php';
-
 session_start();
 authenticate();
 ?>
@@ -12,16 +11,25 @@ authenticate();
 <title><?= BBSNAME ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="default.css" rel="stylesheet" type="text/css">
+<script language="JavaScript" type="text/JavaScript">
+function jumpSub() {
+	document.navbar.submit();
+	for (i = 0; i < document.navbar.sub.length; i++) {
+		document.navbar.sub.options[i].selected = false;
+	}
+}
+</script>
 </head>
 
 <body class="navbar">
 <form name="navbar" id="navbar" method="post" action="main.php" target="mainFrame">
-	<p align="center"><strong> 
+	<p align="center" class="navbar"><strong> 
 		<?= BBSNAME ?>
 		</strong></p>
+<br />
 	<table width="95%" border="0" cellspacing="0" cellpadding="0" align="center">
 		<tr>
-			<td bgcolor="#BBBBBB"> 
+			<td class="bgTable"> 
 				<table width="100%" border="0" cellspacing="1" cellpadding="4">
 					<tr> 
 						<td nowrap="nowrap" class="navbarTable"><a href="main.php?newscan=true" target="mainFrame"><strong>Newscan 
@@ -40,11 +48,12 @@ authenticate();
 							Sub Backwards</a></td>
 					</tr>
 					<tr> 
-						<td nowrap="nowrap" class="navbarTable"> <select name="sub" size="8" class="msgTable" style="cursor:pointer;cursor:hand;" onchange="javascript:document.navbar.submit()">
+						<td nowrap="nowrap" class="navbarTable"> Jump to Sub:<br /> 
+							<select name="sub" size="8" class="navBarJump" onchange="javascript:jumpSub();">
 								<?php
 $sth_get_subs = getSubs();
 while ($row_get_subs = mysql_fetch_assoc($sth_get_subs)) {
-	$option = (strlen($row_get_subs['name']) > 18) ? substr($row_get_subs['name'], 0, 18)
+	$option = (strlen($row_get_subs['name']) > 16) ? substr($row_get_subs['name'], 0, 16)
 			. '...' : $row_get_subs['name'];
 	if ($_SESSION['sub'] == $row_get_subs['id']) {
 ?>
