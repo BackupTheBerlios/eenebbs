@@ -15,13 +15,14 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link href="default.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
+<body class="main">
 
 <p>Send us your comments, suggestions, complaints, etc.<p>
 
 <form action="feedback_send.php" method="post">
-	From: <input name="from" type=text value="<?= $row_user_info['email'] ?>" /><p>
+	From Email: <input name="from" type=text value="<?= $row_user_info['email'] ?>" /><p>
 	<textarea name="body" rows=20 cols=64 wrap="soft"></textarea>
 	<br />
 	<input type="submit" name="Submit" value="send it johnny" />
