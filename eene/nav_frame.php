@@ -22,7 +22,6 @@ function _getSubs($mysub) {
 		if ($subs[$i]['id'] < $mysub and ($i + 1) < $num) {
 			echo $subs[$i+1]['name'];
 			if ($subs[$i + 1]['id'] != $mysub) {
-				debug($subs);
 				$subs[] = array_shift($subs);
 				$i--;
 			} else {
@@ -79,6 +78,7 @@ function jumpSub() {
 <?php
 $subs = _getSubs($_SESSION['sub']);
 foreach ($subs as $mysub) {
+	$mysub['name'] = (strlen($mysub['name']) > 16) ? substr($mysub['name'], 0, 16) . '...' : $mysub['name'];
 	if ($mysub['id'] == $_SESSION['sub']) {
 ?>
 								<option value="<?= $mysub['id'] ?>" selected="selected"><?= $mysub['name'] ?></option>
