@@ -8,13 +8,13 @@ authenticate();
 
 define('MSGS_PER_PAGE', 20);
 
-function _nextSubWithMsgs($sub_id, $user_id) {
+function _nextSubWithMsgs($user_id) {
 	$sql_are_new = "SELECT p.sub_id, count(m.id) FROM pointers p, messages m WHERE p.user_id = " .$user_id . " AND p.sub_id = m.sub_id AND p.message_id < m.id GROUP BY p.sub_id";
         $sth_are_new = @mysql_query($sql_are_new);
         while ($row_are_new = @mysql_fetch_array($sth_are_new)) {
-		return $row_are_new[0]; 
+		return array(true, $row_are_new[0]); 
         }
-	return 1;
+	return array(false, 1);
 }
 	
 function _areMoreMsgs($sub_id, $pointer, $order) {
@@ -194,9 +194,17 @@ if (isset($req['sub'])) {
 } else if (isset($req['login'])) {
 	$req['sub'] = $_SESSION['sub'];
 } else if (isset($req['newscan']) and !isset($req['sub']) and !isset($req['current'])) {
-	$req['sub'] = _nextSubWithMsgs($_SESSION['sub'], $_SESSION['id']); 
+	list($more_msgs, $req['sub']) = _nextSubWithMsgs($_SESSION['id']); 
 	$_SESSION['sub'] = $req['sub'];
 } 
+
+list($more_msgs, $next_sub_with_msgs) = _nextSubWithMsgs($_SESSION['sub'], $_SESSION['id']);
+
+if ($more_msgs and isset($req['newscan'])) {
+	list($more_msgs, $_SESSION['sub']) = _nextSubWithMsgs($_SESSION['sub'], $_SESSION['id']);
+	$req['sub'] = $_SESSION['sub'];
+}
+
 $sql_sub = "SELECT name, anonymous FROM subs WHERE id = " . $_SESSION['sub'];
 $sth_sub = @mysql_query($sql_sub);
 $row_sub = @mysql_fetch_assoc($sth_sub);
@@ -284,7 +292,7 @@ if ($new_pointer > $pointer)
 if (!$low_pointer)
 	$low_pointer = $new_pointer;
 
-$next_sub_with_msgs = _nextSubWithMsgs($_SESSION['sub'], $_SESSION['id']);
+list($more_msgs, $next_sub_with_msgs) = _nextSubWithMsgs($_SESSION['sub'], $_SESSION['id']);
 
 ?>
 </table>
@@ -301,8 +309,12 @@ if (_areMoreMsgs($_SESSION['sub'], $low_pointer, $order)) {
 <?php
 	}
 ?>
-Read more messages in THIS sub...</a><br /><br />
+Read more messages in current sub...</a><br /><br />
 <?php
+}
+if (!$more_msgs and isset($req['newscan']) 
+		and $_SESSION['sub'] == 1) {
+	echo "<p><strong>There are no more new messages.</strong></p>";
 }
 ?>
 <table border="0" cellspacing="0" cellpadding="0">
@@ -320,7 +332,7 @@ Read more messages in THIS sub...</a><br /><br />
 					<td nowrap="nowrap" class="navbarTable"><a href="main.php?order=desc">Read Backwards</a></td>
 					<td nowrap="nowrap" class="navbarTable"><a href="main.php?sub=<?= $prev_sub ?>&order=desc">Previous Sub</a></td>
 					<td nowrap="nowrap" class="navbarTable"><a href="main.php?sub=<?= $next_sub ?>&order=desc">Next Sub</a></td>
-					<td nowrap="nowrap" class="navbarTable"><a href="main.php?newscan=true&sub=<?= $next_sub_with_msgs ?>" ><strong>Newscan NEXT Sub</strong></a>
+					<td nowrap="nowrap" class="navbarTable"><a href="main.php?newscan=true&sub=<?= $next_sub_with_msgs ?>" ><strong>Continue Newscan</strong></a>
 					</td>
 				</tr>
 				<?php
