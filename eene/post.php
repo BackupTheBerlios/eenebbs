@@ -27,6 +27,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <body class="main">
 
 <form action="post_validate.php" method="post">
+<input type="hidden" name="postsub" value="<?= $_SESSION['sub'] ?>">
   <table border="0" cellspacing="0" cellpadding="0">
 		<tr>
 		  <td class="bgTable"><table cellpadding="4" cellspacing="1">
