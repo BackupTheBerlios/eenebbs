@@ -50,80 +50,11 @@ function _getNumMsgsInSub($sub_id) {
 	return 0;
 }
 
-function _displayMessage($message, $anonymous = null) {
-	$message['message'] = strip_tags($message['message']); # for backwards compatibility
-	$message['message'] = str_replace("\n", "<br>", $message['message']);
-
-	$pre_smiley = '(\s|^|<br>)';
-	$msg_before = array(
-			"/$pre_smiley:\)/", 
-			"/$pre_smiley:\(/", 
-			"/$pre_smiley;\)/", 
-			"/$pre_smiley:P/", 
-			"/$pre_smiley;P/", 
-			"/(\w+:\/{2}[^\s]+)(\s?)/", 
-			"/((^|\s)www\.[^\s]+)(\s?)/");
-	$msg_after = array(
-			"\\1<img src=\"img/smiley.gif\" width=\"18\" height=\"18\">", 
-			"\\1<img src=\"img/frowny.gif\" width=\"18\" height=\"18\">", 
-			"\\1<img src=\"img/winky.gif\" width=\"18\" height=\"18\">", 
-			"\\1<img src=\"img/tongue.gif\" width=\"18\" height=\"18\">", 
-			"\\1<img src=\"img/tongue.gif\" width=\"18\" height=\"18\">",
-			"<a href=\"\\1\" target=\"_blank\">\\1</a>\\2",
-			"<a href=\"http://\\1\" target=\"_blank\">\\1</a>\\2");
-	
-	$message['message'] = preg_replace($msg_before, $msg_after, $message['message']);
-
-?> 
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td class="bgTable">
-			<table width="100%" cellpadding="4" cellspacing="1">
-				<tr class="msgTitle"> 
-					<td>From <strong> 
-						<?php
-	if ($anonymous == 'Y') {
-?>
-						Anonymous 
-						<?php
-	} else if (isset($message['email']) and $message['email'] != '') {
-?>
-						<a href="mailto:<?= $message['email'] ?>">
-						<?= $message['alias'] ?></a>  #<?= $message['user_id'] ?>
-						
-						<?php
-	} else {
-?>
-						<?= $message['alias'] ?> #<?= $message['user_id'] ?>
-						<?php
-	}	
-?>
-						</strong> on 
-						<?= date("F j, Y, g:i a", $message['UNIX_TIMESTAMP(m.date)']) ?>
-						:</td>
-				</tr>
-				<tr class="msgText"> 
-					<td>
-						<?= $message['message'] ?>
-<?php
-						if (isset($message['tagline']) and $anonymous == 'N') {
-?>
-						<br /><br /><span class="tagline">-- <br /><?= $message['tagline'] ?>
-<?php } ?>
-					</td>
-				</tr>
-			</table></td>
-	</tr>
-</table>
-<?php
-}
-
 function _loopMsgs($sth_msgs, $high_pointer = null, $anonymous = null) {
 	if (!$high_pointer) $high_pointer = 0;
 	$low_pointer = $high_pointer;
 	while ($row_msgs = @mysql_fetch_assoc($sth_msgs)) {
-		_displayMessage($row_msgs, $anonymous);
+		displayMessage($row_msgs, $anonymous);
 		echo "<tr><td>&nbsp;</td></tr>";
 		$high_pointer = ($row_msgs['id'] > $high_pointer) ? $row_msgs['id'] : $high_pointer;
 		$low_pointer = $row_msgs['id'];
@@ -200,7 +131,7 @@ if (isset($req['sub'])) {
 
 list($more_msgs, $next_sub_with_msgs) = _nextSubWithMsgs($_SESSION['id']);
 
-if ($more_msgs and isset($req['newscan'])) {
+if ($more_msgs and isset($req['newscan']) and !isset($req['nojump'])) {
 	list($more_msgs, $_SESSION['sub']) = _nextSubWithMsgs($_SESSION['id']);
 	$req['sub'] = $_SESSION['sub'];
 }

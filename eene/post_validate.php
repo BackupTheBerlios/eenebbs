@@ -55,12 +55,12 @@ if (@mysql_query($sql_post)) {
 	myLog('POST', $_SESSION['id'], $_SESSION['sub']);
 	$_SESSION['success'] = "Message posted!";
 	header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
-		"/main.php?newscan=true&current=true&sub=" . $_SESSION['sub']);
+		"/main.php?newscan=true&current=true&nojump=true&sub=" . $_SESSION['sub']);
 	exit;
 } else {
 	$_SESSION['error'] = "Post failed.";
 	header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
-		"/main.php?newscan=true&current=true&sub=" . $_SESSION['sub']);
+		"/main.php?newscan=true&current=true&nojump=true&sub=" . $_SESSION['sub']);
 	exit;
 }
 ?>
