@@ -7,26 +7,29 @@ require_once 'lib/config.php';
 foreach ($_POST as $name => $value) 
 	$req[$name] = trim(clean($value, 255));
 	
-if (!isset($req['password']) or !isset($req['password2']) or !isset($req['alias'])) {
+if ($req['password']) == '' or $req['password2'] == '' or $req['alias'] == '') {
+	$_SESSION['error'] = 'Required field missing.';
 	myLog('BADSIGNUP', $req['alias'], 'incomplete request');
 	header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
-			"/signup.php?missing=true");
+			"/signup.php");
 	exit;
 }
 
 $sql_check_for_alias = "SELECT id FROM users WHERE (alias = '" . $req['alias'] . "')";
 $sth_check_for_alias = @mysql_query($sql_check_for_alias);
 if (@mysql_num_rows($sth_check_for_alias) > 0) {
+	$_SESSION['error'] = 'Sorry, that alias already in use.';
 	myLog('BADSIGNUP', $req['alias'], 'username taken');
 	header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) .
-			"/signup.php?taken=true"); 
+			"/signup.php"); 
 	exit;
 }
 
 if ($req['password'] != $req['password2']) {
+	$_SESSION['error'] = 'The passwords do not match.';
 	myLog('BADSIGNUP', $req['alias'], "passwords don't match");
 	header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) .
-			"/signup.php?nopwmatch=true"); 
+			"/signup.php"); 
 	exit;
 }	
 

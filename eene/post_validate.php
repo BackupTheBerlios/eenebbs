@@ -11,9 +11,10 @@ define ( 'RANDOMLY', 5 );
 define ( 'LOOP', 6 );
 
 $message = trim(cleanAllowImg($_POST['message'], MAXMSGLENGTH));
-if ($message == '' or !$message) {
+if ($message == '' or !isset($message)) {
+	$_SESSION['error'] = "Post failed; blank message detected.";
 	header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
-		"/main.php?success=false");
+		"/main.php");
 	exit;
 }
 
@@ -51,12 +52,14 @@ else
 if (@mysql_query($sql_post)) {
 	incrementStat($_SESSION['id'], 'posts');
 	myLog('POST', $_SESSION['id'], $_SESSION['sub']);
+	$_SESSION['success'] = "Message posted!";
 	header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
-		"/main.php?success=true&newscan=true&current=true&sub=" . $_SESSION['sub']);
+		"/main.php?newscan=true&current=true&sub=" . $_SESSION['sub']);
 	exit;
 } else {
+	$_SESSION['error'] = "Post failed.";
 	header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
-		"/main.php?success=false&newscan=true&current=true&sub=" . $_SESSION['sub']);
+		"/main.php?newscan=true&current=true&sub=" . $_SESSION['sub']);
 	exit;
 }
 ?>

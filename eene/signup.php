@@ -1,6 +1,6 @@
 <?php 
 
-
+require_once 'lib/utils.php';
 require_once 'lib/config.php';
 session_start();
 
@@ -15,6 +15,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 </head>
 
 <body class="main">
+<?php displayErrors(); ?>
 <p><a href="index.php">back to index</a></p>
 <p>sure looks to me like you want to sign up for the <strong>eeneBBS</strong> 
 	demo. fill out this form.</p>

@@ -44,30 +44,14 @@ if ($user_prefs = getUserPrefs($_SESSION['id'])) {
 		$success = mysql_query($sql_update_user_prefs);
 	}
 }
-/*
-if ($req) {
-	$sql_insert_user_prefs = "INSERT INTO user_preferences (user_id, pref_id, value) VALUES ";
-	foreach ($req as $pref_id => $value) {
-		$id = substr($pref_id, 1);
-		switch ($pref_types[$id]) {
-			case 'num':
-				break;
-			case 'bit': 
-				$value = "'Y'";
-				break;
-			default:
-				$value = "'" . $value . "'";
-		}							
-		$sql_insert_user_prefs .= "(" . $_SESSION['id'] . ", " . $id . 
-				", " . $value . "), "; 
-	}
-	$sql_insert_user_prefs = rtrim($sql_insert_user_prefs);
-	$sql_insert_user_prefs = substr($sql_insert_user_prefs, 0, -1); 
-	$success = @mysql_query($sql_insert_user_prefs);
-}
-*/
+
+if ($success) 
+	$_SESSION['success'] = "Preferences saved.";
+else
+	$_SESSION['error'] = "Save failed.";
+	
 header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
-		"/prefs.php?success=" . $success);
+		"/prefs.php");
 exit;
 
 ?>
