@@ -9,8 +9,6 @@ authenticate();
 foreach ($_POST as $name => $value) 
 	$req[$name] = trim(clean($value, 255));
 
-#debug($req);exit;
-
 if (isset($req['new'])) {
 	if (!isset($req['tagline']) or $req['tagline'] == '') {
 		header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/tagline.php?success=false");
@@ -22,7 +20,7 @@ if (isset($req['new'])) {
 	}
 } else if (isset($req['set'])) {
 	if (isset($req['display'])) {
-		$sql_set_pref = "UPDATE user_preferences SET user_id = " . $_SESSION['id'] . ", pref_id = 5, value = " . $req['display'];
+		$sql_set_pref = "UPDATE user_preferences SET value = " . $req['display'] . " WHERE user_id = " . $_SESSION['id'] . " AND pref_id = 5";
 		header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/tagline.php?success=" . @mysql_query($sql_set_pref));
 	} else {
 		header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/tagline.php?success=false");
