@@ -141,7 +141,7 @@ function _getNextSub() {
 }
 
 function _getPrevSub() {
-	$sql_get_prev = "SELECT id FROM subs WHERE id < " . $_SESSION['sub'] . " ORDER BY id ASC LIMIT 1";
+	$sql_get_prev = "SELECT id FROM subs WHERE id < " . $_SESSION['sub'] . " ORDER BY id DESC LIMIT 1";
 	if ($sth_get_prev = mysql_query($sql_get_prev) and mysql_num_rows($sth_get_prev) > 0) {
 		$row_get_prev = mysql_fetch_assoc($sth_get_prev);
 	} else {
