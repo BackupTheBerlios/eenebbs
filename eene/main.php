@@ -53,6 +53,12 @@ function _getNumMsgsInSub($sub_id) {
 function _displayMessage($message, $anonymous = null) {
 	$message['message'] = strip_tags($message['message']); # for backwards compatibility
 	$message['message'] = str_replace("\n", "<br>", $message['message']);
+	$message['message'] = preg_replace("/(\s|^):\)/", "\\1<img src=\"img/smiley.gif\" width=\"18\" height=\"18\">", $message['message']);
+	$message['message'] = preg_replace("/(\s|^):\(/", " <img src=\"img/frowny.gif\" width=\"18\" height=\"18\">", $message['message']);
+	$message['message'] = preg_replace("/(\s|^);\)/", " <img src=\"img/winky.gif\" width=\"18\" height=\"18\">", $message['message']);
+	$message['message'] = preg_replace("/(\s|^):P/", " <img src=\"img/tongue.gif\" width=\"18\" height=\"18\">", $message['message']);
+	$message['message'] = preg_replace("/(\s|^);P/", " <img src=\"img/tongue.gif\" width=\"18\" height=\"18\">", $message['message']);
+
 	$message['message'] = preg_replace("/(\w+:\/{2}[^\s]+)(\s?)/", "<a href=\"\\1\" target=\"_blank\">\\1</a>\\2", $message['message']);
 	$message['message'] = preg_replace("/((^|\s)www\.[^\s]+)(\s?)/", "<a href=\"http://\\1\" target=\"_blank\">\\1</a>\\2", $message['message']);
 ?> 
