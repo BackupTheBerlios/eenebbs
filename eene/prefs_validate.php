@@ -21,11 +21,12 @@ $sql_users = "UPDATE users SET location = '" . $req['location'] .
 		"', email = '" . $req['email'] . "', site = '" . $req['site'] . 
 		"' WHERE id = " . $_SESSION['id'];
 
-$success = mysql_query($sql_users);
+$my_success = mysql_query($sql_users);
+
+#debug($req);exit;
 
 if ($user_prefs = getUserPrefs($_SESSION['id'])) {
 	foreach ($user_prefs as $user_pref => $value) {
-		$sql_update_user_prefs = '';
 		if ($pref_types[$user_pref] == 'bit' or isset($req['p' . $user_pref])) {
 			$value = @$req['p' . $user_pref];
 			switch($pref_types[$user_pref]) {
@@ -41,11 +42,11 @@ if ($user_prefs = getUserPrefs($_SESSION['id'])) {
 			$sql_update_user_prefs = "UPDATE user_preferences SET value = " . $value . 
 					" WHERE user_id = " . $_SESSION['id'] .	" AND pref_id = " . $user_pref;
 		}
-		$success = mysql_query($sql_update_user_prefs);
+		$my_success = @mysql_query($sql_update_user_prefs);
 	}
 }
 
-if ($success) 
+if ($my_success) 
 	$_SESSION['success'] = "Preferences saved.";
 else
 	$_SESSION['error'] = "Save failed.";
