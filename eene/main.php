@@ -194,7 +194,7 @@ if (isset($req['sub'])) {
 } else if (isset($req['login'])) {
 	$req['sub'] = $_SESSION['sub'];
 } else if (isset($req['newscan']) and !isset($req['sub']) and !isset($req['current'])) {
-	$req['sub'] = _getNextSub();
+	$req['sub'] = _nextSubWithMsgs($_SESSION['sub'], $_SESSION['id']); 
 	$_SESSION['sub'] = $req['sub'];
 } 
 $sql_sub = "SELECT name, anonymous FROM subs WHERE id = " . $_SESSION['sub'];
