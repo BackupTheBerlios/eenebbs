@@ -55,15 +55,10 @@ $sth_get_subs = getSubs();
 while ($row_get_subs = mysql_fetch_assoc($sth_get_subs)) {
 	$option = (strlen($row_get_subs['name']) > 16) ? substr($row_get_subs['name'], 0, 16)
 			. '...' : $row_get_subs['name'];
-	if ($_SESSION['sub'] == $row_get_subs['id']) {
-?>
-								<option value="<?= $row_get_subs['id'] ?>" selected="selected"><?= $option ?></option>
-								<?php
-	} else {
 ?>
 								<option value="<?= $row_get_subs['id'] ?>"><?= $option ?></option>
 								<?php
-	}
+	
 }
 ?>
 							</select> </td>
