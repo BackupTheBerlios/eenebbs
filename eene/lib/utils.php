@@ -146,8 +146,8 @@ function getLastUsers() {
 		<td class="bgTable">
 			<table cellpadding="4" cellspacing="1" width="100%">
 				<tr> 
-					<td class="msgTitle">User</td>
-					<td class="msgTitle">Time</td>
+					<td class="msgTitle" nowrap="nowrap">User</td>
+					<td class="msgTitle" width="100%">Time</td>
 				</tr>
 EOT;
 	$sql_last_logins = "SELECT u.id, u.alias, u.email, UNIX_TIMESTAMP(l.date) FROM log l, 
