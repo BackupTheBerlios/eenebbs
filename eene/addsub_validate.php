@@ -14,6 +14,7 @@ if (isset($req['sub'])) {
 			VALUES ('" . $req['sub'] . "', " . $_SESSION['id'] . ")";
 	if (@mysql_query($sql_insert_sub)) {
 		incrementStat($_SESSION['id'], 'subs');
+		myLog('NEWSUB', $_SESSION['id'], $req['sub']);
 		header("Location: http://" .$_SERVER['HTTP_HOST'] .
 		 		dirname($_SERVER['PHP_SELF']) . 
 		 		"/addsub.php?success=true");
