@@ -34,7 +34,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 </tr>
 <tr>
 			<td class="msgText">
-<textarea name="message" cols="64" rows="8" id="message"></textarea>
+<textarea name="message" cols="64" rows="8" id="message" wrap=soft></textarea>
 			</td>
 </tr>
 <tr>
