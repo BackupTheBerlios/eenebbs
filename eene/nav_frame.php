@@ -10,6 +10,7 @@ function _getSubs() {
 	return @mysql_query($sql_get_subs);
 }
 
+echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">";
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html>
@@ -92,9 +93,11 @@ while ($row_get_subs = @mysql_fetch_assoc($sth_get_subs)) {
 					<tr> 
 						<td nowrap="nowrap" class="navbarTable"><a href="prefs.php" target="mainFrame">Preferences</a></td>
 					</tr>
+					<tr>
+					<td nowrap="nowrap" class="navbarTable"><a href="search.php" target="mainFrame">Search Messages</a></td>
+					</tr>
 					<tr> 
-						<td nowrap="nowrap" class="navbarTable"><a href="stats.php" target="mainFrame">Top 
-							Statistics</a></td>
+						<td nowrap="nowrap" class="navbarTable"><a href="stats.php" target="mainFrame">Statistics</a></td>
 					</tr>
 					<tr> 
 						<td nowrap="nowrap" class="navbarTable"><a href="users.php" target="mainFrame">User 
