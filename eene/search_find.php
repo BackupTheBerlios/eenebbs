@@ -45,7 +45,6 @@ if (@mysql_num_rows($sth_search) > 0) {
 ?>
 <tr><td>In <strong><a href="main.php?pointer=<?= $messages[0]['id'] ?>&order=asc&sub=<?= $messages[0]['sub_id'] ?>"><?= $mysub ?></a></strong> : </td></tr>
 <tr><td>&nbsp;</td></tr>
-
 <?php
 		foreach ($messages as $message) {
 			displayMessage($message, $message['anonymous']);
