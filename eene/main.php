@@ -56,7 +56,7 @@ function _displayMessage($message, $anonymous = null) {
 					<td>
 						<?= $message['message'] ?>
 <?php
-						if (isset($message['tagline'])) {
+						if (isset($message['tagline']) and $anonymous == 'N') {
 ?>
 						<br /><br /><span class="tagline">-- <br /><?= $message['tagline'] ?>
 <?php } ?>
