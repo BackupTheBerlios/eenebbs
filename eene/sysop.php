@@ -12,9 +12,10 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link href="default.css" rel="stylesheet" type="text/css">
 </head>
 
-<body>
+<body class="main">
 
 <p>w00t it's the sysop menu. here's what you can do:</p>
 <p><a href="sysop_log.php">view system log</a></p>

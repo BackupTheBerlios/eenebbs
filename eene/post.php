@@ -24,7 +24,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <link href="default.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body>
+<body class="main">
 
 <form action="post_validate.php" method="post">
 <table class="msgTable" width="100%" cellpadding="4">
