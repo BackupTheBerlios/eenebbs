@@ -23,7 +23,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 		<td class="bgTable">
 			<table cellpadding="4" cellspacing="1" width="100%">
 				<tr> 
-					<td class="msgTitle">User #</td>
+					<td class="msgTitle" nowrap="nowrap">User #</td>
 					<td class="msgTitle">Alias</td>
 					<td class="msgTitle">Location</td>
 					<td class="msgTitle">Website</td>
@@ -43,7 +43,7 @@ while ($row = @mysql_fetch_assoc($users)) {
 					<td class="msgTable"> 
 						<?= $row['id'] ?>
 					</td>
-					<td class="msgTable">
+					<td class="msgTable" nowrap="nowrap">
 						<?php
 	if ($row['email'] != '') {
 ?>
