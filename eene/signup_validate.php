@@ -7,17 +7,28 @@ require_once 'lib/config.php';
 foreach ($_POST as $name => $value) 
 	$req[$name] = trim(clean($value, 255));
 	
-if (!isset($req['password']) and !isset($req['alias'])) {
-	header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/signup.php?missing=true");
+if (!isset($req['password']) or !isset($req['password2']) or !isset($req['alias'])) {
+	myLog('BADSIGNUP', $req['alias'], 'incomplete request');
+	header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
+			"/signup.php?missing=true");
 	exit;
 }
 
 $sql_check_for_alias = "SELECT id FROM users WHERE (alias = '" . $req['alias'] . "')";
 $sth_check_for_alias = @mysql_query($sql_check_for_alias);
 if (@mysql_num_rows($sth_check_for_alias) > 0) {
-	header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/signup.php?taken=true"); 
+	myLog('BADSIGNUP', $req['alias'], 'username taken');
+	header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) .
+			"/signup.php?taken=true"); 
 	exit;
 }
+
+if ($req['password'] != $req['password2']) {
+	myLog('BADSIGNUP', $req['alias'], "passwords don't match");
+	header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) .
+			"/signup.php?nopwmatch=true"); 
+	exit;
+}	
 
 $req['password'] = md5(crypt($req['password'], substr($req['alias'], 0, 2)));
 
@@ -66,6 +77,7 @@ $_SESSION['logged_in'] = 1;
 $_SESSION['id'] = getUserID($req['alias']);
 $_SESSION['sub'] = 1;
 
-header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/login.php?new=true");
+header("Location: http://".$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) 
+		. "/login.php?new=true");
 exit;
 ?>
