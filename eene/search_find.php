@@ -40,7 +40,9 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 	}
 	foreach ($subs as $mysub => $messages) {
 ?>
-<tr><td>In <strong><a href="main.php&pointer=<?= $messages[0]['id'] ?>&order=asc&sub=<?= $messages[0]['sub_id'] ?>"><?= $mysub ?></a></strong></td></tr>
+<tr><td>In <strong><a href="main.php?pointer=<?= $messages[0]['id'] ?>&order=asc&sub=<?= $messages[0]['sub_id'] ?>"><?= $mysub ?></a></strong> : </td></tr>
+<tr><td>&nbsp;</td></tr>
+
 <?php
 		foreach ($messages as $message) {
 			displayMessage($message, $message['anonymous']);
