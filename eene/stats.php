@@ -19,7 +19,6 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <ul>
 	<li><a href="stats_view.php?stat=logins">Top 10 Callers</a></li>
 	<li><a href="stats_view.php?stat=posts">Top 10 Posters</a></li>
-	<li><a href="stats_view.php?stat=read">Top 10 Message Readers</a></li>
 	<li><a href="stats_view.php?stat=mottos">Top 10 Motto Writers</a></li>
 	<li><a href="stats_view.php?stat=automessages">Top 10 Automessage Writers</a></li>
 	<li><a href="stats_view.php?stat=subs">Top 10 Sub Creators</a></li>
