@@ -17,9 +17,20 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">";
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link href="default.css" rel="stylesheet" type="text/css" />
 </head>
+<body class="main">
 <p>you are logged out.</p>
-<p><a href="index.php">return to index</a></p>
-<body>
+<hr noshade />
+<p>you can <a href="signup.php">sign up</a> or log in below: </p>
+<form action="login.php" method="post" name="login" id="login">
+	<strong>alias</strong>: 
+	<input name="alias" type="text" id="alias"><br />
+	<strong>password</strong>: 
+	<input name="password" type="password" id="password" />
+	<br>
+	<input name="login" type="submit" id="login" value="login" />
+</form>
+
 </body>
 </html>
