@@ -20,7 +20,6 @@ function _getSubs($mysub) {
 			break;
 		}
 		if ($subs[$i]['id'] < $mysub and ($i + 1) < $num) {
-			echo $subs[$i+1]['name'];
 			if ($subs[$i + 1]['id'] != $mysub) {
 				$subs[] = array_shift($subs);
 				$i--;
@@ -73,7 +72,7 @@ function jumpSub() {
 							Sub Backwards</a></td>
 					</tr>
 					<tr> 
-						<td nowrap="nowrap" class="navbarTable"> Jump to Sub:<br /> <?= $_SESSION['sub'] ?>
+						<td nowrap="nowrap" class="navbarTable"> Jump to Sub:<br />
 							<select name="sub" size="8" class="navBarJump" onchange="javascript:jumpSub();">
 <?php
 $subs = _getSubs($_SESSION['sub']);
