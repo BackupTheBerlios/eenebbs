@@ -17,7 +17,7 @@ mail($sysopemail,$subject,$body);
 
 <html>
 <head>
-<title>Untitled Document</title>
+<title><?= BBSNAME ?></title>
 </head>
 <body class="main">
 <p>Your feedback has been sent!<p>
