@@ -13,11 +13,12 @@ if (!isset($req['search']) or $req['search'] == '') {
 	exit;
 }
 
-$sql_search = "SELECT m. * , s.name, s.anonymous, u.alias
+$sql_search = "SELECT m.id, m.message, t.tagline, UNIX_TIMESTAMP( m.date ) , u.alias, s.name, s.anonymous, u.id AS user_id
 FROM messages m, subs s, users u
+LEFT  JOIN taglines t ON t.id = m.tag_id
 WHERE s.id = m.sub_id AND m.user_id = u.id AND 
 MATCH ( m.message )
-AGAINST ('" . $req['search'] . "')
+AGAINST ('" . $req['search'] . '")
 ORDER  BY m.sub_id";
 $sth_search = @mysql_query($sql_search);
 if (@mysql_num_rows($sth_search) > 0) {
