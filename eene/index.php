@@ -3,6 +3,11 @@ session_start();
 require_once 'lib/config.php';
 require_once 'lib/utils.php';
 
+if (isset($_SESSION['id'])) {
+	header("Location: http://" .$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
+			"/main_frames.php?login=true&sub=1");
+}
+
 $sql_get_motto = "SELECT motto FROM mottos ORDER BY RAND() LIMIT 1";
 $row = @mysql_fetch_assoc(@mysql_query($sql_get_motto));
 
