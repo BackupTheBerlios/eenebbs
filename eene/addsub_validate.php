@@ -11,7 +11,7 @@ foreach ($_POST as $name => $value)
 
 if (isset($req['sub'])) {
 	$sql_insert_sub = "INSERT INTO subs (name, created_by_user_id) 
-			VALUES ('" . $req['sub'] . "', " . $_SESSION['id'] . ")";
+			VALUES ('" . addslashes($req['sub']) . "', " . $_SESSION['id'] . ")";
 	@mysql_query($sql_insert_sub);
 	$sql_get_sub_id = "SELECT id FROM subs WHERE name = '" . $req['sub'] . "'";
 	$sth_get_sub_id = @mysql_query($sql_get_sub_id);
