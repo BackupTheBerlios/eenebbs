@@ -113,8 +113,7 @@ $forgetful = $row_forgetful['alias'];
 					<td valign="top" nowrap="nowrap" class="navbarTable">Online Since:</td>
 					<td class="navbarTable"> 
 						<?= $online_since ?>
-						(
-						<?= $days_online ?>
+						(<?= $days_online ?>
 						days)</td>
 				</tr>
 				<tr> 
