@@ -12,7 +12,7 @@ foreach ($_POST as $name => $value)
 	$req[$name] = trim(clean($value, 255));
 
 $sql_insert_automessage = "INSERT INTO automessages (automessage, user_id, date) VALUES ('" .
-	$automessage . "', " . $_SESSION['id'] . ", NOW())";
+	addslashes($automessage) . "', " . $_SESSION['id'] . ", NOW())";
 if (@mysql_query($sql_insert_automessage)) {
 	incrementStat($_SESSION['id'], 'automessages');
 	myLog('AUTOMESS', $_SESSION['id']);
