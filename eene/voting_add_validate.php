@@ -33,7 +33,7 @@ $sql_add_options = "INSERT INTO voting_options (topic_id, opt) VALUES ";
 
 for ($i = 1; $i <= 10; $i++) 
 	if ($req['o' . $i] != '') 
-		$sql_add_options .= "($id, '" . $req['o' . $i] . "'), ";
+		$sql_add_options .= "($id, '" . addslashes($req['o' . $i]) . "'), ";
 
 $sql_add_options = rtrim($sql_add_options);
 $sql_add_options = substr($sql_add_options, 0, -1); 
