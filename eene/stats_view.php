@@ -9,7 +9,7 @@ foreach ($_GET as $name => $value)
 	$req[$name] = trim(clean($value, 255));
 
 $sql_get_stat = "SELECT s." . $req['stat'] . ", u.alias, u.id FROM stats s, users u WHERE u.id = 
-		s.user_id ORDER BY s." . $req['stat'] . " DESC LIMIT 10";
+		s.user_id AND u.sl <> 255 ORDER BY s." . $req['stat'] . " DESC LIMIT 10";
 $sth_get_stat = @mysql_query($sql_get_stat);
 
 echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
