@@ -5,7 +5,7 @@ require_once 'lib/utils.php';
 
 session_start();
 
-$sql_get_user_info = "SELECT location, email, avatar, site FROM users WHERE id = " . $_SESSION['id'];
+$sql_get_user_info = "SELECT email FROM users WHERE id = " . $_SESSION['id'];
 $sth_get_user_info = mysql_query($sql_get_user_info);
 $row_user_info = mysql_fetch_assoc($sth_get_user_info);
 
