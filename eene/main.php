@@ -183,7 +183,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 
 <body class="main">
 <?php 
-_areNewMsgs();
+
 displayErrors();
 
 if (isset($req['login'])) {
