@@ -119,13 +119,12 @@ while ($row_prefs = @mysql_fetch_assoc($sth_get_prefs)) {
 	<br />
 	<input type="submit" name="Submit" value="Save All Changes" />
 </form>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td class="bgTable"><table width="100%" border="0" cellspacing="1" cellpadding="4">
+		<td class="bgTable"><table border="0" cellspacing="1" cellpadding="4">
 				<tr>
 					<td nowrap="nowrap" class="navbarTable"><a href="tagline.php">Tagline Menu</a></td>
-					<td width="100%" class="navbarTable"><a href="newscan.php">Configure 
-						Newscan</a></td>
+					<td class="navbarTable"><a href="passwd.php">Change Password</a></td>
 				</tr>
 			</table></td>
 	</tr>
