@@ -20,7 +20,7 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 <p><a href="sysop.php">back to sysop</a></p>
 <p>ok here is a log. this should include querying options on a startdate/enddate 
 	basis, query by user. we may want to make a notification about potential haxoring 
-	as this information is recorded.. since we have a record of bad passwords.</p>
+	as this information is recorded.. since we have a record of bad passwords. NOW LIMITED TO 50 RECORDS</p>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td class="bgTable"><table cellpadding="4" cellspacing="1" width="100%">
@@ -35,9 +35,9 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">"; ?>
 				<?php
 
 $sql_get_log = "SELECT l.date, l.event_id, e.short_descr, e.descr, u.alias, l.note FROM log l,
-		event_ids e, users u WHERE u.id = l.user_id AND e.id = l.event_id ORDER BY l.date DESC";
+		event_ids e, users u WHERE u.id = l.user_id AND e.id = l.event_id ORDER BY l.date DESC LIMIT 50";
 $sth_get_log = @mysql_query($sql_get_log);	
-while ($row = mysql_fetch_assoc($sth_get_log)) {
+while ($row = @mysql_fetch_assoc($sth_get_log)) {
 ?>
 				<tr class="msgText"> 
 					<td> 
