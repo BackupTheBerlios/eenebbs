@@ -9,13 +9,14 @@ authenticate();
 define('MSGS_PER_PAGE', 20);
 
 function _areNewMsgs($user_id) {
-	$sql_are_new = "SELECT p.sub_id, count(m.id) FROM pointers p, messages m WHERE p.user_id = " . $user_id . " AND p.sub_id = m.sub_id AND p.message_id < m.id GROUP BY p.sub_id";	
+	$sql_are_new = "SELECT p.sub_id, count(m.id) FROM pointers p, messages m WHERE p.user_id = " . $user_id . "AND p.sub_id = m.sub_id AND p.message_id < m.id GROUP BY p.sub_id";
 	$sth_are_new = @mysql_query($sql_are_new);
-	while ($row_are_new = @mysql_fetch_assoc($sth_are_new)) { 
-	echo $row_are_new;
+	while ($row_are_new = @mysql_fetch_assoc($sth_are_new)) {
+		echo $row_are_new['sub_id'];
+		echo $row_are_new['count(m.id)'];
 	}
 }
-
+	
 function _areMoreMsgs($sub_id, $pointer, $order) {
 	if ($order == 'desc') {	
 		$sql_are_more = "SELECT COUNT(id) FROM messages WHERE sub_id = " . $sub_id . " AND id < " . $pointer;
